@@ -1,0 +1,57 @@
+2015-05-06 10:59:13.623 Unearth[6222:224020] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/Travis/Library/Developer/CoreSimulator/Devices/57A12E23-555E-474C-B8CC-7077932EB7CA/data/Containers/Data/Application/EA8F89DA-A764-4C07-B5DE-897EF3A1D8E9/Library/Cookies/Cookies.binarycookies
+2015-05-06 10:59:13.869 Unearth[6222:224020] Apache Cordova native platform version 3.8.0 is starting.
+2015-05-06 10:59:13.869 Unearth[6222:224020] Multi-tasking -> Device: YES, App: YES
+2015-05-06 10:59:13.882 Unearth[6222:224020] Unlimited access to network resources
+2015-05-06 10:59:14.212 Unearth[6222:224020] [CDVTimer][keyboard] 0.056982ms
+2015-05-06 10:59:14.212 Unearth[6222:224020] [CDVTimer][TotalPluginStartup] 0.225961ms
+2015-05-06 10:59:14.600 Unearth[6222:224020] Resetting plugins due to page load.
+2015-05-06 10:59:15.016 Unearth[6222:224020] Finished load of: file:///Users/Travis/Library/Developer/CoreSimulator/Devices/57A12E23-555E-474C-B8CC-7077932EB7CA/data/Containers/Bundle/Application/60EB395E-EB41-4C19-970A-B580799232E3/Unearth.app/www/index.html
+2015-05-06 11:04:25.595 Unearth[7212:227337] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/Travis/Library/Developer/CoreSimulator/Devices/57A12E23-555E-474C-B8CC-7077932EB7CA/data/Containers/Data/Application/24DFC3E4-6D85-4375-8418-6322623BD182/Library/Cookies/Cookies.binarycookies
+2015-05-06 11:04:25.679 Unearth[7212:227337] Apache Cordova native platform version 3.8.0 is starting.
+2015-05-06 11:04:25.680 Unearth[7212:227337] Multi-tasking -> Device: YES, App: YES
+2015-05-06 11:04:25.682 Unearth[7212:227337] Unlimited access to network resources
+2015-05-06 11:04:25.787 Unearth[7212:227337] [CDVTimer][keyboard] 0.093997ms
+2015-05-06 11:04:25.788 Unearth[7212:227337] [CDVTimer][TotalPluginStartup] 0.371039ms
+2015-05-06 11:04:25.839 Unearth[7212:227337] Resetting plugins due to page load.
+2015-05-06 11:04:25.999 Unearth[7212:227337] Finished load of: file:///Users/Travis/Library/Developer/CoreSimulator/Devices/57A12E23-555E-474C-B8CC-7077932EB7CA/data/Containers/Bundle/Application/A61FA11A-9514-492C-B250-98C356544C85/Unearth.app/www/index.html
+2015-05-06 11:05:00.977 Unearth[8204:229352] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/Travis/Library/Developer/CoreSimulator/Devices/57A12E23-555E-474C-B8CC-7077932EB7CA/data/Containers/Data/Application/6006A161-F529-4146-A958-733277289770/Library/Cookies/Cookies.binarycookies
+2015-05-06 11:05:01.101 Unearth[8204:229352] Apache Cordova native platform version 3.8.0 is starting.
+2015-05-06 11:05:01.101 Unearth[8204:229352] Multi-tasking -> Device: YES, App: YES
+2015-05-06 11:05:01.103 Unearth[8204:229352] Unlimited access to network resources
+2015-05-06 11:05:01.207 Unearth[8204:229352] [CDVTimer][keyboard] 0.054002ms
+2015-05-06 11:05:01.207 Unearth[8204:229352] [CDVTimer][TotalPluginStartup] 0.245988ms
+2015-05-06 11:05:01.250 Unearth[8204:229352] Resetting plugins due to page load.
+2015-05-06 11:05:01.393 Unearth[8204:229352] Finished load of: file:///Users/Travis/Library/Developer/CoreSimulator/Devices/57A12E23-555E-474C-B8CC-7077932EB7CA/data/Containers/Bundle/Application/CB5EC8CE-2EB1-42E9-A139-5BB8D5325B43/Unearth.app/www/index.html
+2015-05-06 11:06:00.289 Unearth[9202:231461] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/Travis/Library/Developer/CoreSimulator/Devices/57A12E23-555E-474C-B8CC-7077932EB7CA/data/Containers/Data/Application/914E1581-1D04-4698-964C-E7257FD3F99A/Library/Cookies/Cookies.binarycookies
+2015-05-06 11:06:00.414 Unearth[9202:231461] Apache Cordova native platform version 3.8.0 is starting.
+2015-05-06 11:06:00.415 Unearth[9202:231461] Multi-tasking -> Device: YES, App: YES
+2015-05-06 11:06:00.416 Unearth[9202:231461] Unlimited access to network resources
+2015-05-06 11:06:00.519 Unearth[9202:231461] [CDVTimer][keyboard] 0.081956ms
+2015-05-06 11:06:00.520 Unearth[9202:231461] [CDVTimer][TotalPluginStartup] 0.323057ms
+2015-05-06 11:06:00.579 Unearth[9202:231461] Resetting plugins due to page load.
+2015-05-06 11:06:00.738 Unearth[9202:231461] Finished load of: file:///Users/Travis/Library/Developer/CoreSimulator/Devices/57A12E23-555E-474C-B8CC-7077932EB7CA/data/Containers/Bundle/Application/76010AB8-568A-420E-B296-3A603645A428/Unearth.app/www/index.html
+2015-05-06 11:09:26.744 Unearth[10201:234125] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/Travis/Library/Developer/CoreSimulator/Devices/57A12E23-555E-474C-B8CC-7077932EB7CA/data/Containers/Data/Application/5FD690D1-08CB-4433-9C65-066775A785C0/Library/Cookies/Cookies.binarycookies
+2015-05-06 11:09:26.840 Unearth[10201:234125] Apache Cordova native platform version 3.8.0 is starting.
+2015-05-06 11:09:26.840 Unearth[10201:234125] Multi-tasking -> Device: YES, App: YES
+2015-05-06 11:09:26.842 Unearth[10201:234125] Unlimited access to network resources
+2015-05-06 11:09:26.923 Unearth[10201:234125] [CDVTimer][keyboard] 0.081003ms
+2015-05-06 11:09:26.923 Unearth[10201:234125] [CDVTimer][TotalPluginStartup] 0.337005ms
+2015-05-06 11:09:27.004 Unearth[10201:234125] Resetting plugins due to page load.
+2015-05-06 11:09:27.205 Unearth[10201:234125] Finished load of: file:///Users/Travis/Library/Developer/CoreSimulator/Devices/57A12E23-555E-474C-B8CC-7077932EB7CA/data/Containers/Bundle/Application/F6F9CC41-1BDC-4541-A6A8-C968D544946D/Unearth.app/www/index.html
+2015-05-06 11:11:22.665 Unearth[11201:236688] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/Travis/Library/Developer/CoreSimulator/Devices/57A12E23-555E-474C-B8CC-7077932EB7CA/data/Containers/Data/Application/1A086D32-DAFF-4982-B797-F3070521288D/Library/Cookies/Cookies.binarycookies
+2015-05-06 11:11:22.781 Unearth[11201:236688] Apache Cordova native platform version 3.8.0 is starting.
+2015-05-06 11:11:22.781 Unearth[11201:236688] Multi-tasking -> Device: YES, App: YES
+2015-05-06 11:11:22.784 Unearth[11201:236688] Unlimited access to network resources
+2015-05-06 11:11:22.891 Unearth[11201:236688] [CDVTimer][keyboard] 0.059009ms
+2015-05-06 11:11:22.891 Unearth[11201:236688] [CDVTimer][TotalPluginStartup] 0.226974ms
+2015-05-06 11:11:22.946 Unearth[11201:236688] Resetting plugins due to page load.
+2015-05-06 11:11:23.123 Unearth[11201:236688] Finished load of: file:///Users/Travis/Library/Developer/CoreSimulator/Devices/57A12E23-555E-474C-B8CC-7077932EB7CA/data/Containers/Bundle/Application/16D7CDA2-4443-49D1-806C-176648B923EC/Unearth.app/www/index.html
+2015-05-06 11:12:03.365 Unearth[11201:237038] Terminating since there is no system app.
+2015-05-06 14:42:59.860 Unearth[11835:251478] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/Travis/Library/Developer/CoreSimulator/Devices/57A12E23-555E-474C-B8CC-7077932EB7CA/data/Containers/Data/Application/34CDE108-5B19-430B-8D22-39D309A361CF/Library/Cookies/Cookies.binarycookies
+2015-05-06 14:43:00.161 Unearth[11835:251478] Apache Cordova native platform version 3.8.0 is starting.
+2015-05-06 14:43:00.162 Unearth[11835:251478] Multi-tasking -> Device: YES, App: YES
+2015-05-06 14:43:00.177 Unearth[11835:251478] Unlimited access to network resources
+2015-05-06 14:43:00.495 Unearth[11835:251478] [CDVTimer][keyboard] 0.059009ms
+2015-05-06 14:43:00.495 Unearth[11835:251478] [CDVTimer][TotalPluginStartup] 0.243008ms
+2015-05-06 14:43:00.709 Unearth[11835:251478] Resetting plugins due to page load.
+2015-05-06 14:43:00.940 Unearth[11835:251478] Finished load of: file:///Users/Travis/Library/Developer/CoreSimulator/Devices/57A12E23-555E-474C-B8CC-7077932EB7CA/data/Containers/Bundle/Application/F426B91F-7FDC-4047-BB52-4F03A9C5CEA7/Unearth.app/www/index.html
