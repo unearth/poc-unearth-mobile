@@ -1,5 +1,5 @@
 
-var app = angular.module('unearth', [ionic', 'signInController']);
+var app = angular.module('unearth', ['ionic', 'leaflet-directive']);
 
 app.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -25,6 +25,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
   .state('sign-in', {
     url: '/sign-in',
     templateUrl: 'templates/sign-in.html'
+  })
+  .state('map', {
+    url: '/map',
+    templateUrl: 'templates/map.html',
+    controller: 'MapController'
   })
 
   // if none of the above states are matched, use this as the fallback
