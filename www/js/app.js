@@ -24,15 +24,26 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
   .state('sign-in', {
     url: '/sign-in',
-    templateUrl: 'templates/sign-in.html'
+    templateUrl: 'templates/sign-in.html',
   })
-  .state('map', {
+
+  .state('tab', {
+    url: '/tab',
+    abstract: true,
+    templateUrl: 'templates/tabs.html'
+  })
+
+  .state('tab.map', {
     url: '/map',
-    templateUrl: 'templates/map.html',
-    controller: 'MapController'
+    views: {
+      'tab-map': {
+        templateUrl: 'templates/tab-map.html',
+        controller: 'MapController'
+      }
+    }
   })
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('sign-in');
+  $urlRouterProvider.otherwise('/sign-in');
 
 });
