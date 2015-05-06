@@ -1,11 +1,6 @@
 app.controller('MapController', ['$scope', '$interval', 'leafletData', 'Waypoints', '$cordovaGeolocation',
   function($scope, $interval, leafletData, Waypoints, $cordovaGeolocation) {
 
-    // Set initial view of map on San Francisco with zoom level 15
-    leafletData.getMap().then(function(map) {
-      map.setView(new L.LatLng(40, -150), 15);
-    });
-
     var layer = L.TileLayer.maskCanvas({
      radius: 25,               // Radius in pixels or in meters of transparent circles (see useAbsoluteRadius)
      useAbsoluteRadius: true,  // True: r in meters, false: r in pixels
@@ -23,12 +18,16 @@ app.controller('MapController', ['$scope', '$interval', 'leafletData', 'Waypoint
       // });
     // });
 
+    // Geolocation options: timeout = time before error if no GPS data is returned
+    //                      enableHighAccuracy = notification that asks user to turn on wifi for more accuracy
     var posOptions = {timeout: 10000, enableHighAccuracy: false};
+
     $cordovaGeolocation
       .getCurrentPosition(posOptions)
       .then(function (position) {
         var lat  = position.coords.latitude;
         var long = position.coords.longitude;
+        // Set view to current geolocation with zoom level 15 and place a transparent point at that location
         leafletData.getMap().then(function(map) {
           map.setView(new L.LatLng(lat, long), 15);
           layer.setData([[lat, long]]);
