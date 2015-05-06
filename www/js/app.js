@@ -23,7 +23,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
   // Set up the various states which the app can be in.
   $stateProvider
 
-  .state('sign-in', {
+  .state('signIn', {
     url: '/sign-in',
     templateUrl: 'templates/sign-in.html',
     controller: 'SignInController'
@@ -33,6 +33,12 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
     url: '/tab',
     abstract: true,
     templateUrl: 'templates/tabs.html'
+  })
+
+  .state('signUp', {
+    url: '/sign-up',
+    templateUrl: 'templates/sign-up.html',
+    controller: 'SignUpController'
   })
 
   .state('tab.map', {
