@@ -1,4 +1,5 @@
 
+
 var app = angular.module('unearth', ['ionic', 'leaflet-directive', 'ngCordova']);
 
 app.run(function($ionicPlatform) {
@@ -25,6 +26,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
   .state('sign-in', {
     url: '/sign-in',
     templateUrl: 'templates/sign-in.html',
+    controller: 'SignInController'
   })
 
   .state('tab', {
