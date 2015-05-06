@@ -10,6 +10,8 @@ __MACOSX
 .settings
 .classpath
 .sass-cache/
+plugins/
+resources/
 
 ._*
 .Spotlight-V100
