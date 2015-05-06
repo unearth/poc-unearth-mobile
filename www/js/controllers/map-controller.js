@@ -8,6 +8,13 @@ app.controller('MapController', ['$scope', 'leafletData', function($scope, leafl
    lineColor: '#A00'         // Color of the circle outline if noMask is true
   });
 
+  var data = [
+    [37.782651, -122.445900],
+    [37.782745, -122.445700],
+    [37.782842, -122.445500],
+    [37.782919, -122.445300],
+    [37.782992, -122.445100] ];
+
   layer.setData(data);
   leafletData.getMap().then(function(map) {
     map.addLayer(layer);
