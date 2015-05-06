@@ -22,10 +22,16 @@ app.config(function($stateProvider, $urlRouterProvider) {
   // Set up the various states which the app can be in.
   $stateProvider
 
-  .state('sign-in', {
+  .state('signIn', {
     url: '/sign-in',
     templateUrl: 'templates/sign-in.html',
     controller: 'SignInController'
+  })
+
+  .state('signUp', {
+    url: '/sign-up',
+    templateUrl: 'templates/sign-up.html',
+    controller: 'SignUpController'
   })
 
   .state('map', {
@@ -35,6 +41,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
   })
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('sign-in');
+  $urlRouterProvider.otherwise('/sign-in');
 
 });
