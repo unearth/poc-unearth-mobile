@@ -1,5 +1,5 @@
 
-var app = angular.module('unearth', ['ionic', 'signInController']);
+var app = angular.module('unearth', [ionic', 'signInController']);
 
 app.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -23,8 +23,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
   .state('sign-in', {
-    url: "/sign-in",
-    templateUrl: "templates/sign-in.html"
+    url: '/sign-in',
+    templateUrl: 'templates/sign-in.html'
   })
 
   // if none of the above states are matched, use this as the fallback
