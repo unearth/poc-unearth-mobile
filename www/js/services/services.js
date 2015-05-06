@@ -1,4 +1,4 @@
-app.factory('Authorization', function($http){
+app.factory('Authorization', function($http) {
   var login = function(data) {
     return $http({
       method: 'POST',
@@ -7,9 +7,9 @@ app.factory('Authorization', function($http){
       data: data,
       headers:{'Content-Type':application/JSON}
     })
-    .then(function(resp) {
+    .then(function(response) {
        window.localStorage.accessToken = response.body.access_token;
-      return resp.data;
+      return response.data;
     });
   };
 
@@ -21,9 +21,9 @@ app.factory('Authorization', function($http){
       data: data,
       headers:{'Content-Type':application/JSON}
     })
-    .then(function(resp) {
+    .then(function(response) {
        window.localStorage.accessToken = response.body.access_token;
-      return resp.data;
+      return response.data;
     });
   };
 
@@ -41,8 +41,8 @@ app.factory('Waypoints', function($http){
       processData: false,
       headers:{'Content-Type':application/JSON}
     })
-    .then(function(resp) {
-      return resp.data;
+    .then(function(response) {
+      return response.data;
     });
   };
 
@@ -54,8 +54,8 @@ app.factory('Waypoints', function($http){
       data: data,
       headers:{'Content-Type':application/JSON}
     })
-    .then(function(resp) {
-      return resp.data;
+    .then(function(response) {
+      return response.data;
     });
   };
 
