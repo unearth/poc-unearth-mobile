@@ -34,20 +34,20 @@ app.factory('Authorization', function($http) {
 })
 
 app.factory('Waypoints', function($http){
-  var getWaypoints = function(){
-  return $http({
+  var getWaypoints = function(cb){
+    return $http({
       method: 'GET',
       url: 'api/waypoints',
       processData: false,
-      headers:{'Content-Type':application/JSON}
+      headers:{'Content-Type': 'application/JSON'}
     })
     .then(function(response) {
-      return response.data;
+      cb(response.data);
     });
   };
 
   var sendWaypoints = function(){
-  return $http({
+    return $http({
       method: 'POST',
       url: 'api/waypoints',
       processData: false,
