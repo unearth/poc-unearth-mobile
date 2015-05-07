@@ -19,7 +19,7 @@ app.factory('Authorization', function($http) {
   var signUp = function(email, password) {
     return $http({
       method: 'POST',
-      url: 'api/signup',
+      url: 'http://localhost:3000/signup',
       processData: true,
       data: {
         'email': email,
@@ -28,6 +28,7 @@ app.factory('Authorization', function($http) {
       headers:{'Content-Type':'application/JSON'}
     })
     .then(function(response) {
+      debugger;
        window.localStorage.accessToken = response.body.access_token;
       return response.data;
     });
