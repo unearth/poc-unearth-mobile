@@ -15,7 +15,7 @@ app.run(function($ionicPlatform) {
   });
 });
 
-app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', function($stateProvider, $urlRouterProvider, $httpProvider) {
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
@@ -46,4 +46,10 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/sign-in');
 
+  //Enable cross domain calls
+  $httpProvider.defaults.useXDomain = true;
+
+  //Remove the header containing XMLHttpRequest used to identify ajax call
+  //that would prevent CORS from working
+  delete $httpProvider.defaults.headers.common['X-Requested-With'];
 }]);

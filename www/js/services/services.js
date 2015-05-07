@@ -43,8 +43,8 @@ app.factory('Waypoints', function($http){
   var getWaypoints = function(cb){
     return $http({
       method: 'GET',
-      url: 'api/waypoints',
-      processData: true,
+      url: '162.243.134.216:3000/waypoints',
+      processData: false,
       headers: {
         'Content-Type':'application/x-www-form-urlencoded',
         'Authorization': 'Bearer ' + token
@@ -58,12 +58,12 @@ app.factory('Waypoints', function($http){
   var sendWaypoints = function(waypoints){
   return $http({
       method: 'POST',
-      url: 'api/waypoints',
+      url: '162.243.134.216:3000/waypoints',
       processData: true,
       data: waypoints,
       headers: {
-        'Content-Type':'application/x-www-form-urlencoded',
-        'Authorization': 'Bearer ' + token
+        'Content-Type':'application/JSON'
+        //'Authorization': 'Bearer ' + token
       }
     })
     .then(function(response) {
