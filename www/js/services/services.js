@@ -6,7 +6,7 @@ app.factory('Authorization', function($http) {
       processData: true,
       data: {
         'email': email,
-        'password' password
+        'password': password
         },
       headers:{'Content-Type':'application/x-www-form-urlencoded'}
     })
@@ -23,7 +23,7 @@ app.factory('Authorization', function($http) {
       processData: true,
       data: {
         'email': email,
-        'password' password
+        'password': password
         },
       headers:{'Content-Type':'application/x-www-form-urlencoded'}
     })
@@ -43,7 +43,7 @@ app.factory('Waypoints', function($http){
   var getWaypoints = function(cb){
     return $http({
       method: 'GET',
-      url: '162.243.134.216:3000/waypoints',
+      url: 'http://162.243.134.216:3000/waypoints',
       processData: false,
       headers: {
         'Content-Type':'application/x-www-form-urlencoded',
@@ -58,7 +58,7 @@ app.factory('Waypoints', function($http){
   var sendWaypoints = function(waypoints){
   return $http({
       method: 'POST',
-      url: '162.243.134.216:3000/waypoints',
+      url: 'http://162.243.134.216:3000/waypoints',
       processData: true,
       data: waypoints,
       headers: {
