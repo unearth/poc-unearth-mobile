@@ -1,14 +1,11 @@
 app.factory('Authorization', function($http) {
-  var login = function(email, password) {
+  var login = function(data) {
     return $http({
       method: 'POST',
       url: 'api/login',
-      processData: true,
-      data: {
-        'email': email,
-        'password' password
-        },
-      headers:{'Content-Type':'application/x-www-form-urlencoded'}
+      processData: false,
+      data: data,
+      headers:{'Content-Type':application/JSON}
     })
     .then(function(response) {
        window.localStorage.accessToken = response.body.access_token;
@@ -16,16 +13,13 @@ app.factory('Authorization', function($http) {
     });
   };
 
-  var signUp = function(email, password) {
+  var signUp = function(data) {
     return $http({
       method: 'POST',
       url: 'api/signup',
-      processData: true,
-      data: {
-        'email': email,
-        'password' password
-        },
-      headers:{'Content-Type':'application/x-www-form-urlencoded'}
+      processData: false,
+      data: data,
+      headers:{'Content-Type':application/JSON}
     })
     .then(function(response) {
        window.localStorage.accessToken = response.body.access_token;
@@ -40,31 +34,25 @@ app.factory('Authorization', function($http) {
 })
 
 app.factory('Waypoints', function($http){
-  var getWaypoints = function(cb){
+  var getWaypoints = function(callback){
     return $http({
       method: 'GET',
       url: 'api/waypoints',
-      processData: true,
-      headers: {
-        'Content-Type':'application/x-www-form-urlencoded',
-        'Authorization': 'Bearer ' + token
-      }
+      processData: false,
+      headers:{'Content-Type': 'application/JSON'}
     })
     .then(function(response) {
-      cb(response.data);
+      callback(response.data);
     });
   };
 
-  var sendWaypoints = function(waypoints){
-  return $http({
+  var sendWaypoints = function(){
+    return $http({
       method: 'POST',
       url: 'api/waypoints',
-      processData: true,
-      data: waypoints,
-      headers: {
-        'Content-Type':'application/x-www-form-urlencoded',
-        'Authorization': 'Bearer ' + token
-      }
+      processData: false,
+      data: data,
+      headers:{'Content-Type':application/JSON}
     })
     .then(function(response) {
       return response.data;
