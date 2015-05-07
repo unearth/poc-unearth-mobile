@@ -1,11 +1,14 @@
 app.factory('Authorization', function($http) {
-  var login = function(data) {
+  var login = function(email, password) {
     return $http({
       method: 'POST',
       url: 'api/login',
-      processData: false,
-      data: data,
-      headers:{'Content-Type':application/JSON}
+      processData: true,
+      data: {
+        'email': email,
+        'password' password
+        },
+      headers:{'Content-Type':'application/x-www-form-urlencoded'}
     })
     .then(function(response) {
        window.localStorage.accessToken = response.body.access_token;
@@ -13,13 +16,16 @@ app.factory('Authorization', function($http) {
     });
   };
 
-  var signUp = function(data) {
+  var signUp = function(email, password) {
     return $http({
       method: 'POST',
       url: 'api/signup',
-      processData: false,
-      data: data,
-      headers:{'Content-Type':application/JSON}
+      processData: true,
+      data: {
+        'email': email,
+        'password' password
+        },
+      headers:{'Content-Type':'application/x-www-form-urlencoded'}
     })
     .then(function(response) {
        window.localStorage.accessToken = response.body.access_token;
@@ -38,21 +44,27 @@ app.factory('Waypoints', function($http){
   return $http({
       method: 'GET',
       url: 'api/waypoints',
-      processData: false,
-      headers:{'Content-Type':application/JSON}
+      processData: true,
+      headers: {
+        'Content-Type':'application/x-www-form-urlencoded',
+        'Authorization': 'Bearer ' + token
+      }
     })
     .then(function(response) {
       return response.data;
     });
   };
 
-  var sendWaypoints = function(){
+  var sendWaypoints = function(waypoints){
   return $http({
       method: 'POST',
       url: 'api/waypoints',
-      processData: false,
-      data: data,
-      headers:{'Content-Type':application/JSON}
+      processData: true,
+      data: waypoints,
+      headers: {
+        'Content-Type':'application/x-www-form-urlencoded',
+        'Authorization': 'Bearer ' + token
+      }
     })
     .then(function(response) {
       return response.data;
