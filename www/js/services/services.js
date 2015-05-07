@@ -1,11 +1,14 @@
 app.factory('Authorization', function($http) {
-  var login = function(data) {
+  var login = function(email, password) {
     return $http({
       method: 'POST',
       url: 'api/login',
-      processData: false,
-      data: data,
-      headers:{'Content-Type':application/JSON}
+      processData: true,
+      data: {
+        'email': email,
+        'password': password
+      },
+      headers:{'Content-Type':'application/JSON'}
     })
     .then(function(response) {
        window.localStorage.accessToken = response.body.access_token;
@@ -13,13 +16,16 @@ app.factory('Authorization', function($http) {
     });
   };
 
-  var signUp = function(data) {
+  var signUp = function(email, password) {
     return $http({
       method: 'POST',
       url: 'api/signup',
-      processData: false,
-      data: data,
-      headers:{'Content-Type':application/JSON}
+      processData: true,
+      data: {
+        'email': email,
+        'password': password
+        },
+      headers:{'Content-Type':'application/JSON'}
     })
     .then(function(response) {
        window.localStorage.accessToken = response.body.access_token;
@@ -30,29 +36,35 @@ app.factory('Authorization', function($http) {
   return {
     login: login,
     signUp: signUp
-  }
-})
+  };
+});
 
-app.factory('Waypoints', function($http){
+app.factory('Waypoints', function($http) {
   var getWaypoints = function(cb){
     return $http({
       method: 'GET',
       url: 'api/waypoints',
       processData: false,
-      headers:{'Content-Type': 'application/JSON'}
+      headers: {
+        'Content-Type':'application/JSON',
+        'Authorization': 'Bearer ' + token
+      }
     })
     .then(function(response) {
       cb(response.data);
     });
   };
 
-  var sendWaypoints = function(){
-    return $http({
+  var sendWaypoints = function(waypoints) {
+  return $http({
       method: 'POST',
       url: 'api/waypoints',
-      processData: false,
-      data: data,
-      headers:{'Content-Type':application/JSON}
+      processData: true,
+      data: waypoints,
+      headers: {
+        'Content-Type':'application/JSON',
+        'Authorization': 'Bearer ' + token
+      }
     })
     .then(function(response) {
       return response.data;
@@ -62,5 +74,5 @@ app.factory('Waypoints', function($http){
   return {
     getWaypoints: getWaypoints,
     sendWaypoints: sendWaypoints
-  }
-})
+  };
+});
