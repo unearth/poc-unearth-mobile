@@ -9,7 +9,7 @@ app.controller('SignInController',['$scope', '$state', function ($scope, $state)
       if (isAuthenticated) {
         $state.go('map');
       } else {
-        $state.go('signIn');
+        $state.go('signUp');
       }
     });
   };
