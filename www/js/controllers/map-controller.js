@@ -1,5 +1,5 @@
 angular.module('unearth.mapController', [])
-  .controller('MapController', function($scope, $interval, leafletData, Waypoints, $cordovaGeolocation) {
+  .controller('MapController', function($scope, $interval, Waypoints, $cordovaGeolocation) {
     var coordinateObject = {
       latitude: null,
       longitude: null

@@ -1,5 +1,5 @@
 
-angular.module('unearth', ['ionic', 'leaflet-directive', 'ngCordova', 'unearth.mapController', 'unearth.signUpController', 'unearth.loginController', 'unearth.services'])
+angular.module('unearth', ['ionic', 'ngCordova', 'unearth.mapController', 'unearth.signUpController', 'unearth.loginController', 'unearth.services'])
 
   .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
