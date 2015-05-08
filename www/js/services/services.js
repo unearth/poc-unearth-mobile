@@ -12,7 +12,7 @@ angular.module('unearth.services', [])
         headers:{'Content-Type':'application/JSON'}
       })
       .then(function(response) {
-         window.localStorage.accessToken = response.body.access_token;
+         window.localStorage.accessToken = response.data.token;
         return response.data;
       });
     };
@@ -29,7 +29,7 @@ angular.module('unearth.services', [])
         headers:{'Content-Type':'application/JSON'}
       })
       .then(function(response) {
-         window.localStorage.accessToken = response.body.access_token;
+         window.localStorage.accessToken = response.data.token;
         return response.data;
       });
     };
@@ -48,8 +48,7 @@ angular.module('unearth.services', [])
         url: 'http://162.243.134.216:3000/waypoints',
         processData: false,
         headers: {
-          'Content-Type':'application/JSON',
-          'Authorization': 'Bearer ' + token
+          'Content-Type':'application/JSON'
         }
       })
       .then(function(response) {
@@ -64,8 +63,7 @@ angular.module('unearth.services', [])
           processData: false,
           data: waypoints,
           headers: {
-            'Content-Type':'application/JSON',
-            'Authorization': 'Bearer ' + token
+            'Content-Type':'application/JSON'
           }
       })
       .then(function(response) {

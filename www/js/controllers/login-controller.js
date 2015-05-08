@@ -6,12 +6,12 @@ angular.module('unearth.loginController', [])
     };
 
     $scope.login = function(credentials) {
-      // Authorization.login(credentials).then( function (isAuthenticated) {
+      Authorization.login(credentials.email, credentials.password).then( function (isAuthenticated) {
         if (true) {
           $state.go('tab.map');
         } else {
           $state.go('login');
         }
-      // });
+      });
     };
   });
