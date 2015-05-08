@@ -15,11 +15,11 @@ angular.module('unearth', ['ionic', 'ngCordova', 'angular-jwt', 'unearth.mapCont
   })
 
   .run(function($state, $rootScope, jwtHelper) {
-    $rootScope.$on('$stateChangeStart', function(e, to) {
+    $rootScope.$on('$stateChangeStart', function(event, to) {
       if (to.data && to.data.requireLogin) {
-        if ((!!localStorage.getItem('accessToken') === false) ||
+        if ((!!localStorage.getItem('accessToken') === false) || 
         (jwtHelper.isTokenExpired(localStorage.getItem('accessToken')))) {
-          e.preventDefault();
+          event.preventDefault();
           $state.go('login');
         }
       }
@@ -33,7 +33,7 @@ angular.module('unearth', ['ionic', 'ngCordova', 'angular-jwt', 'unearth.mapCont
       return localStorage.getItem('accessToken');
     };
 
-  $httpProvider.interceptors.push('jwtInterceptor');
+    $httpProvider.interceptors.push('jwtInterceptor');
 
     // Ionic uses AngularUI Router which uses the concept of states
     // Learn more here: https://github.com/angular-ui/ui-router
