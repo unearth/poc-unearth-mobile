@@ -1,4 +1,11 @@
 {
   "name": "Unearth",
-  "app_id": ""
+  "app_id": "c3f47f2a",
+  "browsers": [
+    {
+      "platform": "android",
+      "browser": "crosswalk",
+      "version": "12.41.296.5"
+    }
+  ]
 }
