@@ -42,17 +42,18 @@ angular.module('unearth.services', [])
 
   .factory('Waypoints', function($http) {
 
-    var getWaypoints = function(cb){
+    var getWaypoints = function(callback){
       return $http({
         method: 'GET',
         url: 'http://162.243.134.216:3000/waypoints',
         processData: false,
         headers: {
-          'Content-Type':'application/JSON'
+          'Content-Type':'application/JSON',
+          'Authorization': 'Bearer ' + token
         }
       })
       .then(function(response) {
-        cb(response.data);
+        callback(response.data);
       });
     };
 
@@ -63,7 +64,8 @@ angular.module('unearth.services', [])
           processData: false,
           data: waypoints,
           headers: {
-            'Content-Type':'application/JSON'
+            'Content-Type':'application/JSON',
+            'Authorization': 'Bearer ' + token
           }
       })
       .then(function(response) {
