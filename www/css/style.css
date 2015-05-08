@@ -1,1 +1,22 @@
+.rounded {
+  border-radius: 10px;
+}
 
+.background {
+  background: url('http://i.imgur.com/xFz1CPA.jpg') no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  background-size: cover;
+
+}
+
+.form-background {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.center {
+  margin-top: 100px;
+}
+
+.submit-button {
+  font: bold 14px Verdana;
+}
