@@ -3,7 +3,7 @@ angular.module('unearth.services', [])
     var login = function(email, password) {
       return $http({
         method: 'POST',
-        url: 'api/login',
+        url: 'http://162.243.134.216:3000/login',
         processData: true,
         data: {
           'email': email,
@@ -20,7 +20,7 @@ angular.module('unearth.services', [])
     var signUp = function(email, password) {
       return $http({
         method: 'POST',
-        url: 'api/signup',
+        url: 'http://162.243.134.216:3000/signup',
         processData: true,
         data: {
           'email': email,
@@ -44,7 +44,7 @@ angular.module('unearth.services', [])
     var getWaypoints = function(cb){
       return $http({
         method: 'GET',
-        url: 'api/waypoints',
+        url: 'http://162.243.134.216:3000/waypoints',
         processData: false,
         headers: {
           'Content-Type':'application/JSON',
@@ -70,10 +70,5 @@ angular.module('unearth.services', [])
       .then(function(response) {
         return response.data;
       });
-    };
-
-    return {
-      getWaypoints: getWaypoints,
-      sendWaypoints: sendWaypoints
     };
   });

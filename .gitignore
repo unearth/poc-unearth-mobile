@@ -2,6 +2,8 @@ node_modules/
 bower_components/
 config.js
 npm-debug.log
+platforms/
+plugins/
 
 __MACOSX
 .DS_Store
