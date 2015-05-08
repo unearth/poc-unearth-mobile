@@ -17,7 +17,7 @@ angular.module('unearth', ['ionic', 'ngCordova', 'angular-jwt', 'unearth.mapCont
   .run(function($state, $rootScope, jwtHelper) {
     $rootScope.$on('$stateChangeStart', function(event, to) {
       if (to.data && to.data.requireLogin) {
-        if ((!!localStorage.getItem('accessToken') === false) || 
+        if ((!!localStorage.getItem('accessToken') === false) ||
         (jwtHelper.isTokenExpired(localStorage.getItem('accessToken')))) {
           event.preventDefault();
           $state.go('login');
@@ -63,14 +63,14 @@ angular.module('unearth', ['ionic', 'ngCordova', 'angular-jwt', 'unearth.mapCont
       abstract: true,
       templateUrl: 'templates/tabs.html',
       data: {
-        requireLogin: false // Switch to true on deploy
+        requireLogin: true
       }
     })
 
     .state('tab.map', {
       url: '/map',
       data: {
-        requireLogin: false // Switch to true on deploy
+        requireLogin: true
       },
       views: {
         'tab-map': {
