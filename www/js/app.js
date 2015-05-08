@@ -1,4 +1,4 @@
-angular.module('unearth', ['ionic', 'leaflet-directive', 'ngCordova', 'angular-jwt', 'unearth.mapController', 'unearth.signUpController', 'unearth.loginController', 'unearth.services'])
+angular.module('unearth', ['ionic', 'ngCordova', 'angular-jwt', 'unearth.mapController', 'unearth.signUpController', 'unearth.loginController', 'unearth.services'])
 
   .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
@@ -63,14 +63,14 @@ angular.module('unearth', ['ionic', 'leaflet-directive', 'ngCordova', 'angular-j
       abstract: true,
       templateUrl: 'templates/tabs.html',
       data: {
-        requireLogin: true
+        requireLogin: false // Switch to true on deploy
       }
     })
 
     .state('tab.map', {
       url: '/map',
       data: {
-        requireLogin: true
+        requireLogin: false // Switch to true on deploy
       },
       views: {
         'tab-map': {
