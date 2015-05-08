@@ -4,7 +4,7 @@ angular.module('unearth.services', [])
       return $http({
         method: 'POST',
         url: 'http://162.243.134.216:3000/login',
-        processData: true,
+        processData: false,
         data: {
           'email': email,
           'password': password
@@ -21,7 +21,7 @@ angular.module('unearth.services', [])
       return $http({
         method: 'POST',
         url: 'http://162.243.134.216:3000/signup',
-        processData: true,
+        processData: false,
         data: {
           'email': email,
           'password': password
@@ -41,6 +41,7 @@ angular.module('unearth.services', [])
   })
 
   .factory('Waypoints', function($http) {
+
     var getWaypoints = function(cb){
       return $http({
         method: 'GET',
@@ -57,18 +58,23 @@ angular.module('unearth.services', [])
     };
 
     var sendWaypoints = function(waypoints) {
-    return $http({
-        method: 'POST',
-        url: 'http://162.243.134.216:3000/waypoints',
-        processData: true,
-        data: waypoints,
-        headers: {
-          'Content-Type':'application/JSON',
-          'Authorization': 'Bearer ' + token
-        }
+      return $http({
+          method: 'POST',
+          url: 'http://162.243.134.216:3000/waypoints',
+          processData: false,
+          data: waypoints,
+          headers: {
+            'Content-Type':'application/JSON',
+            'Authorization': 'Bearer ' + token
+          }
       })
       .then(function(response) {
         return response.data;
       });
+    };
+
+    return {
+      getWaypoints: getWaypoints,
+      sendWaypoints: sendWaypoints
     };
   });
