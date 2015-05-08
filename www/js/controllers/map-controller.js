@@ -1,5 +1,5 @@
-app.controller('MapController', ['$scope', '$interval', 'leafletData', 'Waypoints', '$cordovaGeolocation',
-  function($scope, $interval, leafletData, Waypoints, $cordovaGeolocation) {
+app.controller('MapController', ['$scope', '$interval', 'Waypoints', '$cordovaGeolocation',
+  function($scope, $interval, Waypoints, $cordovaGeolocation) {
     var coordinateObject = {
       latitude: null,
       longitude: null
@@ -15,52 +15,12 @@ app.controller('MapController', ['$scope', '$interval', 'leafletData', 'Waypoint
      lineColor: '#A00'         // Color of the circle outline if noMask is true
     });
 
+    L.mapbox.accessToken = mapboxAccessToken;
+
+    // Create a map in the div #map
+    var map = L.mapbox.map('map', mapboxLogin);
+
     var geolocationOptions = {frequency: 3000, timeout: 50000, enableHighAccuracy: true};
-
-    // var geolocationError = function(error) {
-    //   console.log(error);
-    // };
-
-
-    // var geolocationSuccess = function(positionObject) {
-    //   console.log(positionObject);
-    //   coordinateObject.latitude = positionObject.coords.latitude;
-    //   coordinateObject.longitude = positionObject.coords.longitude;
-    //   localCoordinateArray.push(coordinateObject);
-
-    //   leafletData.getMap().then(function(map) {
-    //       map.setView(new L.LatLng(coordinateObject.latitude, coordinateObject.longitude), 15);
-    //       layer.setData([[coordinateObject.latitude, coordinateObject.longitude]]);
-    //       map.addLayer(layer);
-    //   });
-    // };
-
-    // Waypoints.getWaypoints(function(responseData) {
-    //   console.log(responseData);
-    //   layer.setData(responseData);
-    //   leafletData.getMap().then(function(map) {
-    //     map.addLayer(layer);
-    //   });
-    // });
-
-    // Geolocation options: timeout = time before error if no GPS data is returned
-    //                      enableHighAccuracy = false: tries using network location first, then uses GPS
-    var positionOptions = {timeout: 10000, enableHighAccuracy: false};
-
-    // $cordovaGeolocation
-    //   .getCurrentPosition(positionOptions)
-    //   .then(function (position) {
-    //     var latitude  = position.coords.latitude;
-    //     var longitude = position.coords.longitude;
-    //     // Sets view to current geolocation with zoom level 15 and place a transparent point at that location
-    //     leafletData.getMap().then(function(map) {
-    //       map.setView(new L.LatLng(latitude, longitude), 15);
-    //       layer.setData([[latitude, longitude]]);
-    //       map.addLayer(layer);
-    //     });
-    //   }, function(err) {
-    //     // error
-    //   });
 
     var watch = $cordovaGeolocation.watchPosition(geolocationOptions);
     watch.then(
@@ -76,10 +36,8 @@ app.controller('MapController', ['$scope', '$interval', 'leafletData', 'Waypoint
 
         Waypoints.sendWaypoints(sendWaypointsObject);
 
-        leafletData.getMap().then(function(map) {
-          map.setView(new L.LatLng(coordinateObject.latitude, coordinateObject.longitude), 15);
-          layer.setData([[coordinateObject.latitude, coordinateObject.longitude]]);
-          map.addLayer(layer);
-      });
+        map.setView(new L.LatLng(coordinateObject.latitude, coordinateObject.longitude), 15);
+        layer.setData([[coordinateObject.latitude, coordinateObject.longitude]]);
+        map.addLayer(layer);
     });
 }]);
