@@ -27,7 +27,9 @@ angular.module('unearth', ['ionic', 'ngCordova', 'angular-jwt', 'unearth.mapCont
   })
 
 
-  .config(function($stateProvider, $urlRouterProvider, jwtInterceptorProvider, $httpProvider) {
+  .config(function($stateProvider, $urlRouterProvider, jwtInterceptorProvider, $httpProvider, $ionicConfigProvider) {
+
+    $ionicConfigProvider.tabs.position('bottom');
 
     jwtInterceptorProvider.tokenGetter = function(){
       return localStorage.getItem('accessToken');
