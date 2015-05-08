@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 angular.module('unearth.services', [])
   .factory('Authorization', function($http) {
     var login = function(email, password) {
@@ -59,7 +60,7 @@ angular.module('unearth.services', [])
     var sendWaypoints = function(waypoints) {
     return $http({
         method: 'POST',
-        url: 'api/waypoints',
+        url: 'http://162.243.134.216:3000/waypoints',
         processData: true,
         data: waypoints,
         headers: {

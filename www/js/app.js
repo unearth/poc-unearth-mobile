@@ -22,15 +22,22 @@ app.config(function($stateProvider, $urlRouterProvider) {
   // Set up the various states which the app can be in.
   $stateProvider
 
-  .state('sign-in', {
-    url: '/sign-in',
-    templateUrl: 'templates/sign-in.html',
+  .state('login', {
+    url: '/login',
+    templateUrl: 'templates/login.html',
+    controller: 'LoginController'
   })
 
   .state('tab', {
     url: '/tab',
     abstract: true,
     templateUrl: 'templates/tabs.html'
+  })
+
+  .state('signUp', {
+    url: '/sign-up',
+    templateUrl: 'templates/sign-up.html',
+    controller: 'SignUpController'
   })
 
   .state('tab.map', {
@@ -44,7 +51,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/sign-in');
+  $urlRouterProvider.otherwise('/login');
 
   //Enable cross domain calls
   $httpProvider.defaults.useXDomain = true;
