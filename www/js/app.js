@@ -1,5 +1,5 @@
 
-var app = angular.module('unearth', ['ionic', 'leaflet-directive', 'ngCordova', 'unearth.controllers', 'unearth.services']);
+var app = angular.module('unearth', ['ionic', 'leaflet-directive', 'ngCordova']);
 
 app.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
