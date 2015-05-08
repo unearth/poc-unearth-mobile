@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 angular.module('unearth.services', [])
   .factory('Authorization', function($http) {
     var login = function(email, password) {
