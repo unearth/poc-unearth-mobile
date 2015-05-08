@@ -7,6 +7,10 @@ angular.module('unearth.signUpController', [])
       password2: ''
     };
 
+    $scope.redirectToLogin = function(){
+      $state.go('login');
+    }
+
     $scope.signUp = function(credentials) {
       if (credentials.password === credentials.password2) {
         Authorization.signUp(credentials.email, credentials.password)
