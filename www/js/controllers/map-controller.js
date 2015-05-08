@@ -21,12 +21,12 @@ angular.module('unearth.mapController', [])
     // Create a map in the div #map
     var map = L.mapbox.map('map', mapboxLogin);
 
-    navigator.geolocation.getCurrentPosition(function(position) {
+    navigator.geolocation.watchPosition(function(position) {
       var lat  = position.coords.latitude;
-        var long = position.coords.longitude;
-        map.setView(new L.LatLng(lat, long), 15);
-        layer.setData([[lat, long]]);
-        map.addLayer(layer);
+      var long = position.coords.longitude;
+      map.setView(new L.LatLng(lat, long), 15);
+      layer.setData([[lat, long]]);
+      map.addLayer(layer);
     });
 
     // var posOptions = {timeout: 10000, enableHighAccuracy: false};
