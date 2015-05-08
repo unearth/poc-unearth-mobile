@@ -1,5 +1,4 @@
-
-angular.module('unearth', ['ionic', 'leaflet-directive', 'ngCordova', 'angular-jwt', 'unearth.mapController', 'unearth.signUpController', 'unearth.loginController', 'unearth.services'])
+angular.module('unearth', ['ionic', 'ngCordova', 'angular-jwt', 'unearth.mapController', 'unearth.signUpController', 'unearth.loginController', 'unearth.services'])
 
   .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
@@ -24,7 +23,7 @@ angular.module('unearth', ['ionic', 'leaflet-directive', 'ngCordova', 'angular-j
           $state.go('login');
         }
       }
-    })
+    });
   })
 
 
@@ -32,7 +31,7 @@ angular.module('unearth', ['ionic', 'leaflet-directive', 'ngCordova', 'angular-j
 
     jwtInterceptorProvider.tokenGetter = function(){
       return localStorage.getItem('accessToken');
-    }
+    };
 
   $httpProvider.interceptors.push('jwtInterceptor');
 
@@ -64,14 +63,14 @@ angular.module('unearth', ['ionic', 'leaflet-directive', 'ngCordova', 'angular-j
       abstract: true,
       templateUrl: 'templates/tabs.html',
       data: {
-        requireLogin: true
+        requireLogin: false // Switch to true on deploy
       }
     })
 
     .state('tab.map', {
       url: '/map',
       data: {
-        requireLogin: true
+        requireLogin: false // Switch to true on deploy
       },
       views: {
         'tab-map': {
@@ -79,7 +78,7 @@ angular.module('unearth', ['ionic', 'leaflet-directive', 'ngCordova', 'angular-j
           controller: 'MapController'
         }
       }
-    })
+    });
 
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/tab/map');

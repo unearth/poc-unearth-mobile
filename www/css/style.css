@@ -3,7 +3,7 @@
 }
 
 .background {
-  background: url('http://i.imgur.com/xFz1CPA.jpg') no-repeat center center fixed; 
+  background: url('http://i.imgur.com/xFz1CPA.jpg') no-repeat center center fixed;
   -webkit-background-size: cover;
   background-size: cover;
 
@@ -19,4 +19,15 @@
 
 .submit-button {
   font: bold 14px Verdana;
+}
+
+html {
+  height: 100%;
+}
+
+#map {
+  position:absolute;
+  top:0;
+  bottom:0;
+  width:100%;
 }

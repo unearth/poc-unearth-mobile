@@ -1,5 +1,5 @@
 angular.module('unearth.mapController', [])
-  .controller('MapController', function($scope, $interval, leafletData, Waypoints, $cordovaGeolocation) {
+  .controller('MapController', function($scope, $interval, Waypoints, $cordovaGeolocation) {
     var coordinateObject = {
       latitude: null,
       longitude: null
@@ -15,24 +15,11 @@ angular.module('unearth.mapController', [])
      lineColor: '#A00'         // Color of the circle outline if noMask is true
     });
 
-    // Geolocation options: timeout = time before error if no GPS data is returned
-    //                      enableHighAccuracy = notification that asks user to turn on wifi for more accuracy
-    var posOptions = {timeout: 10000, enableHighAccuracy: false};
 
-    $cordovaGeolocation
-      .getCurrentPosition(posOptions)
-      .then(function (position) {
-        var lat  = position.coords.latitude;
-        var long = position.coords.longitude;
-        // Set view to current geolocation with zoom level 15 and place a transparent point at that location
-        leafletData.getMap().then(function(map) {
-          map.setView(new L.LatLng(lat, long), 15);
-          layer.setData([[lat, long]]);
-          map.addLayer(layer);
-        });
-      }, function(err) {
-        // error
-      });
+    L.mapbox.accessToken = mapboxAccessToken;
+
+    // Create a map in the div #map
+    var map = L.mapbox.map('map', mapboxLogin);
 
     var geolocationOptions = {frequency: 3000, timeout: 50000, enableHighAccuracy: true};
 
@@ -50,10 +37,8 @@ angular.module('unearth.mapController', [])
 
         Waypoints.sendWaypoints(sendWaypointsObject);
 
-        leafletData.getMap().then(function(map) {
-          map.setView(new L.LatLng(coordinateObject.latitude, coordinateObject.longitude), 15);
-          layer.setData([[coordinateObject.latitude, coordinateObject.longitude]]);
-          map.addLayer(layer);
-      });
+        map.setView(new L.LatLng(coordinateObject.latitude, coordinateObject.longitude), 15);
+        layer.setData([[coordinateObject.latitude, coordinateObject.longitude]]);
+        map.addLayer(layer);
     });
   });
