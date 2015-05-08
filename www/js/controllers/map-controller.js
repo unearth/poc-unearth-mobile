@@ -1,5 +1,5 @@
 angular.module('unearth.mapController', [])
-  .controller('MapController', function($scope, $interval, Waypoints, $cordovaGeolocation) {
+  .controller('MapController', function($scope, $interval, Waypoints) {
     var coordinateObject = {
       latitude: null,
       longitude: null
@@ -20,18 +20,27 @@ angular.module('unearth.mapController', [])
 
     // Create a map in the div #map
     var map = L.mapbox.map('map', mapboxLogin);
-    var posOptions = {timeout: 10000, enableHighAccuracy: false};
-    $cordovaGeolocation
-      .getCurrentPosition(posOptions)
-      .then(function (position) {
-        var lat  = position.coords.latitude;
+
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var lat  = position.coords.latitude;
         var long = position.coords.longitude;
         map.setView(new L.LatLng(lat, long), 15);
         layer.setData([[lat, long]]);
         map.addLayer(layer);
-      }, function(err) {
-      // error
     });
+
+    // var posOptions = {timeout: 10000, enableHighAccuracy: false};
+    // $cordovaGeolocation
+    //   .getCurrentPosition(posOptions)
+    //   .then(function (position) {
+    //     var lat  = position.coords.latitude;
+    //     var long = position.coords.longitude;
+    //     map.setView(new L.LatLng(lat, long), 15);
+    //     layer.setData([[lat, long]]);
+    //     map.addLayer(layer);
+    //   }, function(err) {
+    //   // error
+    // });
 
     // var geolocationOptions = {frequency: 3000, timeout: 50000, enableHighAccuracy: false};
 
