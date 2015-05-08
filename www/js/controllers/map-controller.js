@@ -20,25 +20,37 @@ angular.module('unearth.mapController', [])
 
     // Create a map in the div #map
     var map = L.mapbox.map('map', mapboxLogin);
-
-    var geolocationOptions = {frequency: 3000, timeout: 50000, enableHighAccuracy: true};
-
-    var watch = $cordovaGeolocation.watchPosition(geolocationOptions);
-    watch.then(
-      null,
-      function(error) {
-        console.log(error);
-      },
-      function(positionObject) {
-        console.log(positionObject);
-        coordinateObject.latitude = positionObject.coords.latitude;
-        coordinateObject.longitude = positionObject.coords.longitude;
-        sendWaypointsObject.waypoints.push(coordinateObject);
-
-        Waypoints.sendWaypoints(sendWaypointsObject);
-
-        map.setView(new L.LatLng(coordinateObject.latitude, coordinateObject.longitude), 15);
-        layer.setData([[coordinateObject.latitude, coordinateObject.longitude]]);
+    var posOptions = {timeout: 10000, enableHighAccuracy: false};
+    $cordovaGeolocation
+      .getCurrentPosition(posOptions)
+      .then(function (position) {
+        var lat  = position.coords.latitude;
+        var long = position.coords.longitude;
+        map.setView(new L.LatLng(lat, long), 15);
+        layer.setData([[lat, long]]);
         map.addLayer(layer);
+      }, function(err) {
+      // error
     });
+
+    // var geolocationOptions = {frequency: 3000, timeout: 50000, enableHighAccuracy: false};
+
+    // var watch = $cordovaGeolocation.watchPosition(geolocationOptions);
+    // watch.then(
+    //   null,
+    //   function(error) {
+    //     console.log(error);
+    //   },
+    //   function(positionObject) {
+    //     console.log(positionObject);
+    //     coordinateObject.latitude = positionObject.coords.latitude;
+    //     coordinateObject.longitude = positionObject.coords.longitude;
+    //     sendWaypointsObject.waypoints.push(coordinateObject);
+
+    //     //Waypoints.sendWaypoints(sendWaypointsObject);
+
+    //     map.setView(new L.LatLng(coordinateObject.latitude, coordinateObject.longitude), 15);
+    //     layer.setData([[coordinateObject.latitude, coordinateObject.longitude]]);
+    //     map.addLayer(layer);
+    // });
   });
