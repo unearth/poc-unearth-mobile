@@ -5,6 +5,7 @@ angular.module('unearth.mapController', [])
       longitude: null
     };
     var sendWaypointsObject = {waypoints: []};
+    var allWaypoints = [];
 
     var layer = L.TileLayer.maskCanvas({
      radius: 25,               // Radius in pixels or in meters of transparent circles (see useAbsoluteRadius)
@@ -15,51 +16,30 @@ angular.module('unearth.mapController', [])
      lineColor: '#A00'         // Color of the circle outline if noMask is true
     });
 
-
-    L.mapbox.accessToken = mapboxAccessToken;
-
     // Create a map in the div #map
+    L.mapbox.accessToken = mapboxAccessToken;
     var map = L.mapbox.map('map', mapboxLogin);
 
+    // Watch GPS position and POST waypoints to database every time position updates
     navigator.geolocation.watchPosition(function(position) {
-      var lat  = position.coords.latitude;
-      var long = position.coords.longitude;
-      map.setView(new L.LatLng(lat, long), 15);
-      layer.setData([[lat, long]]);
-      map.addLayer(layer);
+      coordinateObject.latitude  = position.coords.latitude;
+      coordinateObject.longitude = position.coords.longitude;
+      sendWaypointsObject.waypoints.push(coordinateObject);
+
+      Waypoints.sendWaypoints(sendWaypointsObject);
+
+      sendWaypointsObject.waypoints = [];
     });
 
-    // var posOptions = {timeout: 10000, enableHighAccuracy: false};
-    // $cordovaGeolocation
-    //   .getCurrentPosition(posOptions)
-    //   .then(function (position) {
-    //     var lat  = position.coords.latitude;
-    //     var long = position.coords.longitude;
-    //     map.setView(new L.LatLng(lat, long), 15);
-    //     layer.setData([[lat, long]]);
-    //     map.addLayer(layer);
-    //   }, function(err) {
-    //   // error
-    // });
-
-    // var geolocationOptions = {frequency: 3000, timeout: 50000, enableHighAccuracy: false};
-
-    // var watch = $cordovaGeolocation.watchPosition(geolocationOptions);
-    // watch.then(
-    //   null,
-    //   function(error) {
-    //     console.log(error);
-    //   },
-    //   function(positionObject) {
-    //     console.log(positionObject);
-    //     coordinateObject.latitude = positionObject.coords.latitude;
-    //     coordinateObject.longitude = positionObject.coords.longitude;
-    //     sendWaypointsObject.waypoints.push(coordinateObject);
-
-    //     //Waypoints.sendWaypoints(sendWaypointsObject);
-
-    //     map.setView(new L.LatLng(coordinateObject.latitude, coordinateObject.longitude), 15);
-    //     layer.setData([[coordinateObject.latitude, coordinateObject.longitude]]);
-    //     map.addLayer(layer);
-    // });
+    // GET waypoints array from server on app load and display fog overlay
+    Waypoints.getWaypoints(function(waypointData) {
+      for(var i = 0; i < waypointData.waypoints.length; i++) {
+        var onePoint = [];
+        onePoint.push(waypointData.waypoints[i].latitude);
+        onePoint.push(waypointData.waypoints[i].longitude);
+      }
+      allWaypoints.push(onePoint);
+      layer.setData(allWaypoints);
+      map.addLayer(layer);
+    });
   });
