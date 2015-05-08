@@ -1,5 +1,5 @@
 
-var app = angular.module('unearth', ['ionic', 'leaflet-directive', 'ngCordova']);
+var app = angular.module('unearth', ['ionic', 'leaflet-directive', 'ngCordova', 'unearth.controllers', 'unearth.services']);
 
 app.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -15,7 +15,7 @@ app.run(function($ionicPlatform) {
   });
 });
 
-app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+app.config(function($stateProvider, $urlRouterProvider) {
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
@@ -41,9 +41,9 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
         controller: 'MapController'
       }
     }
-  })
+  });
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/sign-in');
 
-}]);
+});
