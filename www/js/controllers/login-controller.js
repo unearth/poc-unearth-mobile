@@ -1,5 +1,5 @@
 angular.module('unearth.loginController', [])
-  .controller('LoginController', function ($scope, $state, Authorization, $log) {
+  .controller('LoginController', function ($scope, $state, Authorization) {
     $scope.credentials = {
       email: '',
       password: ''

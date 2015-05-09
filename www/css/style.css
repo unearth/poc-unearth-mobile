@@ -14,20 +14,17 @@
 }
 
 .center {
-  margin-top: 100px;
+  margin-top: 150px;
 }
 
-.submit-button {
-  font: bold 14px Verdana;
+.text {
+  font-size: 20px;
+  font-family: 'IM Fell English', serif;
+  text-align: center;
+  color: white;
 }
 
-html {
-  height: 100%;
-}
-
-#map {
-  position:absolute;
-  top:0;
-  bottom:0;
-  width:100%;
+.banner {
+  margin: auto;
+  font-size: 30px;
 }
