@@ -52,7 +52,6 @@ angular.module('unearth.services', [])
         }
       })
       .then(function(response) {
-        console.log(response.data);
         callback(response.data);
       });
     };

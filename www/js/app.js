@@ -1,4 +1,4 @@
-angular.module('unearth', ['ionic', 'ngCordova', 'angular-jwt', 'unearth.mapController', 'unearth.signUpController', 'unearth.loginController', 'unearth.services'])
+angular.module('unearth', ['ionic', 'ngCordova', 'angular-jwt', 'unearth.mapController', 'unearth.signUpController', 'unearth.loginController', 'unearth.services', 'unearth.settingsController'])
 
   .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
@@ -76,6 +76,19 @@ angular.module('unearth', ['ionic', 'ngCordova', 'angular-jwt', 'unearth.mapCont
         'tab-map': {
           templateUrl: 'templates/tab-map.html',
           controller: 'MapController'
+        }
+      }
+    })
+
+    .state('tab.settings', {
+      url: '/settings',
+      data: {
+        requireLogin: true
+      },
+      views: {
+        'tab-settings': {
+          templateUrl: 'templates/tab-settings.html',
+          controller: 'SettingsController'
         }
       }
     });
