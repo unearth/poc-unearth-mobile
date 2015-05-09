@@ -45,7 +45,7 @@ angular.module('unearth.mapController', [])
         sendWaypointsObject.waypoints = [];
         dataSent = false;
       }
-    });
+    }, function(error){console.log(error)}, {maximumAge: 1000});
 
     var startWaypointGET = function() {
       var onePoint;
