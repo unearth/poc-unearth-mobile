@@ -16,19 +16,19 @@ angular.module('unearth.mapController', [])
      lineColor: '#A00'         // Color of the circle outline if noMask is true
     });
 
-    // Create a map in the div #map
+    // Creates a map in the div #map
     L.mapbox.accessToken = mapboxAccessToken;
     var map = L.mapbox.map('map', mapboxLogin);
 
     var dataSent = false;
 
-    // Watch GPS position and POST waypoints to database every time position updates
+    // Watches GPS position and POST waypoints to database every time position updates
     navigator.geolocation.watchPosition(function(position) {
       coordinateObject.latitude  = position.coords.latitude;
       coordinateObject.longitude = position.coords.longitude;
       sendWaypointsObject.waypoints.push(coordinateObject);
 
-      // Prevent transmission of empty waypoint data to server
+      // Prevents transmission of empty waypoint data to server
       if(sendWaypointsObject.waypoints.length > 0) {
         console.log('sendWaypointsObject: ', sendWaypointsObject);
         Waypoints.sendWaypoints(sendWaypointsObject, function() {
