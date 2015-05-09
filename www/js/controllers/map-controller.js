@@ -47,7 +47,6 @@ angular.module('unearth.mapController', [])
       }
     }, function(error){console.log(error)}, {maximumAge: 60000, timeout: 10000, enableHighAccuracy: true});
 
-
       var onePoint;
       $interval(function() {
         // GET waypoints array from server on app load and display fog overlay
