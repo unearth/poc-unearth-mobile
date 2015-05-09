@@ -4,6 +4,7 @@ angular.module('unearth.mapController', [])
       latitude: null,
       longitude: null
     };
+    var coordinateObjectCopy = {};
     var sendWaypointsObject = {waypoints: []};
     var allWaypoints = [];
 
@@ -24,9 +25,12 @@ angular.module('unearth.mapController', [])
 
     // Watches GPS position and POST waypoints to database every time position updates
     navigator.geolocation.watchPosition(function(position) {
-      coordinateObject.latitude  = position.coords.latitude;
-      coordinateObject.longitude = position.coords.longitude;
-      sendWaypointsObject.waypoints.push(coordinateObject);
+      if(coordinateObject.latitude !== position.coords.latitude && coordinateObject.longitude !== position.coords.longitude) {
+        coordinateObject.latitude = position.coords.latitude;
+        coordinateObject.longitude = position.coords.longitude;
+        coordinateObjectCopy = angular.copy(coordinateObject);
+        sendWaypointsObject.waypoints.push(coordinateObjectCopy);
+      }
 
       // Prevents transmission of empty waypoint data to server
       if(sendWaypointsObject.waypoints.length > 0) {
@@ -45,7 +49,6 @@ angular.module('unearth.mapController', [])
 
     var startWaypointGET = function() {
       var onePoint;
-
       $interval(function() {
         // GET waypoints array from server on app load and display fog overlay
         Waypoints.getWaypoints(function(waypointData) {
@@ -58,6 +61,7 @@ angular.module('unearth.mapController', [])
             onePoint.push(waypointData.waypoints[i].longitude);
             allWaypoints.push(onePoint);
           }
+          map.removeLayer(layer);
           // Creates fog layer with user's waypoints as transparent "holes" in the fog
           layer.setData(allWaypoints);
           map.addLayer(layer);
