@@ -32,28 +32,5 @@
   },
   "engines": {
     "node": ">=0.8.0"
-  },
-  "gitHead": "7a6f3bb45ef37b12d82e570326214537adb8fc64",
-  "_id": "angular-jwt@0.0.7",
-  "scripts": {},
-  "_shasum": "a6773286fa6cc9b7b6e0a39279293aeadae623e8",
-  "_from": "angular-jwt@*",
-  "_npmVersion": "2.7.5",
-  "_nodeVersion": "0.10.30",
-  "_npmUser": {
-    "name": "mgonto",
-    "email": "martin@gonto.com.ar"
-  },
-  "maintainers": [
-    {
-      "name": "mgonto",
-      "email": "martin@gonto.com.ar"
-    }
-  ],
-  "dist": {
-    "shasum": "a6773286fa6cc9b7b6e0a39279293aeadae623e8",
-    "tarball": "http://registry.npmjs.org/angular-jwt/-/angular-jwt-0.0.7.tgz"
-  },
-  "directories": {},
-  "_resolved": "https://registry.npmjs.org/angular-jwt/-/angular-jwt-0.0.7.tgz"
+  }
 }
