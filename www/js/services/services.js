@@ -52,12 +52,13 @@ angular.module('unearth.services', [])
         }
       })
       .then(function(response) {
-        console.log(response.data);
+        console.log('response received: ', response.data);
         callback(response.data);
       });
     };
 
-    var sendWaypoints = function(waypoints) {
+    var sendWaypoints = function(waypoints, callback) {
+      console.log('waypoints sent: ', waypoints);
       return $http({
           method: 'POST',
           url: 'http://162.243.134.216:3000/waypoints',
@@ -68,7 +69,7 @@ angular.module('unearth.services', [])
           }
       })
       .then(function(response) {
-        return response.data;
+        callback();
       });
     };
 
