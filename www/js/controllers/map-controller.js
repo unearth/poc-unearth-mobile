@@ -24,19 +24,20 @@ angular.module('unearth.mapController', [])
     var dataSent = false;
 
     // Watches GPS position and POST waypoints to database every time position updates
+
+    // TODO: Algorithm to ensure equal spacing between points
+    // TODO: Caching system
     navigator.geolocation.watchPosition(function(position) {
-      if(coordinateObject.latitude !== position.coords.latitude && coordinateObject.longitude !== position.coords.longitude) {
+        // send position to service
         coordinateObject.latitude = position.coords.latitude;
         coordinateObject.longitude = position.coords.longitude;
-        coordinateObjectCopy = angular.copy(coordinateObject);
+        coordinateObjectCopy = angular.copy(coordinateObject); // data caching held in service
         sendWaypointsObject.waypoints.push(coordinateObjectCopy);
-      }
 
       // Prevents transmission of empty waypoint data to server
       if(sendWaypointsObject.waypoints.length > 0) {
         console.log('sendWaypointsObject: ', sendWaypointsObject);
         Waypoints.sendWaypoints(sendWaypointsObject, function() {
-          startWaypointGET();
           dataSent = true;
         });
       }
@@ -47,7 +48,6 @@ angular.module('unearth.mapController', [])
       }
     });
 
-    var startWaypointGET = function() {
       var onePoint;
       $interval(function() {
         // GET waypoints array from server on app load and display fog overlay
@@ -67,5 +67,4 @@ angular.module('unearth.mapController', [])
           map.addLayer(layer);
         });
       }, 10000);    // Makes GET request for waypoints every 10 seconds
-    }
-  });
+    });

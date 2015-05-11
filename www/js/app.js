@@ -1,4 +1,4 @@
-angular.module('unearth', ['ionic', 'ngCordova', 'angular-jwt', 'unearth.mapController', 'unearth.signUpController', 'unearth.loginController', 'unearth.services', 'unearth.settingsController'])
+angular.module('unearth', ['ionic', 'ngCordova', 'angular-jwt', 'unearth.mapController', 'unearth.signUpController', 'unearth.loginController', 'unearth.httpServices', 'unearth.settingsController'])
 
   .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
