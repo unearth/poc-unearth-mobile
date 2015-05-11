@@ -1,4 +1,4 @@
-angular.module('unearth.services', [])
+angular.module('unearth.httpServices', [])
   .factory('Authorization', function($http) {
     var login = function(email, password) {
       return $http({
