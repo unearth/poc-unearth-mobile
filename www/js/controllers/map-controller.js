@@ -33,10 +33,10 @@ angular.module('unearth.mapController', [])
       }
 
       // Prevents transmission of empty waypoint data to server
-      if(sendWaypointsObject.waypoints.length > 0) {
+
+      if(dataSent === false && sendWaypointsObject.waypoints.length > 0) {
         console.log('sendWaypointsObject: ', sendWaypointsObject);
         Waypoints.sendWaypoints(sendWaypointsObject, function() {
-          startWaypointGET();
           dataSent = true;
         });
       }
@@ -45,9 +45,9 @@ angular.module('unearth.mapController', [])
         sendWaypointsObject.waypoints = [];
         dataSent = false;
       }
-    }, function(error){console.log(error)}, {maximumAge: 1000});
+    }, function(error){console.log(error)}, {maximumAge: 60000, timeout: 10000, enableHighAccuracy: true});
 
-    var startWaypointGET = function() {
+
       var onePoint;
       $interval(function() {
         // GET waypoints array from server on app load and display fog overlay
@@ -66,6 +66,5 @@ angular.module('unearth.mapController', [])
           layer.setData(allWaypoints);
           map.addLayer(layer);
         });
-      }, 10000);    // Makes GET request for waypoints every 10 seconds
-    }
+      }, 30000);    // Makes GET request for waypoints every 30 seconds
   });
