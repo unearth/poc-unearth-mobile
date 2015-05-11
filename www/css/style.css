@@ -1,1 +1,36 @@
-/* Empty. Add your own CSS if you like */
+#map {
+  position:absolute;
+  top:0;
+  bottom:0;
+  width:100%;
+}
+
+.rounded {
+  border-radius: 10px;
+}
+
+.background {
+  background: url('http://i.imgur.com/xFz1CPA.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  background-size: cover;
+}
+
+.form-background {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.center {
+  margin-top: 150px;
+}
+
+.text {
+  font-size: 20px;
+  font-family: 'IM Fell English', serif;
+  text-align: center;
+  color: white;
+}
+
+.banner {
+  margin: auto;
+  font-size: 30px;
+}
