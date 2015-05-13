@@ -1,12 +1,5 @@
 angular.module('unearth.mapController', [])
-  .controller('MapController', function($scope, $interval, Waypoints) {
-    var coordinateObject = {
-      latitude: null,
-      longitude: null
-    };
-    var coordinateObjectCopy = {};
-    var sendWaypointsObject = {waypoints: []};
-    var allWaypoints = [];
+  .controller('MapController', function($scope, Waypoints, CoordinateFilter) {
 
     var layer = L.TileLayer.maskCanvas({
      radius: 25,               // Radius in pixels or in meters of transparent circles (see useAbsoluteRadius)
@@ -21,50 +14,22 @@ angular.module('unearth.mapController', [])
     L.mapbox.accessToken = mapboxAccessToken;
     var map = L.mapbox.map('map', mapboxLogin);
 
-    var dataSent = false;
-
-    // Watches GPS position and POST waypoints to database every time position updates
-
-    // TODO: Algorithm to ensure equal spacing between points
-    // TODO: Caching system
-    navigator.geolocation.watchPosition(function(position) {
-        // send position to service
-        coordinateObject.latitude = position.coords.latitude;
-        coordinateObject.longitude = position.coords.longitude;
-        coordinateObjectCopy = angular.copy(coordinateObject); // data caching held in service
-        sendWaypointsObject.waypoints.push(coordinateObjectCopy);
-
-      // Prevents transmission of empty waypoint data to server
-      if(sendWaypointsObject.waypoints.length > 0) {
-        console.log('sendWaypointsObject: ', sendWaypointsObject);
-        Waypoints.sendWaypoints(sendWaypointsObject, function() {
-          dataSent = true;
-        });
-      }
-
-      if(dataSent === true) {
-        sendWaypointsObject.waypoints = [];
-        dataSent = false;
-      }
+    //waypoints are retreived from server and entered into local storage.
+    Waypoints.getWaypoints(function(data) {
+      window.localStorage.waypoints = (JSON.stringify(data.waypoints))
+      //sets watch position that calls the map service when a new position is received.
+      navigator.geolocation.watchPosition(function(position) {
+        CoordinateFilter.handleCoordinate(position);
+      });
     });
 
-      var onePoint;
-      $interval(function() {
-        // GET waypoints array from server on app load and display fog overlay
-        Waypoints.getWaypoints(function(waypointData) {
-          console.log('waypointData: ', waypointData);
-          // waypointData is an object with an array of waypoint objects
-          // Loops through waypoints array and parses into format that can be read by fog overlay function
-          for(var i = 0; i < waypointData.waypoints.length; i++) {
-            onePoint = [];
-            onePoint.push(waypointData.waypoints[i].latitude);
-            onePoint.push(waypointData.waypoints[i].longitude);
-            allWaypoints.push(onePoint);
-          }
-          map.removeLayer(layer);
-          // Creates fog layer with user's waypoints as transparent "holes" in the fog
-          layer.setData(allWaypoints);
-          map.addLayer(layer);
-        });
-      }, 10000);    // Makes GET request for waypoints every 10 seconds
+    // on change in localStorage, rerender map.
+
+    $scope.$on('storage', function() {
+      var waypoints = JSON.parse(window.localStorage.waypoints);
+      map.removeLayer(layer);
+      layer.setData(waypoints);
+      map.addLayer(layer);
     });
+
+  });
