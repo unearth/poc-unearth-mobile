@@ -1,3 +1,7 @@
+.content {
+  -webkit-filter: brightness(.8);
+}
+
 #map {
   position:absolute;
   top:0;
@@ -10,17 +14,30 @@
 }
 
 .background {
-  background: url('http://i.imgur.com/xFz1CPA.jpg') no-repeat center center fixed;
-  -webkit-background-size: cover;
+  background: url('http://data.hdwallpapers.im/sunrise_landscapes_nature_hd.jpg') no-repeat center center fixed;
+  -webkit-xbackground-size: cover;
   background-size: cover;
+  -webkit-filter: blur(1px) brightness(.8);
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
 }
 
-.form-background {
-  background: rgba(0, 0, 0, 0.4);
+.form {
+  background: rgba(0, 0, 0, 0);
 }
 
-.center {
-  margin-top: 150px;
+.form-input {
+  border-top: none;
+  border-right: none;
+  border-bottom: 2px thick white;
+  border-left:none;
+  display: block;
+  margin: 0 auto;
+}
+
+.center-form {
+  margin: 145px auto 30px auto;
+  width: 80%;
 }
 
 .text {
@@ -28,9 +45,20 @@
   font-family: 'IM Fell English', serif;
   text-align: center;
   color: white;
-}
+  border:  1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, .3);
+  margin: 0 auto;
+  padding: 10px 60px 10px 60px;
+  border-radius: 3px;
+ }
 
-.banner {
-  margin: auto;
-  font-size: 30px;
-}
+ .sign-up-link {
+  margin: 40px auto auto auto;
+  color: white;
+  font-size: 18px;
+  font-weight: 900;
+
+ }
+
+
+
