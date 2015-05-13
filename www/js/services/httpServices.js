@@ -69,7 +69,7 @@ angular.module('unearth.httpServices', [])
           }
       })
       .then(function(response) {
-        callback();
+        callback(response);
       });
     };
 
