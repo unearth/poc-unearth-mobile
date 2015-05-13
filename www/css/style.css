@@ -14,10 +14,10 @@
 }
 
 .background {
-  background: url('http://data.hdwallpapers.im/sunrise_landscapes_nature_hd.jpg') no-repeat center center fixed;
+  background: url('http://data.hdwallpapers.im/sunrise_landscapes_nature_hd.jpg') center no-repeat;
   -webkit-xbackground-size: cover;
   background-size: cover;
-  -webkit-filter: blur(1px) brightness(.8);
+  /*-webkit-filter: brightness(.8);*/
   position: absolute;
   top: 0; right: 0; bottom: 0; left: 0;
 }
@@ -50,15 +50,39 @@
   margin: 0 auto;
   padding: 10px 60px 10px 60px;
   border-radius: 3px;
- }
+}
 
- .sign-up-link {
-  margin: 40px auto auto auto;
+.text:active {
+  background: rgba(255, 255, 255, .6);
+}
+
+.sign-up-link {
+margin: 40px auto auto auto;
+color: white;
+font-size: 18px;
+font-weight: 900;
+font-style: italic;
+}
+
+.sign-up-link:active {
+  color: grey;
+}
+
+.test {
+color: white;
+/*display: block;*/
+position: absolute;
+margin: 0 auto;
+}
+
+input[type="email"],
+input[type="password"] {
   color: white;
-  font-size: 18px;
   font-weight: 900;
+  font-size: 22px;
+}
 
- }
-
-
-
+input::-webkit-input-placeholder {
+  color: white;
+  font-size: 15px;
+}
