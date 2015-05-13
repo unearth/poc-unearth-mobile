@@ -1,7 +1,7 @@
 angular.module('unearth.mapServices', [])
   .factory('CoordinateFilter', function($rootScope, Waypoints) {
     var waypointsToBeSent = {waypoints: []};
-    //upon initialization the waypointsToBeSent obj and the allWaypoints obj needs to be retreived/initialized.
+    // Upon initialization the waypointsToBeSent obj and the allWaypoints obj needs to be retreived/initialized.
 
     var handleCoordinate = function(position) {
       var coordinateTuple = [];
@@ -14,57 +14,55 @@ angular.module('unearth.mapServices', [])
 
     var storeCoordinate = function(coordinate) {
 
-        // sets the temp variable to either an empty array if local storage is clean or the current value in local storage.
+        // Sets the temp variable to either an empty array if local storage is clean or the current value in local storage.
         var temp = window.localStorage.waypoints;
         temp = (temp === null) ? [] : JSON.parse(temp);
-        // pushes the local storage data with the stored waypoints.
+        // Pushes the local storage data with the stored waypoints.
         temp.push(coordinate);
-        // updates local storage with new waypoints.
+        // Updates local storage with new waypoints.
         window.localStorage.waypoints = JSON.stringify(temp);
-        // broadcasts change in local storage.
+        // Broadcasts change in local storage.
         $rootScope.$broadcast('storage');
 
         waypointsToBeSent.waypoints.push(coordinate);
-        console.log(waypointsToBeSent);
 
-        // checks to see if the waypoints array is 3 or more.
+        // Checks to see if the waypoints array is 3 or more.
       if (waypointsToBeSent.waypoints.length > 2) {
-        // sends waypoints to the database
+        // Sends waypoints to the database
         Waypoints.sendWaypoints(waypointsToBeSent, function(response) {
           if (response) {
             console.log('response received to storeCoordinate http request');
           } else {
             console.error('error on response to storeCoordiante http request');
           }
-          // resets the waypointsToBeSent array.
+          // Resets the waypointsToBeSent array.
           waypointsToBeSent.waypoints = [];
         });
       }
     };
 
     var shouldStoreCoordinate = function(coordinate) {
-      // checks to make sure the coordinates has something to compare to, .005mi = 26ft
-      if (waypointsToBeSent.waypoints.length > 0) {
-        for (var i = 0; i < waypointsToBeSent.waypoints.length; i++) {
-          if (calcDistance(coordinate, waypointsToBeSent.waypoints[i]) < .005) {
-            return false;
-          }
+      // Checks to make sure the coordinates has something to compare to, .005mi = 26ft.
+      for (var i = 0; i < waypointsToBeSent.waypoints.length; i++) {
+        if (calcDistance(coordinate, waypointsToBeSent.waypoints[i]) < .005) {
+          return false;
         }
       }
+
       return true;
     };
 
-    // define the to Radian function for use in the calcDistance function
+    // Defines the to Radian function for use in the calcDistance function.
     if (typeof(Number.prototype.toRad) === "undefined") {
       Number.prototype.toRad = function() {
         return this * Math.PI / 180;
       }
     }
 
-    // calculate the distance between 2 waypoints, given their latitudes and longitudes, return distance in miles
+    // Calculate the distance between 2 waypoints, given their latitudes and longitudes, return distance in miles.
     var calcDistance = function(pt1, pt2) {
 
-      var R = 6371; // earth radius, in km
+      var R = 6371; // Earth radius, in km.
       var lat1 = pt1[0];
       var lon1 = pt1[1];
       var lat2 = pt2[0];
@@ -87,3 +85,7 @@ angular.module('unearth.mapServices', [])
       handleCoordinate: handleCoordinate
     };
   });
+
+// Logout does a post request to server for waypointsToBe.
+// WaypointsToBeSent needs to be stored in local storage.
+//
