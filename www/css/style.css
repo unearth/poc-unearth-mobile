@@ -3,10 +3,25 @@
 }
 
 #widemap, #zoommap {
-  position:absolute;
+  position: absolute;
   top:0;
   bottom:0;
   width:100%;
+  z-index: 1;
+}
+
+#zoomControl {
+  float: left;
+  margin-left: 35px;
+  margin-top: 35px;
+  z-index: 2;
+  position: relative;
+}
+
+.zoomButton {
+  height: 60px;
+  width: 60px;
+  font-size: 24pt;
 }
 
 .rounded {
