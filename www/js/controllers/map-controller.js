@@ -14,16 +14,16 @@ angular.module('unearth.mapController', [])
     L.mapbox.accessToken = mapboxAccessToken;
     var map = L.mapbox.map('map', mapboxLogin);
 
-    //waypoints are retreived from server and entered into local storage.
+    // Retreived waypoints from server insert into local storage.
     Waypoints.getWaypoints(function(data) {
-      window.localStorage.waypoints = (JSON.stringify(data.waypoints))
+      window.localStorage.waypoints = (JSON.stringify(data.waypoints));
       //sets watch position that calls the map service when a new position is received.
       navigator.geolocation.watchPosition(function(position) {
         CoordinateFilter.handleCoordinate(position);
       });
     });
 
-    // on change in localStorage, rerender map.
+    // Rerender map for any change in localStorage.
 
     $scope.$on('storage', function() {
       var waypoints = JSON.parse(window.localStorage.waypoints);

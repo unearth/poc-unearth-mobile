@@ -7,7 +7,7 @@ angular.module('unearth.loginController', [])
 
     $scope.redirectToSignUp = function(){
       $state.go('sign-up');
-    }
+    };
 
     $scope.login = function(credentials) {
       Authorization.login(credentials.email, credentials.password).then( function (isAuthenticated) {
