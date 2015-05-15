@@ -88,24 +88,32 @@ angular.module('unearth.mapServices', [])
 
   .factory('RenderMap', function() {
 
-    var zoomLevel = 13;
+    var zoomLevel;
 
-    var layer = L.TileLayer.maskCanvas({
-     radius: 25,               // Radius in pixels or in meters of transparent circles (see useAbsoluteRadius)
-     useAbsoluteRadius: true,  // True: r in meters, false: r in pixels
-     color: '#00000',          // The color of the fog layer
-     opacity: 0.8,             // Opacity of the fog area
-     noMask: false,            // True results in normal (filled) circled, false is for transparent circles
-     lineColor: '#A00'         // Color of the circle outline if noMask is true
-    });
+    var layer;
 
     // Creates a map in the div #map
     L.mapbox.accessToken = mapboxAccessToken;
-    var map = L.mapbox.map('map', mapboxLogin, {
-      zoomControl: false
-    });
+    var map;
+
+    var currentPosition;
 
     var init = function() {
+      zoomLevel = 13;
+
+      layer = L.TileLayer.maskCanvas({
+        radius: 25,               // Radius in pixels or in meters of transparent circles (see useAbsoluteRadius)
+        useAbsoluteRadius: true,  // True: r in meters, false: r in pixels
+        color: '#00000',          // The color of the fog layer
+        opacity: 0.8,             // Opacity of the fog area
+        noMask: false,            // True results in normal (filled) circled, false is for transparent circles
+        lineColor: '#A00'         // Color of the circle outline if noMask is true
+      });
+
+      map = L.mapbox.map('map', mapboxLogin, {
+        zoomControl: false
+      });
+
       // Disables zoom
       map.touchZoom.disable();
       map.doubleClickZoom.disable();
@@ -113,14 +121,14 @@ angular.module('unearth.mapServices', [])
 
       // Sets initial map view to previously stored location
       // If there is no previous location, sets view to the middle of the US
-      var firstView = JSON.parse(window.localStorage.waypoints);
-      if(firstView === null) {
-        firstView = [38, -105];
-      } else {
-        firstView = firstView[firstView.length - 1];
-      }
+      // currentPosition = JSON.parse(window.localStorage.waypoints);
+      // if(!currentPosition) {
+        currentPosition = [38, -105];
+      // } else {
+      //   currentPosition = currentPosition[currentPosition.length - 1];
+      // }
 
-      map.setView(firstView, zoomLevel);
+      centerView();
     }
 
     var handleZoom = function() {
@@ -129,19 +137,26 @@ angular.module('unearth.mapServices', [])
       } else {
         zoomLevel = 13;
       }
-
-      map.setZoom(zoomLevel);
+      centerView();
     }
 
     var renderLayer = function(waypoints) {
       map.removeLayer(layer);
       layer.setData(waypoints);
       map.addLayer(layer);
+      currentPosition = waypoints[waypoints.length - 1];
+      centerView();
+    }
+
+    var centerView = function() {
+      map.setView(currentPosition, zoomLevel);
     }
 
     return {
       init: init,
-      handleZoom: handleZoom
+      handleZoom: handleZoom,
+      renderLayer: renderLayer,
+      centerView: centerView
     }
   });
 // Logout does a post request to server for waypointsToBe.
