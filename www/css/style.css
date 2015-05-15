@@ -17,19 +17,18 @@
   background: url('http://data.hdwallpapers.im/sunrise_landscapes_nature_hd.jpg') center no-repeat;
   -webkit-xbackground-size: cover;
   background-size: cover;
-  /*-webkit-filter: brightness(.8);*/
   position: absolute;
   top: 0; right: 0; bottom: 0; left: 0;
 }
 
 .form {
   background: rgba(0, 0, 0, 0);
+  height: 150%;
 }
 
 .form-input {
   border-top: none;
   border-right: none;
-  border-bottom: 2px thick white;
   border-left:none;
   display: block;
   margin: 0 auto;
@@ -40,19 +39,7 @@
   width: 80%;
 }
 
-.text {
-  font-size: 20px;
-  font-family: 'IM Fell English', serif;
-  text-align: center;
-  color: white;
-  border:  1px solid rgba(255, 255, 255, 0.4);
-  background: rgba(255, 255, 255, .3);
-  margin: 0 auto;
-  padding: 10px 60px 10px 60px;
-  border-radius: 3px;
-}
-
-.text:active {
+.submit-button:active {
   background: rgba(255, 255, 255, .6);
 }
 
@@ -68,21 +55,47 @@ font-style: italic;
   color: grey;
 }
 
-.test {
-color: white;
-/*display: block;*/
-position: absolute;
-margin: 0 auto;
+.submit-button {
+  position: relative;
+  top: 85px;
+  font-size: 20px;
+  font-family: 'IM Fell English', serif;
+  text-align: center;
+  color: white;
+  border:  1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, .3);
+  margin: 0 auto;
+  padding: 10px 60px 10px 60px;
+  border-radius: 3px;
 }
 
 input[type="email"],
 input[type="password"] {
   color: white;
   font-weight: 900;
-  font-size: 22px;
+  font-size: 18px;
 }
 
 input::-webkit-input-placeholder {
+  color: white;
+  font-size: 15px;
+}
+
+.expand {
+  margin-bottom: 65px;
+}
+
+.has-error {
+  border-bottom: 1px solid red;
+}
+
+.no-error {
+  border-bottom: 1px solid white;
+}
+
+.error-messages {
+  top: 20px;
+  background-color: red;
   color: white;
   font-size: 15px;
 }
