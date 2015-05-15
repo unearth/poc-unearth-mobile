@@ -84,8 +84,66 @@ angular.module('unearth.mapServices', [])
     return {
       handleCoordinate: handleCoordinate
     };
-  });
+  })
 
+  .factory('RenderMap', function() {
+
+    var zoomLevel = 13;
+
+    var layer = L.TileLayer.maskCanvas({
+     radius: 25,               // Radius in pixels or in meters of transparent circles (see useAbsoluteRadius)
+     useAbsoluteRadius: true,  // True: r in meters, false: r in pixels
+     color: '#00000',          // The color of the fog layer
+     opacity: 0.8,             // Opacity of the fog area
+     noMask: false,            // True results in normal (filled) circled, false is for transparent circles
+     lineColor: '#A00'         // Color of the circle outline if noMask is true
+    });
+
+    // Creates a map in the div #map
+    L.mapbox.accessToken = mapboxAccessToken;
+    var map = L.mapbox.map('map', mapboxLogin, {
+      zoomControl: false
+    });
+
+    var init = function() {
+      // Disables zoom
+      map.touchZoom.disable();
+      map.doubleClickZoom.disable();
+      map.scrollWheelZoom.disable();
+
+      // Sets initial map view to previously stored location
+      // If there is no previous location, sets view to the middle of the US
+      var firstView = JSON.parse(window.localStorage.waypoints);
+      if(firstView === null) {
+        firstView = [38, -105];
+      } else {
+        firstView = firstView[firstView.length - 1];
+      }
+
+      map.setView(firstView, zoomLevel);
+    }
+
+    var handleZoom = function() {
+      if(zoomLevel === 13) {
+        zoomLevel = 18;
+      } else {
+        zoomLevel = 13;
+      }
+
+      map.setZoom(zoomLevel);
+    }
+
+    var renderLayer = function(waypoints) {
+      map.removeLayer(layer);
+      layer.setData(waypoints);
+      map.addLayer(layer);
+    }
+
+    return {
+      init: init,
+      handleZoom: handleZoom
+    }
+  });
 // Logout does a post request to server for waypointsToBe.
 // WaypointsToBeSent needs to be stored in local storage.
 //
