@@ -26,19 +26,6 @@ angular.module('unearth.mapServices', [])
         // Checks to see if the waypoints array is 3 or more.
       if (waypointsToBeSent.waypoints.length > 2) {
 
-        //check 'currentExpedition'
-        //if 'Solo Expedition' then POST
-        //else POST then GET all waypoints from group (except for current user)
-        //set waypoints to the result of the current user waypoints and rest of the group waypoints combined
-        //store waypoints in local storage
-        //broadcast 'storage' event
-
-
-        //solo waypoints are seperate from group waypoints
-        //
-
-
-
         // Sends waypoints to the database
         Waypoints.sendWaypoints(waypointsToBeSent, function(response) {
           if (response) {
@@ -81,8 +68,8 @@ angular.module('unearth.mapServices', [])
 
       var dLat = (lat2 - lat1).toRad();
       var dLon = (lon2 - lon1).toRad();
-      var lat1 = lat1.toRad();
-      var lat2 = lat2.toRad();
+      lat1 = lat1.toRad();
+      lat2 = lat2.toRad();
 
       var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
               Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
@@ -129,7 +116,7 @@ angular.module('unearth.mapServices', [])
       map.touchZoom.disable();
       map.doubleClickZoom.disable();
       map.scrollWheelZoom.disable();
-    }
+    };
 
     // Sets zoom level to wide or zoom and centers view on current position
     var handleZoom = function() {
@@ -139,7 +126,7 @@ angular.module('unearth.mapServices', [])
         zoomLevel = 13;
       }
       centerView();
-    }
+    };
 
     // Draws the fog overlay and centers the map on the most recent coordinate
     var renderLayer = function(waypoints) {

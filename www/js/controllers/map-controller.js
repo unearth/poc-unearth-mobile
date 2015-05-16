@@ -7,9 +7,6 @@ angular.module('unearth.mapController', [])
 
     window.localStorage.currentExpedition = window.localStorage.currentExpedition || 'solo';
 
-    //if null or 'solo' expedition call getWaypoints and store in localStorage
-    //
-
     var waypoints;
 
     // Initializes the map render on load
@@ -43,6 +40,7 @@ angular.module('unearth.mapController', [])
       // Sets watch position that calls the map service when a new position is received.
       navigator.geolocation.watchPosition(function(position) {
         CoordinateFilter.handleCoordinate(position);
+
       }, function(error) { console.log(error); }, positionOptions);
     });
 
@@ -52,7 +50,7 @@ angular.module('unearth.mapController', [])
     // Sets zoom level when zoom button is pressed
     $scope.setZoom = function() {
       RenderMap.handleZoom();
-    }
+    };
 
   });
 
