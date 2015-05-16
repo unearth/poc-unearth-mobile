@@ -55,3 +55,4 @@ angular.module('unearth.mapController', [])
     }
 
   });
+

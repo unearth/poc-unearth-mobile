@@ -167,4 +167,3 @@ angular.module('unearth.httpServices', [])
     };
   });
 
-
