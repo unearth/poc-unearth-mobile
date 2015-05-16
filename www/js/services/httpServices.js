@@ -87,15 +87,27 @@ angular.module('unearth.httpServices', [])
 
   .factory('Group', function($http) {
 
+    var getGroupWaypoints = function(groupID, callback) {
+      return $http({
+        method: 'GET',
+        url: 'http://162.243.134.216:3000/group/waypoints',
+        processData: false,
+        headers: {'Content-Type': 'application/JSON'}
+      })
+      .then(function(respose) {
+        callback(response.data);
+      });
+    };
+
     var getGroups = function(callback) {
       return $http({
         method: 'GET',
-        url: 'http://162.243.134.216:3000/group',
+        url: 'http://162.243.134.216:3000/group/groups',
         processData: false,
         headers: {'Content-Type':'application/JSON'}
       })
       .then(function(response) {
-        //response returns group ID, group name, and pending group invitations.
+        //response returns group ID, group name, username, and pending group invitations.
         callback(response.data);
       });
     };
@@ -129,27 +141,29 @@ angular.module('unearth.httpServices', [])
       .then(function(response) {
         callback(response.data);
       });
+    };
 
-      var groupCreate = function(groupID, callback) {
-        return $http({
-          method: 'POST',
-          url: 'http://162.243.134.216:3000/group/create',
-          processData: false,
-          data: {
-            groupID: groupID
-          },
-          headers: {'Content-Type':'application/JSON'}
-        })
-        .then(function(response) {
-          callback(response.data);
-        });
-      };
+    var groupCreate = function(groupID, callback) {
+      return $http({
+        method: 'POST',
+        url: 'http://162.243.134.216:3000/group/create',
+        processData: false,
+        data: {
+          groupID: groupID
+        },
+        headers: {'Content-Type':'application/JSON'}
+      })
+      .then(function(response) {
+        callback(response.data);
+      });
     };
 
     return {
+      getGroupWaypoints: getGroupWaypoints,
       getGroups: getGroups,
       groupInvite: groupInvite,
       groupJoin: groupJoin,
       groupCreate: groupCreate
     };
   });
+
