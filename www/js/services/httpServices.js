@@ -3,12 +3,12 @@ angular.module('unearth.httpServices', [])
 
     var loginError = function (error) {
       //For login this would return invalid username or password.
-      return error
+      return false;
     };
 
     var signUpError = function (error) {
       //If there is already a current user with email in signUp this will need to send proper response to controller.
-      return error
+      return false;
     };
 
     var login = function(email, password) {
@@ -24,7 +24,7 @@ angular.module('unearth.httpServices', [])
       })
       .then(function(response) {
         window.localStorage.accessToken = response.data.token;
-        return response.data;
+        return true;
       }, loginError);
     };
 
@@ -41,7 +41,7 @@ angular.module('unearth.httpServices', [])
       })
       .then(function(response) {
         window.localStorage.accessToken = response.data.token;
-        return response.data;
+        return true;
       }, signUpError);
     };
 
@@ -101,14 +101,14 @@ angular.module('unearth.httpServices', [])
       });
     };
 
-    var groupInvite = function(email, groupID, callback) {
+    var groupCreate = function(groupName, groupId, callback) {
       return $http({
         method: 'POST',
-        url: 'http://162.243.134.216:3000/group/invite',
+        url: 'http://162.243.134.216:3000/group/create',
         processData: false,
         data: {
-          email: email,
-          groupID: groupID
+          groupName: groupName,
+          groupID: groupId
         },
         headers: {'Content-Type':'application/JSON'}
       })
@@ -117,34 +117,54 @@ angular.module('unearth.httpServices', [])
       });
     };
 
-    var groupJoin = function(choice, groupID, callback) {
+    var groupInvite = function(email, groupId, callback) {
       return $http({
         method: 'POST',
-        url: 'http://162.243.134.216:3000/group/' + choice,
+        url: 'http://162.243.134.216:3000/group/invite',
         processData: false,
         data: {
-          groupID: groupID
+          email: email,
+          groupID: groupId
         },
         headers: {'Content-Type':'application/JSON'}
       })
       .then(function(response) {
         callback(response.data);
       });
+    };
 
-      var groupCreate = function(groupID, callback) {
-        return $http({
-          method: 'POST',
-          url: 'http://162.243.134.216:3000/group/create',
-          processData: false,
-          data: {
-            groupID: groupID
-          },
-          headers: {'Content-Type':'application/JSON'}
-        })
-        .then(function(response) {
-          callback(response.data);
-        });
-      };
+    var groupJoin = function(choice, groupId, callback) {
+      return $http({
+        method: 'POST',
+        url: 'http://162.243.134.216:3000/group/' + choice,
+        processData: false,
+        data: {
+          groupID: groupId
+        },
+        headers: {'Content-Type':'application/JSON'}
+      })
+      .then(function(response) {
+        callback(response.data);
+      });
+    };
+
+    // TODO: INCOMPLETE
+    var syncGroups = function(email, callback) {
+      getGroups(email, function(results) {
+        var groups = window.localStorage.groups;
+        var groupObj = {};
+        for(var i = 0; i < groups.length; i++) {
+          groupObj[groups[i].id] = groups[i].name;
+          if(!groups[i].id){
+            // Post group to database
+          }
+        }
+        for(var j = 0; i < results.length; j++) {
+          if(groupObj[results[j].id] === undefined){
+            // De-register from group
+          }
+        }
+      });
     };
 
     return {

@@ -1,5 +1,8 @@
 angular.module('unearth.loginController', [])
   .controller('LoginController', function ($scope, $state, Authorization) {
+
+    $scope.invalidLogin = false;
+
     $scope.credentials = {
       email: '',
       password: ''
@@ -7,15 +10,23 @@ angular.module('unearth.loginController', [])
 
     $scope.redirectToSignUp = function(){
       $state.go('sign-up');
-    }
+    };
 
-    $scope.login = function(credentials) {
-      Authorization.login(credentials.email, credentials.password).then( function (isAuthenticated) {
-        if (true) {
-          $state.go('tab.map');
-        } else {
-          $state.go('login');
-        }
-      });
+    $scope.clearError = function(loginForm) {
+      loginForm.$submitted = false;
+      $scope.invalidLogin = false;
+    };
+
+    $scope.login = function(isValid, credentials) {
+      if (isValid) {
+        Authorization.login(credentials.email, credentials.password)
+          .then( function (isAuthenticated) {
+            if (isAuthenticated) {
+              $state.go('tab.map');
+            } else {
+              $scope.invalidLogin = true;
+            }
+          });
+      }
     };
   });
