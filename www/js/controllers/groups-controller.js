@@ -26,6 +26,10 @@ angular.module('unearth.groupsController', [])
       // {id: 453, name:'group3'}
       // ]
 
+    Group.getGroups(function(groupsData) {
+      $scope.groupsData = groupsData;
+    });
+
     $scope.credentials = {
       email: '',
       password: ''
@@ -67,6 +71,7 @@ angular.module('unearth.groupsController', [])
           console.log('didn\'t work!');
         } else{
           alert('accepted invite into: ' + group.name);
+          window.localStorage.setItem('currentExpedition', group.id);
         }
       });
     };
@@ -97,6 +102,9 @@ angular.module('unearth.groupsController', [])
           if(error) {
             console.log('didn\'t work!');
           } else{
+            if(window.localStorage.getItem('currentExpedition') === JSON.stringify(group.id)) {
+              window.localStorage.setItem('currentExpedition', 'solo');
+            }
             $state.go('tab.groups');
           }
         });

@@ -1,14 +1,11 @@
 angular.module('unearth.mapController', [])
-  .controller('MapController', function($scope, Waypoints, CoordinateFilter, RenderMap, $interval) {
+  .controller('MapController', function($scope, Waypoints, CoordinateFilter, RenderMap, $interval, Group) {
 
     // Sets geolocation.watchPosition options
     var positionOptions = {timeout: 10000, maximumAge: 60000, enableHighAccuracy: true};
     // Sets localStorage to a default coordinate if there is no local storage
 
     window.localStorage.currentExpedition = window.localStorage.currentExpedition || 'solo';
-
-    //if null or 'solo' expedition call getWaypoints and store in localStorage
-    //
 
     var waypoints;
 
@@ -35,7 +32,7 @@ angular.module('unearth.mapController', [])
       waypoints = JSON.parse(window.localStorage.waypoints);
 
       if (window.localStorage.currentExpedition !== 'solo') {
-        getGroupWaypoints(window.localStorage.currentExpedition, function(group) {
+        Group.getGroupWaypoints(window.localStorage.currentExpedition, function(group) {
           window.localStorage.setItem('groupWaypoints', group.waypoints);
           waypoints.concat(window.localStorage.getItem('groupWaypoints'));
         });
