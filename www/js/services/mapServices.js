@@ -14,14 +14,12 @@ angular.module('unearth.mapServices', [])
 
     var storeCoordinate = function(coordinate) {
       // Sets the temp variable to either an empty array if local storage is clean or the current value in local storage.
-      var temp = window.localStorage.waypoints;
+      var temp = window.localStorage.getItem('waypoints');
       temp = (temp === null) ? [] : JSON.parse(temp);
       // Pushes the local storage data with the stored waypoints.
       temp.push(coordinate);
       // Updates local storage with new waypoints.
-      window.localStorage.waypoints = JSON.stringify(temp);
-      // Broadcasts change in local storage.
-      $rootScope.$broadcast('storage');
+      window.localStorage.setItem('waypoints', JSON.stringify(temp));
 
       waypointsToBeSent.waypoints.push(coordinate);
 
@@ -148,20 +146,21 @@ angular.module('unearth.mapServices', [])
       map.removeLayer(layer);
       layer.setData(waypoints);
       map.addLayer(layer);
-
       currentPosition = waypoints[waypoints.length - 1];
       centerView();
-    }
+
+    };
 
     // Centers map on current position
     var centerView = function() {
       map.setView(currentPosition, zoomLevel);
-    }
+    };
 
     return {
       init: init,
       handleZoom: handleZoom,
       renderLayer: renderLayer,
       centerView: centerView
-    }
+    };
+
   });
