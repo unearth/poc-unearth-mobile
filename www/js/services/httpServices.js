@@ -3,12 +3,12 @@ angular.module('unearth.httpServices', [])
 
     var loginError = function (error) {
       //For login this would return invalid username or password.
-      return error;
+      return false;
     };
 
     var signUpError = function (error) {
       //If there is already a current user with email in signUp this will need to send proper response to controller.
-      return error;
+      return false;
     };
 
     var login = function(email, password) {
@@ -24,7 +24,7 @@ angular.module('unearth.httpServices', [])
       })
       .then(function(response) {
         window.localStorage.accessToken = response.data.token;
-        return response.data;
+        return true;
       }, loginError);
     };
 
@@ -41,7 +41,7 @@ angular.module('unearth.httpServices', [])
       })
       .then(function(response) {
         window.localStorage.accessToken = response.data.token;
-        return response.data;
+        return true;
       }, signUpError);
     };
 
