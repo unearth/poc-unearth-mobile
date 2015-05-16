@@ -61,7 +61,6 @@ angular.module('unearth.httpServices', [])
         headers: {'Content-Type':'application/JSON'}
       })
       .then(function(response) {
-        console.log('response received: ', response.data);
         callback(response.data);
       });
     };

@@ -84,8 +84,71 @@ angular.module('unearth.mapServices', [])
     return {
       handleCoordinate: handleCoordinate
     };
-  });
+  })
 
-// Logout does a post request to server for waypointsToBe.
-// WaypointsToBeSent needs to be stored in local storage.
-//
+  /////////////////////////////////////////////
+  // Map Rendering functions
+  .factory('RenderMap', function() {
+
+    var zoomLevel;
+    var layer;
+    var currentPosition;
+    var map;
+    L.mapbox.accessToken = mapboxAccessToken;
+
+    // Load map
+    var init = function() {
+      zoomLevel = 13;
+
+      layer = L.TileLayer.maskCanvas({
+        radius: 25,               // Radius in pixels or in meters of transparent circles (see useAbsoluteRadius)
+        useAbsoluteRadius: true,  // True: r in meters, false: r in pixels
+        color: '#00000',          // The color of the fog layer
+        opacity: 0.8,             // Opacity of the fog area
+        noMask: false,            // True results in normal (filled) circled, false is for transparent circles
+        lineColor: '#A00'         // Color of the circle outline if noMask is true
+      });
+
+      // Creates a map in the div #map
+      map = L.mapbox.map('map', mapboxLogin, {
+        zoomControl: false
+      });
+
+      // Disables zoom
+      map.touchZoom.disable();
+      map.doubleClickZoom.disable();
+      map.scrollWheelZoom.disable();
+    }
+
+    // Sets zoom level to wide or zoom and centers view on current position
+    var handleZoom = function() {
+      if(zoomLevel === 13) {
+        zoomLevel = 18;
+      } else {
+        zoomLevel = 13;
+      }
+      centerView();
+    }
+
+    // Draws the fog overlay and centers the map on the most recent coordinate
+    var renderLayer = function(waypoints) {
+      map.removeLayer(layer);
+      layer.setData(waypoints);
+      map.addLayer(layer);
+
+      currentPosition = waypoints[waypoints.length - 1];
+      centerView();
+    }
+
+    // Centers map on current position
+    var centerView = function() {
+      map.setView(currentPosition, zoomLevel);
+    }
+
+    return {
+      init: init,
+      handleZoom: handleZoom,
+      renderLayer: renderLayer,
+      centerView: centerView
+    }
+  });
