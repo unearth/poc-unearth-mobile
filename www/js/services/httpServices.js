@@ -148,23 +148,23 @@ angular.module('unearth.httpServices', [])
     };
 
     // TODO: INCOMPLETE
-    var syncGroups = function(email, callback) {
-      getGroups(email, function(results) {
-        var groups = window.localStorage.groups;
-        var groupObj = {};
-        for(var i = 0; i < groups.length; i++) {
-          groupObj[groups[i].id] = groups[i].name;
-          if(!groups[i].id){
-            // Post group to database
-          }
-        }
-        for(var j = 0; i < results.length; j++) {
-          if(groupObj[results[j].id] === undefined){
-            // De-register from group
-          }
-        }
-      });
-    };
+    // var syncGroups = function(email, callback) {
+    //   getGroups(email, function(results) {
+    //     var groups = window.localStorage.groups;
+    //     var groupObj = {};
+    //     for(var i = 0; i < groups.length; i++) {
+    //       groupObj[groups[i].id] = groups[i].name;
+    //       if(!groups[i].id){
+    //         // Post group to database
+    //       }
+    //     }
+    //     for(var j = 0; i < results.length; j++) {
+    //       if(groupObj[results[j].id] === undefined){
+    //         // De-register from group
+    //       }
+    //     }
+    //   });
+    // };
 
     return {
       getGroups: getGroups,
