@@ -86,13 +86,14 @@ angular.module('unearth.mapServices', [])
     };
   })
 
+  /////////////////////////////////////////////
+  // Map Rendering functions
   .factory('RenderMap', function() {
 
     var zoomLevel;
 
     var layer;
 
-    // Creates a map in the div #map
     L.mapbox.accessToken = mapboxAccessToken;
     var map;
 
@@ -110,6 +111,7 @@ angular.module('unearth.mapServices', [])
         lineColor: '#A00'         // Color of the circle outline if noMask is true
       });
 
+      // Creates a map in the div #map
       map = L.mapbox.map('map', mapboxLogin, {
         zoomControl: false
       });
@@ -123,12 +125,12 @@ angular.module('unearth.mapServices', [])
       // If there is no previous location, sets view to the middle of the US
       // currentPosition = JSON.parse(window.localStorage.waypoints);
       // if(!currentPosition) {
-        currentPosition = [38, -105];
+       // currentPosition = [38, -105];
       // } else {
       //   currentPosition = currentPosition[currentPosition.length - 1];
       // }
 
-      centerView();
+      //renderLayer(window.localStorage.waypoints);
     }
 
     var handleZoom = function() {
