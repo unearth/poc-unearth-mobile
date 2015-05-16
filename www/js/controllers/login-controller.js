@@ -28,6 +28,6 @@ angular.module('unearth.loginController', [])
               $scope.invalidLogin = true;
             }
           });
-      };
+      }
     };
   });
