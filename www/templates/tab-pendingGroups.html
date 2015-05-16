@@ -5,16 +5,16 @@
     </ion-nav-back-button>
   </ion-nav-bar>
   <ion-content class="has-header">
-    <ion-nav-title>Pending Requests</ion-nav-title>
+    <ion-nav-title>Pending Groups</ion-nav-title>
     <ion-list >
 
     <!-- Current Requests -->
-    <ion-item ng-repeat="request in pendingRequests | orderBy:identity" class="item-icon-left ">
-      {{request.name}}
-      <button class="button button-calm" ng-click="acceptInvite(request)">
+    <ion-item ng-repeat="pendingGroup in pendingGroups | orderBy:identity" class="item-icon-left ">
+      {{pendingGroup.name}}
+      <button class="button button-calm" ng-click="acceptInvite(pendingGroup)">
         Yes!
       </button>
-      <button class="button button-calm" ng-click="declineInvite(request)">
+      <button class="button button-calm" ng-click="declineInvite(pendingGroup)">
         No!
       </button>
     </ion-item>

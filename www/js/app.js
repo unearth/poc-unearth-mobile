@@ -108,14 +108,14 @@ angular.module('unearth', ['ionic', 'angular-jwt', 'unearth.mapController', 'une
       }
     })
 
-    .state('tab.requests', {
-      url: '/groupRequests',
+    .state('tab.pending', {
+      url: '/pendingGroups',
       data: {
         requireLogin: true
       },
       views: {
         'tab-groups': {
-          templateUrl: 'templates/tab-groupRequests.html',
+          templateUrl: 'templates/tab-pendingGroups.html',
           controller: 'GroupsController'
         }
       }
