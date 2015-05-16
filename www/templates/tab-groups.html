@@ -1,0 +1,39 @@
+<ion-view>
+  <div class="bar bar-header bar-light">
+    <h1 class="title">Expeditions</h1>
+    <div class="buttons">
+      <button class="button button-icon icon ion-ios-minus-outline" ng-click="data.showDelete = !data.showDelete;"></button>
+    </div>
+  </div>
+  <ion-content class="has-header">
+    <ion-list can-swipe="listCanSwipe" show-delete="data.showDelete">
+
+      <!-- Button to switch map view to a personal map -->
+      <ion-item href="#/tab/createGroup" class="item-icon-left">Start an Expedition</ion-item>
+
+      <!-- Pending Group Requests -->
+      <ion-item class="item-icon-left" href="#/tab/pendingGroups" >
+        <i class="icon ion-person-stalker"></i>
+        Pending Requests
+        <span class="badge badge-assertive">{{pendingGroups.length}}</span>
+      </ion-item>
+
+      <div class="item item-divider">
+        My Expeditions
+      </div>
+
+      <!-- Button to switch map view to a personal map -->
+      <ion-item ng-click="switchGroup('solo')" class="item-icon-left">Solo Expedition</ion-item>
+
+      <!-- Current Groups -->
+      <ion-item ng-click="switchGroup(group)" ng-repeat="group in groups | orderBy:identity" class="item-icon-left ">
+        <ion-delete-button class="ion-minus-circled" ng-click="leaveGroup(group)"></ion-delete-button>
+        <ion-option-button class="button-calm" ng-click="sendInvite(group)">
+          Invite An Explorer!
+        </ion-option-button>
+        {{group.name}}
+      </ion-item>
+
+    </ion-list>
+  </ion-content>
+</ion-view>

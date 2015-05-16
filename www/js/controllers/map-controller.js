@@ -25,7 +25,6 @@ angular.module('unearth.mapController', [])
       }, function(error) { console.log(error); }, positionOptions);
     });
 
-
     // Updates waypoints with the most recently accumulated gps coordinates
     $scope.$on('storage', function() {
       waypoints = JSON.parse(window.localStorage.waypoints);
@@ -36,3 +35,5 @@ angular.module('unearth.mapController', [])
       RenderMap.handleZoom();
     }
   });
+
+
