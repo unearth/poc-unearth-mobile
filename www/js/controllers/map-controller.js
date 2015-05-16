@@ -1,35 +1,38 @@
 angular.module('unearth.mapController', [])
-  .controller('MapController', function($scope, Waypoints, CoordinateFilter) {
+  .controller('MapController', function($scope, Waypoints, CoordinateFilter, RenderMap, $interval) {
 
-    var layer = L.TileLayer.maskCanvas({
-     radius: 25,               // Radius in pixels or in meters of transparent circles (see useAbsoluteRadius)
-     useAbsoluteRadius: true,  // True: r in meters, false: r in pixels
-     color: '#00000',          // The color of the fog layer
-     opacity: 0.8,             // Opacity of the fog area
-     noMask: false,            // True results in normal (filled) circled, false is for transparent circles
-     lineColor: '#A00'         // Color of the circle outline if noMask is true
-    });
+    // Sets geolocation.watchPosition options
+    var positionOptions = {timeout: 10000, maximumAge: 60000, enableHighAccuracy: true};
+    // Sets localStorage to a default coordinate if there is no local storage
+    window.localStorage.waypoints = window.localStorage.waypoints || JSON.stringify([[37, -122]]);
+    var waypoints = JSON.parse(window.localStorage.waypoints);
 
-    // Creates a map in the div #map
-    L.mapbox.accessToken = mapboxAccessToken;
-    var map = L.mapbox.map('map', mapboxLogin);
+    // Initializes the map render on load
+    RenderMap.init();
+    RenderMap.renderLayer(waypoints);
 
-    //waypoints are retreived from server and entered into local storage.
+    // Renders the fog overlay every 30 seconds
+    $interval(function() {
+      RenderMap.renderLayer(waypoints);
+    }, 30000);
+
+    // Waypoints are retreived from server and entered into local storage.
     Waypoints.getWaypoints(function(data) {
       window.localStorage.waypoints = (JSON.stringify(data.waypoints));
       //sets watch position that calls the map service when a new position is received.
       navigator.geolocation.watchPosition(function(position) {
         CoordinateFilter.handleCoordinate(position);
-      });
+      }, function(error) { console.log(error); }, positionOptions);
     });
 
-    // on change in localStorage, rerender map.
 
+    // Updates waypoints with the most recently accumulated gps coordinates
     $scope.$on('storage', function() {
-      var waypoints = JSON.parse(window.localStorage.waypoints);
-      map.removeLayer(layer);
-      layer.setData(waypoints);
-      map.addLayer(layer);
+      waypoints = JSON.parse(window.localStorage.waypoints);
     });
 
+    // Sets zoom level when zoom button is pressed
+    $scope.setZoom = function() {
+      RenderMap.handleZoom();
+    }
   });
