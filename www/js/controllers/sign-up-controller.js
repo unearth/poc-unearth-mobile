@@ -26,9 +26,9 @@ angular.module('unearth.signUpController', [])
                 $state.go('tab.map');
               } else {
                 $scope.invalidLogin = true;
-              };
+              }
             });
-        };
-      };
+        }
+      }
     };
   });
