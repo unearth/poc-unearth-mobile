@@ -1,12 +1,20 @@
 angular.module('unearth.mapController', [])
   .controller('MapController', function($scope, Waypoints, CoordinateFilter, RenderMap, $interval) {
-    // Initializes map
 
+    // Sets geolocation.watchPosition options
     var positionOptions = {timeout: 10000, maximumAge: 60000, enableHighAccuracy: true};
+    // Sets localStorage to a default coordinate if there is no local storage
     window.localStorage.waypoints = window.localStorage.waypoints || JSON.stringify([[37, -122]]);
     var waypoints = JSON.parse(window.localStorage.waypoints);
-    //console.log(waypoints);
+
+    // Initializes the map render on load
     RenderMap.init();
+    RenderMap.renderLayer(waypoints);
+
+    // Renders the fog overlay every 30 seconds
+    $interval(function() {
+      RenderMap.renderLayer(waypoints);
+    }, 30000);
 
     // Waypoints are retreived from server and entered into local storage.
     Waypoints.getWaypoints(function(data) {
@@ -18,16 +26,12 @@ angular.module('unearth.mapController', [])
     });
 
 
-    // Rerenders map on new stored waypoints
+    // Updates waypoints with the most recently accumulated gps coordinates
     $scope.$on('storage', function() {
       waypoints = JSON.parse(window.localStorage.waypoints);
     });
 
-    RenderMap.renderLayer(waypoints);
-    $interval(function() {
-      RenderMap.renderLayer(waypoints);
-    }, 30000);
-
+    // Sets zoom level when zoom button is pressed
     $scope.setZoom = function() {
       RenderMap.handleZoom();
     }

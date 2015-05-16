@@ -91,14 +91,12 @@ angular.module('unearth.mapServices', [])
   .factory('RenderMap', function() {
 
     var zoomLevel;
-
     var layer;
-
-    L.mapbox.accessToken = mapboxAccessToken;
-    var map;
-
     var currentPosition;
+    var map;
+    L.mapbox.accessToken = mapboxAccessToken;
 
+    // Load map
     var init = function() {
       zoomLevel = 13;
 
@@ -120,19 +118,9 @@ angular.module('unearth.mapServices', [])
       map.touchZoom.disable();
       map.doubleClickZoom.disable();
       map.scrollWheelZoom.disable();
-
-      // Sets initial map view to previously stored location
-      // If there is no previous location, sets view to the middle of the US
-      // currentPosition = JSON.parse(window.localStorage.waypoints);
-      // if(!currentPosition) {
-       // currentPosition = [38, -105];
-      // } else {
-      //   currentPosition = currentPosition[currentPosition.length - 1];
-      // }
-
-      //renderLayer(window.localStorage.waypoints);
     }
 
+    // Sets zoom level to wide or zoom and centers view on current position
     var handleZoom = function() {
       if(zoomLevel === 13) {
         zoomLevel = 18;
@@ -142,14 +130,17 @@ angular.module('unearth.mapServices', [])
       centerView();
     }
 
+    // Draws the fog overlay and centers the map on the most recent coordinate
     var renderLayer = function(waypoints) {
       map.removeLayer(layer);
       layer.setData(waypoints);
       map.addLayer(layer);
+
       currentPosition = waypoints[waypoints.length - 1];
       centerView();
     }
 
+    // Centers map on current position
     var centerView = function() {
       map.setView(currentPosition, zoomLevel);
     }
@@ -161,6 +152,3 @@ angular.module('unearth.mapServices', [])
       centerView: centerView
     }
   });
-// Logout does a post request to server for waypointsToBe.
-// WaypointsToBeSent needs to be stored in local storage.
-//
