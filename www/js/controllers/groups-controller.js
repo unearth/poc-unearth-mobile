@@ -48,7 +48,7 @@ angular.module('unearth.groupsController', [])
         if(error){
           console.log('didn\'t work!');
         } else{
-          window.localStorage.set('currentExpedition', JSON.parse(group.id));
+          window.localStorage.set('currentExpedition', JSON.stringify(group.id));
 
           $state.go('tab.groups');
         }
@@ -57,7 +57,7 @@ angular.module('unearth.groupsController', [])
 
     $scope.switchGroup = function(group) {
       // Set maps to show
-      window.localStorage.setItem('currentExpedition', JSON.parse(group.id));
+      window.localStorage.setItem('currentExpedition', JSON.stringify(group.id));
       $state.go('tab.map');
     };
 
