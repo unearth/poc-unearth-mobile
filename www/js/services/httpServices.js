@@ -88,6 +88,21 @@ angular.module('unearth.httpServices', [])
 
   .factory('Group', function($http) {
 
+    var getGroupWaypoints = function(callback) {
+      return $http({
+        method: 'GET',
+        url: 'http://162.243.134.216:3000/group/waypoints',
+        processData: false,
+        headers: {'Content-Type': 'application/JSON'}
+      })
+      .then(function(respose) {
+        window.localStorage.waypoints = response.data;
+
+
+        callback(response.data);
+      });
+    };
+
     var getGroups = function(callback) {
       return $http({
         method: 'GET',
@@ -131,23 +146,23 @@ angular.module('unearth.httpServices', [])
         callback(response.data);
       });
 
-      var groupCreate = function(groupID, callback) {
-        return $http({
-          method: 'POST',
-          url: 'http://162.243.134.216:3000/group/create',
-          processData: false,
-          data: {
-            groupID: groupID
-          },
-          headers: {'Content-Type':'application/JSON'}
-        })
-        .then(function(response) {
-          callback(response.data);
-        });
-      };
+    var groupCreate = function(groupID, callback) {
+      return $http({
+        method: 'POST',
+        url: 'http://162.243.134.216:3000/group/create',
+        processData: false,
+        data: {
+          groupID: groupID
+        },
+        headers: {'Content-Type':'application/JSON'}
+      })
+      .then(function(response) {
+        callback(response.data);
+      });
     };
 
     return {
+      getGroupWaypoints: getGroupWaypoints,
       getGroups: getGroups,
       groupInvite: groupInvite,
       groupJoin: groupJoin,
