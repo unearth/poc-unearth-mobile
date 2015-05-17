@@ -1,0 +1,24 @@
+<ion-view>
+  <ion-nav-bar class="bar bar-header bar-light">
+    <ion-nav-back-button class="button-clear" ng-click="myGoBack()">
+      <i class="ion-arrow-left-c"></i> Back
+    </ion-nav-back-button>
+  </ion-nav-bar>
+  <ion-content class="has-header">
+    <ion-nav-title>Pending Groups</ion-nav-title>
+    <ion-list >
+
+    <!-- Current Requests -->
+    <ion-item ng-repeat="pendingGroup in pendingGroups | orderBy:identity" class="item-icon-left ">
+      {{pendingGroup.name}}
+      <button class="button button-calm" ng-click="acceptInvite(pendingGroup)">
+        Yes!
+      </button>
+      <button class="button button-calm" ng-click="declineInvite(pendingGroup)">
+        No!
+      </button>
+    </ion-item>
+
+    </ion-list>
+  </ion-content>
+</ion-view>

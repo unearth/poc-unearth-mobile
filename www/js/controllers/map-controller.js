@@ -1,5 +1,5 @@
 angular.module('unearth.mapController', [])
-  .controller('MapController', function($scope, Waypoints, CoordinateFilter, RenderMap, $interval) {
+  .controller('MapController', function($scope, Waypoints, CoordinateFilter, RenderMap, $interval, Group) {
 
     // Sets geolocation.watchPosition options
     var positionOptions = {timeout: 10000, maximumAge: 60000, enableHighAccuracy: true};
@@ -32,25 +32,29 @@ angular.module('unearth.mapController', [])
       waypoints = JSON.parse(window.localStorage.waypoints);
 
       if (window.localStorage.currentExpedition !== 'solo') {
-        getGroupWaypoints(window.localStorage.currentExpedition, function(group) {
+        Group.getGroupWaypoints(window.localStorage.currentExpedition, function(group) {
           window.localStorage.setItem('groupWaypoints', group.waypoints);
           waypoints.concat(window.localStorage.getItem('groupWaypoints'));
         });
       }
       // Sets watch position that calls the map service when a new position is received.
       navigator.geolocation.watchPosition(function(position) {
+        var currentCoordinates = [position.coords.latitude, position.coords.longitude];
+        RenderService.setView(currentCoordinates);
         CoordinateFilter.handleCoordinate(position);
 
       }, function(error) { console.log(error); }, positionOptions);
     });
 
-
-
-
     // Sets zoom level when zoom button is pressed
     $scope.setZoom = function() {
       RenderMap.handleZoom();
     };
+
+    $scope.setZoom = function() {
+      $scope.active = !$scope.active;
+      RenderService.handleZoom($scope.active);
+    }
 
   });
 

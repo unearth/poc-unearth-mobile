@@ -58,13 +58,13 @@ angular.module('unearth.mapServices', [])
     }
 
     // Calculate the distance between 2 waypoints, given their latitudes and longitudes, return distance in miles.
-    var calcDistance = function(pt1, pt2) {
+    var calcDistance = function(point1, point2) {
 
       var R = 6371; // Earth radius, in km.
-      var lat1 = pt1[0];
-      var lon1 = pt1[1];
-      var lat2 = pt2[0];
-      var lon2 = pt2[1];
+      var lat1 = point1[0];
+      var lon1 = point1[1];
+      var lat2 = point2[0];
+      var lon2 = point2[1];
 
       var dLat = (lat2 - lat1).toRad();
       var dLon = (lon2 - lon1).toRad();
@@ -74,7 +74,7 @@ angular.module('unearth.mapServices', [])
       var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
               Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
       var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      var distance = R * c * 0.621371; // convert distance from km to miles
+      var distance = R * c * 0.621371; // Converts distance from km to miles
       return distance;
     };
 
