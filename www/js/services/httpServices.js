@@ -28,12 +28,13 @@ angular.module('unearth.httpServices', [])
       }, loginError);
     };
 
-    var signUp = function(email, password) {
+    var signUp = function(email, password, username) {
       return $http({
         method: 'POST',
         url: 'http://162.243.134.216:3000/signup',
         processData: false,
         data: {
+          username: username,
           email: email,
           password: password
           },

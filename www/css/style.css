@@ -85,8 +85,7 @@ font-style: italic;
   border-radius: 3px;
 }
 
-input[type="email"],
-input[type="password"] {
+input {
   color: white;
   font-weight: 900;
   font-size: 18px;

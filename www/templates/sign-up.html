@@ -12,6 +12,24 @@
         novalidate
         class="simple-form">
 
+        <!-- Username Input -->
+        <div
+          class="item item-input form form-input"
+          ng-class= "{'has-error' : signUpForm.$invalid, 'no-error' : signUpForm.$valid || !signUpForm.$submitted }">
+
+          <input
+            name="username"
+            type="text"
+            placeholder="Username"
+            ng-model="credentials.username"
+            required
+            ng-focus="clearError(signUpForm)">
+          </input>
+
+        </div>
+
+        <br>
+
         <!-- Email Input -->
         <div
           class="item item-input form form-input"
