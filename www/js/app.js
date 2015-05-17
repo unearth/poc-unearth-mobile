@@ -1,4 +1,4 @@
-angular.module('unearth', ['ionic', 'angular-jwt', 'unearth.mapController', 'unearth.signUpController', 'unearth.loginController', 'unearth.httpServices', 'unearth.settingsController', 'unearth.mapServices', 'unearth.renderServices'])
+angular.module('unearth', ['ionic', 'angular-jwt', 'unearth.mapController', 'unearth.signUpController', 'unearth.loginController', 'unearth.groupsController', 'unearth.httpServices', 'unearth.settingsController', 'unearth.mapServices'])
 
   .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
@@ -78,6 +78,45 @@ angular.module('unearth', ['ionic', 'angular-jwt', 'unearth.mapController', 'une
         'tab-map': {
           templateUrl: 'templates/tab-map.html',
           controller: 'MapController'
+        }
+      }
+    })
+
+    .state('tab.groups', {
+      url: '/groups',
+      data: {
+        requireLogin: true
+      },
+      views: {
+        'tab-groups': {
+          templateUrl: 'templates/tab-groups.html',
+          controller: 'GroupsController'
+        }
+      }
+    })
+
+    .state('tab.create', {
+      url: '/createGroup',
+      data: {
+        requireLogin: true
+      },
+      views: {
+        'tab-groups': {
+          templateUrl: 'templates/tab-createGroup.html',
+          controller: 'GroupsController'
+        }
+      }
+    })
+
+    .state('tab.pending', {
+      url: '/pendingGroups',
+      data: {
+        requireLogin: true
+      },
+      views: {
+        'tab-groups': {
+          templateUrl: 'templates/tab-pendingGroups.html',
+          controller: 'GroupsController'
         }
       }
     })

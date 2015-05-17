@@ -1,8 +1,6 @@
 <ion-view view-title="Map">
-  <div id="zoommap" ng-show="!active"></div>
-  <div id="widemap" ng-show="active"></div>
+  <div id="map"></div>
   <div id="zoomControl">
-    <button class="zoomButton" id="zoomIn" ng-click="setZoom()">+</button>
-    <button class="zoomButton" id="zoomOut" ng-click="setZoom()">-</button>
+    <button id="zoomButton" ng-click="setZoom()">±</button>
   </div>
 </ion-view>
