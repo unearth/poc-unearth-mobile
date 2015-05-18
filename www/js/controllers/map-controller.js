@@ -1,13 +1,13 @@
 angular.module('unearth.mapController', [])
-  .controller('MapController', function($scope, Waypoints, CoordinateFilter, RenderMap, $interval, Group) {
+  .controller('MapController', function($scope, Waypoints, CoordinateFilter, RenderMap, $interval, Group, $rootScope, Markers) {
 
     // Sets geolocation.watchPosition options
     var positionOptions = {timeout: 10000, maximumAge: 60000, enableHighAccuracy: true};
-    // Sets localStorage to a default coordinate if there is no local storage
 
     window.localStorage.currentExpedition = window.localStorage.currentExpedition || 'solo';
 
     var waypoints;
+    var currentPosition;
 
     // Initializes the map render on load
     RenderMap.init();
@@ -31,6 +31,7 @@ angular.module('unearth.mapController', [])
 
       waypoints = JSON.parse(window.localStorage.waypoints);
 
+      // TODO: Group waypoints are only loaded on initial load, need to continuously get group data
       if (window.localStorage.currentExpedition !== 'solo') {
         Group.getGroupWaypoints(window.localStorage.currentExpedition, function(group) {
           window.localStorage.setItem('groupWaypoints', group.waypoints);
@@ -40,6 +41,7 @@ angular.module('unearth.mapController', [])
       // Sets watch position that calls the map service when a new position is received.
       navigator.geolocation.watchPosition(function(position) {
         CoordinateFilter.handleCoordinate(position);
+        currentPosition = [position.coords.latitude, position.coords.longitude];
       }, function(error) { console.log(error); }, positionOptions);
     });
 
@@ -48,5 +50,14 @@ angular.module('unearth.mapController', [])
       RenderMap.handleZoom();
     }
 
+    var once = false;
+    $rootScope.$watch('addMarker', function() {
+      if(once) {
+        console.log('markeradd');
+        RenderMap.createMarker(currentPosition);
+      } else {
+        once = true;
+      }
+    });
   });
 

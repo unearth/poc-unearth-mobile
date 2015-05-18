@@ -129,6 +129,7 @@ angular.module('unearth.mapServices', [])
       map.touchZoom.disable();
       map.doubleClickZoom.disable();
       map.scrollWheelZoom.disable();
+
     }
 
     // Sets zoom level to wide or zoom and centers view on current position
@@ -156,12 +157,29 @@ angular.module('unearth.mapServices', [])
       map.setView(currentPosition, zoomLevel);
     };
 
+    var createMarker = function(coordinates) {
+      L.marker(coordinates).addTo(map);
+    };
+
     return {
       init: init,
       handleZoom: handleZoom,
       renderLayer: renderLayer,
-      centerView: centerView
+      centerView: centerView,
+      createMarker: createMarker
     };
 
-  });
+  })
 
+  .factory('Markers', function() {
+    var placeMarker = function() {
+      $rootScope.on('marker', function(latlng) {
+        // Create a marker with passed lat lng
+        console.log(latlng);
+      })
+    }
+
+    return {
+      placeMarker: placeMarker
+    }
+  });
