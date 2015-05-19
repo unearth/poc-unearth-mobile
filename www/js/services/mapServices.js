@@ -58,13 +58,13 @@ angular.module('unearth.mapServices', [])
     }
 
     // Calculate the distance between 2 waypoints, given their latitudes and longitudes, return distance in miles.
-    var calcDistance = function(pt1, pt2) {
+    var calcDistance = function(point1, point2) {
 
       var R = 6371; // Earth radius, in km.
-      var lat1 = pt1[0];
-      var lon1 = pt1[1];
-      var lat2 = pt2[0];
-      var lon2 = pt2[1];
+      var lat1 = point1[0];
+      var lon1 = point1[1];
+      var lat2 = point2[0];
+      var lon2 = point2[1];
 
       var dLat = (lat2 - lat1).toRad();
       var dLon = (lon2 - lon1).toRad();
@@ -74,7 +74,7 @@ angular.module('unearth.mapServices', [])
       var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
               Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
       var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      var distance = R * c * 0.621371; // convert distance from km to miles
+      var distance = R * c * 0.621371; // Converts distance from km to miles
       return distance;
     };
 
@@ -111,14 +111,6 @@ angular.module('unearth.mapServices', [])
       map = L.mapbox.map('map', mapboxLogin, {
         zoomControl: false
       });
-
-      var dummyData = [{
-        title: 'MakerSquare',
-        description: 'This place is awesome heres some info about them: MakerSquare is a 3 month full-time career accelerator for software engineering. By teaching computer science fundamentals and modern web languages like JavaScript, we prepare students to join top flight engineering teams.',
-        coords: [37.750288, -122.414675]
-      }];
-
-      displayMarkers(dummyData);
 
       // Disables zoom
       map.touchZoom.disable();
@@ -158,7 +150,27 @@ angular.module('unearth.mapServices', [])
             '<div>' + markerArr[i].description + '</div>'
             )
           .addTo(map)
-      };
+      }
+    };
+
+    var addMarkerListener = function() {
+      map.on('click', function(event) {
+        console.log('click');
+        console.log(event.latlng);
+        createMarker([event.latlng.lat, event.latlng.lng]);
+      })
+    }
+
+    var createMarker = function(coordinates) {
+      var newMarker = L.marker(coordinates).bindPopup(
+        '<form name="markerForm">' +
+        '<input name="title" type="text" value="Title"\/>' +
+        '<input name="description" type="text" value="Description"\/>' +
+        '<input type="submit" \/><\/form>'
+      );
+
+      newMarker.addTo(map);
+      newMarker.openPopup();
     };
 
     return {
@@ -167,9 +179,21 @@ angular.module('unearth.mapServices', [])
       renderLayer: renderLayer,
       centerView: centerView,
       displayMarkers: displayMarkers,
+      createMarker: createMarker,
+      addMarkerListener: addMarkerListener
     };
 
+  })
+
+  .factory('Markers', function($rootScope) {
+    var placeMarker = function() {
+      $rootScope.$on('marker', function(latlng) {
+        // Create a marker with passed lat lng
+        console.log(latlng);
+      })
+    }
+
+    return {
+      placeMarker: placeMarker
+    }
   });
-
-
-

@@ -1,14 +1,15 @@
 angular.module('unearth.mapController', [])
-  .controller('MapController', function($scope, Waypoints, CoordinateFilter, RenderMap, $interval, Group) {
+  .controller('MapController', function($scope, Waypoints, CoordinateFilter, RenderMap, $interval, Group, $rootScope, Markers) {
 
     // Sets geolocation.watchPosition options
     var positionOptions = {timeout: 10000, maximumAge: 60000, enableHighAccuracy: true};
-    // Sets localStorage to a default coordinate if there is no local storage
 
     window.localStorage.currentExpedition = window.localStorage.currentExpedition || 'solo';
 
-    var waypoints,
+    var waypoints;
     var initRender = true;
+    var waypoints;
+    var currentPosition;
 
     // Initializes the map render on load
     RenderMap.init();
@@ -16,6 +17,7 @@ angular.module('unearth.mapController', [])
     if (window.localStorage.getItem('waypoints')) {
       if (window.localStorage.getItem('waypoints') !== "[]") {
         waypoints = JSON.parse(window.localStorage.getItem('waypoints'));
+        currentPosition = waypoints[waypoints.length - 1];
         RenderMap.renderLayer(waypoints);
       }
     }
@@ -33,6 +35,7 @@ angular.module('unearth.mapController', [])
 
       waypoints = JSON.parse(window.localStorage.waypoints);
 
+      // TODO: Group waypoints are only loaded on initial load, need to continuously get group data
       if (window.localStorage.currentExpedition !== 'solo') {
         Group.getGroupWaypoints(window.localStorage.currentExpedition, function(group) {
           window.localStorage.setItem('groupWaypoints', group.waypoints);
@@ -59,5 +62,14 @@ angular.module('unearth.mapController', [])
       RenderMap.handleZoom();
     };
 
+    var once = false;
+    $rootScope.$watch('addMarker', function() {
+      if(once) {
+        console.log('markeradd');
+        RenderMap.addMarkerListener();
+      } else {
+        once = true;
+      }
+    });
   });
 

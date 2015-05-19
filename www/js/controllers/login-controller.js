@@ -18,7 +18,6 @@ angular.module('unearth.loginController', [])
     };
 
     $scope.login = function(isValid, credentials) {
-
       if (isValid) {
         Authorization.login(credentials.email, credentials.password)
           .then( function (isAuthenticated) {
