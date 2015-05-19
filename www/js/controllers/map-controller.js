@@ -1,37 +1,63 @@
 angular.module('unearth.mapController', [])
-  .controller('MapController', function($scope, Waypoints, CoordinateFilter) {
+  .controller('MapController', function($scope, Waypoints, CoordinateFilter, RenderMap, $interval, Group, $rootScope, Markers) {
 
-    var layer = L.TileLayer.maskCanvas({
-     radius: 25,               // Radius in pixels or in meters of transparent circles (see useAbsoluteRadius)
-     useAbsoluteRadius: true,  // True: r in meters, false: r in pixels
-     color: '#00000',          // The color of the fog layer
-     opacity: 0.8,             // Opacity of the fog area
-     noMask: false,            // True results in normal (filled) circled, false is for transparent circles
-     lineColor: '#A00'         // Color of the circle outline if noMask is true
-    });
+    // Sets geolocation.watchPosition options
+    var positionOptions = {timeout: 10000, maximumAge: 60000, enableHighAccuracy: true};
 
-    // Creates a map in the div #map
-    L.mapbox.accessToken = mapboxAccessToken;
-    var map = L.mapbox.map('map', mapboxLogin);
+    window.localStorage.currentExpedition = window.localStorage.currentExpedition || 'solo';
 
-    // Retreived waypoints from server insert into local storage.
+    var waypoints;
+    var currentPosition;
+
+    // Initializes the map render on load
+    RenderMap.init();
+
+    if (window.localStorage.getItem('waypoints')) {
+      if (window.localStorage.getItem('waypoints') !== "[]") {
+        waypoints = JSON.parse(window.localStorage.getItem('waypoints'));
+        RenderMap.renderLayer(waypoints);
+      }
+    }
+
+    // Renders the fog overlay every 30 seconds
+    $interval(function() {
+      waypoints = JSON.parse(window.localStorage.getItem('waypoints'));
+      RenderMap.renderLayer(waypoints);
+    }, 30000);
+
+    // Waypoints are retrieved from server and entered into local storage.
     Waypoints.getWaypoints(function(data) {
       window.localStorage.waypoints = (JSON.stringify(data.waypoints));
-      //sets watch position that calls the map service when a new position is received.
+
+      waypoints = JSON.parse(window.localStorage.waypoints);
+
+      // TODO: Group waypoints are only loaded on initial load, need to continuously get group data
+      if (window.localStorage.currentExpedition !== 'solo') {
+        Group.getGroupWaypoints(window.localStorage.currentExpedition, function(group) {
+          window.localStorage.setItem('groupWaypoints', group.waypoints);
+          waypoints.concat(window.localStorage.getItem('groupWaypoints'));
+        });
+      }
+      // Sets watch position that calls the map service when a new position is received.
       navigator.geolocation.watchPosition(function(position) {
         CoordinateFilter.handleCoordinate(position);
-      });
+        currentPosition = [position.coords.latitude, position.coords.longitude];
+      }, function(error) { console.log(error); }, positionOptions);
     });
 
-    // Rerender map for any change in localStorage.
+    // Sets zoom level when zoom button is pressed
+    $scope.setZoom = function() {
+      RenderMap.handleZoom();
+    }
 
-    $scope.$on('storage', function() {
-      var waypoints = JSON.parse(window.localStorage.waypoints);
-      map.removeLayer(layer);
-      layer.setData(waypoints);
-      map.addLayer(layer);
+    var once = false;
+    $rootScope.$watch('addMarker', function() {
+      if(once) {
+        console.log('markeradd');
+        RenderMap.createMarker(currentPosition);
+      } else {
+        once = true;
+      }
     });
-
   });
-
 

@@ -24,6 +24,7 @@ angular.module('unearth', ['ionic', 'angular-jwt', 'unearth.mapController', 'une
         }
       }
     });
+
   })
 
 
@@ -61,6 +62,7 @@ angular.module('unearth', ['ionic', 'angular-jwt', 'unearth.mapController', 'une
     })
 
     .state('tab', {
+      cache: false,
       url: '/tab',
       abstract: true,
       templateUrl: 'templates/tabs.html',

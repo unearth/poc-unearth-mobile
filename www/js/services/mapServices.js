@@ -13,21 +13,32 @@ angular.module('unearth.mapServices', [])
     };
 
     var storeCoordinate = function(coordinate) {
+      // Sets the temp variable to either an empty array if local storage is clean or the current value in local storage.
+      var temp = window.localStorage.getItem('waypoints');
+      temp = (temp === null) ? [] : JSON.parse(temp);
+      // Pushes the local storage data with the stored waypoints.
+      temp.push(coordinate);
+      // Updates local storage with new waypoints.
+      window.localStorage.setItem('waypoints', JSON.stringify(temp));
 
-        // Sets the temp variable to either an empty array if local storage is clean or the current value in local storage.
-        var temp = window.localStorage.waypoints;
-        temp = (temp === null) ? [] : JSON.parse(temp);
-        // Pushes the local storage data with the stored waypoints.
-        temp.push(coordinate);
-        // Updates local storage with new waypoints.
-        window.localStorage.waypoints = JSON.stringify(temp);
-        // Broadcasts change in local storage.
-        $rootScope.$broadcast('storage');
-
-        waypointsToBeSent.waypoints.push(coordinate);
+      waypointsToBeSent.waypoints.push(coordinate);
 
         // Checks to see if the waypoints array is 3 or more.
       if (waypointsToBeSent.waypoints.length > 2) {
+
+        //check 'currentExpedition'
+        //if 'Solo Expedition' then POST
+        //else POST then GET all waypoints from group (except for current user)
+        //set waypoints to the result of the current user waypoints and rest of the group waypoints combined
+        //store waypoints in local storage
+        //broadcast 'storage' event
+
+
+        //solo waypoints are seperate from group waypoints
+        //
+
+
+
         // Sends waypoints to the database
         Waypoints.sendWaypoints(waypointsToBeSent, function(response) {
           if (response) {
@@ -84,8 +95,91 @@ angular.module('unearth.mapServices', [])
     return {
       handleCoordinate: handleCoordinate
     };
-  });
+  })
 
-// Logout does a post request to server for waypointsToBe.
-// WaypointsToBeSent needs to be stored in local storage.
-//
+  /////////////////////////////////////////////
+  // Map Rendering functions
+  .factory('RenderMap', function() {
+
+    var zoomLevel;
+    var layer;
+    var currentPosition;
+    var map;
+    L.mapbox.accessToken = mapboxAccessToken;
+
+    // Load map
+    var init = function() {
+      zoomLevel = 13;
+
+      layer = L.TileLayer.maskCanvas({
+        radius: 25,               // Radius in pixels or in meters of transparent circles (see useAbsoluteRadius)
+        useAbsoluteRadius: true,  // True: r in meters, false: r in pixels
+        color: '#00000',          // The color of the fog layer
+        opacity: 0.8,             // Opacity of the fog area
+        noMask: false,            // True results in normal (filled) circled, false is for transparent circles
+        lineColor: '#A00'         // Color of the circle outline if noMask is true
+      });
+
+      // Creates a map in the div #map
+      map = L.mapbox.map('map', mapboxLogin, {
+        zoomControl: false
+      });
+
+      // Disables zoom
+      map.touchZoom.disable();
+      map.doubleClickZoom.disable();
+      map.scrollWheelZoom.disable();
+
+    }
+
+    // Sets zoom level to wide or zoom and centers view on current position
+    var handleZoom = function() {
+      if(zoomLevel === 13) {
+        zoomLevel = 18;
+      } else {
+        zoomLevel = 13;
+      }
+      centerView();
+    }
+
+    // Draws the fog overlay and centers the map on the most recent coordinate
+    var renderLayer = function(waypoints) {
+      map.removeLayer(layer);
+      layer.setData(waypoints);
+      map.addLayer(layer);
+      currentPosition = waypoints[waypoints.length - 1];
+      centerView();
+
+    };
+
+    // Centers map on current position
+    var centerView = function() {
+      map.setView(currentPosition, zoomLevel);
+    };
+
+    var createMarker = function(coordinates) {
+      L.marker(coordinates).addTo(map);
+    };
+
+    return {
+      init: init,
+      handleZoom: handleZoom,
+      renderLayer: renderLayer,
+      centerView: centerView,
+      createMarker: createMarker
+    };
+
+  })
+
+  .factory('Markers', function() {
+    var placeMarker = function() {
+      $rootScope.on('marker', function(latlng) {
+        // Create a marker with passed lat lng
+        console.log(latlng);
+      })
+    }
+
+    return {
+      placeMarker: placeMarker
+    }
+  });
