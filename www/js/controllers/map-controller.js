@@ -15,6 +15,7 @@ angular.module('unearth.mapController', [])
     if (window.localStorage.getItem('waypoints')) {
       if (window.localStorage.getItem('waypoints') !== "[]") {
         waypoints = JSON.parse(window.localStorage.getItem('waypoints'));
+        currentPosition = waypoints[waypoints.length - 1];
         RenderMap.renderLayer(waypoints);
       }
     }
@@ -54,7 +55,7 @@ angular.module('unearth.mapController', [])
     $rootScope.$watch('addMarker', function() {
       if(once) {
         console.log('markeradd');
-        RenderMap.createMarker(currentPosition);
+        RenderMap.addMarkerListener();
       } else {
         once = true;
       }

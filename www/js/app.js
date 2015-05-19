@@ -24,7 +24,6 @@ angular.module('unearth', ['ionic', 'angular-jwt', 'unearth.mapController', 'une
         }
       }
     });
-
   })
 
 

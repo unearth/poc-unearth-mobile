@@ -99,7 +99,7 @@ angular.module('unearth.mapServices', [])
 
   /////////////////////////////////////////////
   // Map Rendering functions
-  .factory('RenderMap', function() {
+  .factory('RenderMap', function($rootScope) {
 
     var zoomLevel;
     var layer;
@@ -157,8 +157,24 @@ angular.module('unearth.mapServices', [])
       map.setView(currentPosition, zoomLevel);
     };
 
+    var addMarkerListener = function() {
+      map.on('click', function(event) {
+        console.log('click');
+        console.log(event.latlng);
+        createMarker([event.latlng.lat, event.latlng.lng]);
+      })
+    }
+
     var createMarker = function(coordinates) {
-      L.marker(coordinates).addTo(map);
+      var newMarker = L.marker(coordinates).bindPopup(
+        '<form name="markerForm">' +
+        '<input name="title" type="text" value="Title"\/>' +
+        '<input name="description" type="text" value="Description"\/>' +
+        '<input type="submit" \/><\/form>'
+      );
+
+      newMarker.addTo(map);
+      newMarker.openPopup();
     };
 
     return {
@@ -166,14 +182,15 @@ angular.module('unearth.mapServices', [])
       handleZoom: handleZoom,
       renderLayer: renderLayer,
       centerView: centerView,
-      createMarker: createMarker
+      createMarker: createMarker,
+      addMarkerListener: addMarkerListener
     };
 
   })
 
-  .factory('Markers', function() {
+  .factory('Markers', function($rootScope) {
     var placeMarker = function() {
-      $rootScope.on('marker', function(latlng) {
+      $rootScope.$on('marker', function(latlng) {
         // Create a marker with passed lat lng
         console.log(latlng);
       })
