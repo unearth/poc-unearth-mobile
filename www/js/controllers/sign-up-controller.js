@@ -4,6 +4,7 @@ angular.module('unearth.signUpController', [])
     $scope.invalidLogin = false;
 
     $scope.credentials = {
+      username: '',
       email: '',
       password: '',
       password2: ''
@@ -20,7 +21,7 @@ angular.module('unearth.signUpController', [])
     $scope.signUp = function(isValid, credentials) {
       if (isValid) {
         if (credentials.password === credentials.password2) {
-          Authorization.signUp(credentials.email, credentials.password)
+          Authorization.signUp(credentials.email, credentials.password, credentials.username)
             .then( function (isAuthenticated) {
               if (isAuthenticated) {
                 $state.go('tab.map');

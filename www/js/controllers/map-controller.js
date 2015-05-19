@@ -8,6 +8,8 @@ angular.module('unearth.mapController', [])
 
     var waypoints;
     var currentPosition;
+    var waypoints,
+    var initRender = true;
 
     // Initializes the map render on load
     RenderMap.init();
@@ -26,6 +28,7 @@ angular.module('unearth.mapController', [])
       RenderMap.renderLayer(waypoints);
     }, 30000);
 
+
     // Waypoints are retrieved from server and entered into local storage.
     Waypoints.getWaypoints(function(data) {
       window.localStorage.waypoints = (JSON.stringify(data.waypoints));
@@ -41,15 +44,23 @@ angular.module('unearth.mapController', [])
       }
       // Sets watch position that calls the map service when a new position is received.
       navigator.geolocation.watchPosition(function(position) {
-        CoordinateFilter.handleCoordinate(position);
-        currentPosition = [position.coords.latitude, position.coords.longitude];
+        //"initRender" if-block will only be called for the initial rendering of map.
+        if (initRender) {
+          CoordinateFilter.handleCoordinate(position);
+          waypoints = JSON.parse(window.localStorage.getItem('waypoints'));
+          RenderMap.renderLayer(waypoints);
+          RenderMap.centerView()
+          initRender = false;
+        } else {
+          CoordinateFilter.handleCoordinate(position);
+        }
       }, function(error) { console.log(error); }, positionOptions);
     });
 
     // Sets zoom level when zoom button is pressed
     $scope.setZoom = function() {
       RenderMap.handleZoom();
-    }
+    };
 
     var once = false;
     $rootScope.$watch('addMarker', function() {
