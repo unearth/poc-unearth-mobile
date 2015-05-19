@@ -8,7 +8,7 @@ angular.module('unearth.mapController', [])
 
     var waypoints;
     var currentPosition;
-    var waypoints,
+    var waypoints;
     var initRender = true;
 
     // Initializes the map render on load

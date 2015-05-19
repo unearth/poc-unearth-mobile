@@ -112,14 +112,6 @@ angular.module('unearth.mapServices', [])
         zoomControl: false
       });
 
-      var dummyData = [{
-        title: 'MakerSquare',
-        description: 'This place is awesome heres some info about them: MakerSquare is a 3 month full-time career accelerator for software engineering. By teaching computer science fundamentals and modern web languages like JavaScript, we prepare students to join top flight engineering teams.',
-        coords: [37.750288, -122.414675]
-      }];
-
-      displayMarkers(dummyData);
-
       // Disables zoom
       map.touchZoom.disable();
       map.doubleClickZoom.disable();
@@ -169,6 +161,7 @@ angular.module('unearth.mapServices', [])
 
       newMarker.addTo(map);
       newMarker.openPopup();
+    }
 
     var displayMarkers = function (markerArr) {
       for (var i = 0; i < markerArr.length; i++) {
@@ -178,7 +171,7 @@ angular.module('unearth.mapServices', [])
             '<div>' + markerArr[i].description + '</div>'
             )
           .addTo(map)
-      };
+      }
     };
 
     return {
