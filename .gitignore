@@ -1,6 +1,9 @@
 node_modules/
+bower_components/
 config.js
 npm-debug.log
+platforms/
+plugins/
 
 __MACOSX
 .DS_Store
@@ -9,14 +12,13 @@ __MACOSX
 .settings
 .classpath
 .sass-cache/
+plugins/
+resources/
 
-
-*/.DS_Store
-.DS_Store
-.DS_Store?
 ._*
 .Spotlight-V100
 .Trashes
 Icon?
 ehthumbs.db
 Thumbs.db
+ionic.project
