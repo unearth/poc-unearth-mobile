@@ -92,7 +92,8 @@ angular.module('unearth.mapServices', [])
     var layer;
     var currentPosition;
     var map;
-    var createMarkerModal;
+    var modal;
+    var markerCoords;
     L.mapbox.accessToken = mapboxAccessToken;
 
     // Load map
@@ -115,8 +116,8 @@ angular.module('unearth.mapServices', [])
 
       $ionicModal.fromTemplateUrl('../../templates/marker-modal.html', {
         animation: 'slide-in-up'
-      }).then(function(modal) {
-        createMarkerModal = modal;
+      }).then(function(newModal) {
+        modal = newModal;
       })
 
       // Disables zoom
@@ -162,26 +163,53 @@ angular.module('unearth.mapServices', [])
 
     var addMarkerListener = function() {
       map.on('click', function(event) {
-
         console.log('click');
         console.log(event.latlng);
-        createMarker([event.latlng.lat, event.latlng.lng]);
+        markerCoords = [event.latlng.lat, event.latlng.lng];
+        modal.show();
+        // createMarker([event.latlng.lat, event.latlng.lng]);
       });
     }
 
-    var createMarker = function(coordinates) {
-      var newMarker = L.marker(coordinates).bindPopup(
-        '<form name="markerForm">' +
-        '<input name="title" type="text" value="Title"\/>' +
-        '<input name="description" type="text" value="Description"\/>' +
-        '<input type="submit" \/><\/form>'
+    var createMarker = function(title, description) {
+      var newMarker = L.marker(markerCoords).bindPopup(
+        ['<h1>' + title + '</h1>',
+        '<p>' + description + '</p>'].join('')
       );
       map.off('click');
       newMarker.addTo(map);
+      newMarker.openPopup();
+
+      modal.hide();
+      // Calls function to save new marker to local storage and make POST request
+      // storeMarker({
+      //   location: markerCoords,
+      //   title: 'title',
+      //   description: 'description',
+      //   groupId: window.localStorage.currentExpedition,
+      //   imageUrl: '',
+      // });
+    }
+
+    var storeMarker = function(marker) {
+      markerArray = window.localStorage.get('markers');
+      markerArray = JSON.parse(markerArray);
+      markerArray.push(marker);
+      window.localStorage.set('markers', JSON.stringify(markerArray));
+      Markers.postMarkers(marker);
+    }
+
+    var displayMarkers = function (markerArr) {
+      for (var i = 0; i < markerArr.length; i++) {
+        L.marker(markerArr[i].coords)
+          .bindPopup (
+            '<h1>' + markerArr[i].title + '</h1>' +
+            '<div>' + markerArr[i].description + '</div>'
+            )
+          .addTo(map)
+      }
       createMarkerModal.show()
     };
-
-
 
     return {
       init: init,
