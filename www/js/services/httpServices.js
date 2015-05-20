@@ -87,12 +87,15 @@ angular.module('unearth.httpServices', [])
 
   .factory('Group', function($http) {
 
-    var getGroupWaypoints = function(groupID, callback) {
+    var getGroupWaypoints = function(groupId, callback) {
       return $http({
         method: 'GET',
         url: 'http://162.243.134.216:3000/group/waypoints',
         processData: false,
-        headers: {'Content-Type': 'application/JSON'}
+        headers: {
+          'Content-Type': 'application/JSON',
+          'groupId': groupId
+        }
       })
       .then(function(respose) {
         callback(response.data);
