@@ -57,6 +57,7 @@ angular.module('unearth.mapController', [])
       }, function(error) { console.log(error); }, positionOptions);
     });
 
+
     // Sets zoom level when zoom button is pressed
     $scope.setZoom = function() {
       RenderMap.handleZoom();
