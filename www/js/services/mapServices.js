@@ -92,7 +92,8 @@ angular.module('unearth.mapServices', [])
     var layer;
     var currentPosition;
     var map;
-    var createMarkerModal;
+    var modal;
+    var markerCoords;
     L.mapbox.accessToken = mapboxAccessToken;
 
     // Load map
@@ -115,8 +116,8 @@ angular.module('unearth.mapServices', [])
 
       $ionicModal.fromTemplateUrl('../../templates/marker-modal.html', {
         animation: 'slide-in-up'
-      }).then(function(modal) {
-        createMarkerModal = modal;
+      }).then(function(newModal) {
+        modal = newModal;
       })
 
       // Disables zoom
@@ -162,15 +163,16 @@ angular.module('unearth.mapServices', [])
 
     var addMarkerListener = function() {
       map.on('click', function(event) {
-
         console.log('click');
         console.log(event.latlng);
-        createMarker([event.latlng.lat, event.latlng.lng]);
+        markerCoords = [event.latlng.lat, event.latlng.lng];
+        modal.show();
+        // createMarker([event.latlng.lat, event.latlng.lng]);
       });
     }
 
-    var createMarker = function(coordinates, title, description) {
-      var newMarker = L.marker(coordinates).bindPopup(
+    var createMarker = function(title, description) {
+      var newMarker = L.marker(markerCoords).bindPopup(
         ['<h1>' + title + '</h1>',
         '<p>' + description + '</p>'].join('')
       );
@@ -178,14 +180,15 @@ angular.module('unearth.mapServices', [])
       newMarker.addTo(map);
       newMarker.openPopup();
 
+      modal.hide();
       // Calls function to save new marker to local storage and make POST request
-      storeMarker({
-        location: coordinates,
-        title: 'title',
-        description: 'description',
-        groupId: window.localStorage.currentExpedition,
-        imageUrl: '',
-      });
+      // storeMarker({
+      //   location: markerCoords,
+      //   title: 'title',
+      //   description: 'description',
+      //   groupId: window.localStorage.currentExpedition,
+      //   imageUrl: '',
+      // });
     }
 
     var storeMarker = function(marker) {
@@ -207,8 +210,6 @@ angular.module('unearth.mapServices', [])
       }
       createMarkerModal.show()
     };
-
-
 
     return {
       init: init,
