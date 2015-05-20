@@ -1,0 +1,86 @@
+<ion-view class="content">
+
+  <div class="background"></div>
+
+
+  <ion-content class="has-header" >
+
+
+    <div class="center-form"><br>
+
+
+      <form
+        name="loginForm"
+        ng-submit="login(loginForm.$valid, credentials)"
+        novalidate
+        class="simple-form">
+
+        <!-- Email Input -->
+        <div
+          class="item item-input form form-input"
+          ng-class= "{'has-error' : loginForm.$invalid, 'no-error' : loginForm.$valid || !loginForm.$submitted }">
+
+          <input
+            name="emailAdress"
+            type="email"
+            placeholder="Email"
+            ng-model="credentials.email"
+            required
+            ng-focus="clearError(loginForm)">
+          </input>
+
+        </div>
+
+        <br>
+
+        <!-- Password Input -->
+        <div
+          class="item item-input form form-input"
+          ng-class= "{'has-error' : loginForm.$invalid, 'no-error' : loginForm.$valid || !loginForm.$submitted }">
+          <input
+            type="password"
+            placeholder="Password"
+            ng-model="credentials.password"
+            required
+            ng-focus="clearError(loginForm)">
+          </input>
+
+        </div>
+
+        <!-- Submit Button -->
+        <div class="row expand">
+          <button
+            class="submit-button"
+            type="submit">Login
+          </button>
+        </div>
+
+        <!-- Error Messages -->
+        <div>
+          <span ng-show="loginForm.$error.required && loginForm.$submitted" class="error-messages" class="error-messages">Email and Password required.</span>
+        </div>
+
+        <div>
+          <span ng-show="loginForm.$error.email && loginForm.$submitted" class="error-messages">Please enter a valid email address.</span>
+        </div>
+
+        <div>
+          <span ng-show="invalidLogin" class="error-messages">Invalid username or password.</span>
+        </div>
+
+      </form><br>
+
+    </div>
+
+    <!-- Redirect to sign up page -->
+    <div class="row">
+      <div
+        class="sign-up-link"
+        ng-click="redirectToSignUp();">I don't have an account
+      </div>
+    </div>
+
+
+  </ion-content>
+
+ </ion-view>

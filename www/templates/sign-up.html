@@ -1,0 +1,116 @@
+<ion-view class="content">
+
+  <div class="background"></div>
+
+  <ion-content class="has-header" >
+
+    <div class="center-form "><br>
+
+      <form
+        name="signUpForm"
+        ng-submit="signUp(signUpForm.$valid, credentials)"
+        novalidate
+        class="simple-form">
+
+        <!-- Username Input -->
+        <div
+          class="item item-input form form-input"
+          ng-class= "{'has-error' : signUpForm.$invalid, 'no-error' : signUpForm.$valid || !signUpForm.$submitted }">
+
+          <input
+            name="username"
+            type="text"
+            placeholder="Username"
+            ng-model="credentials.username"
+            required
+            ng-focus="clearError(signUpForm)">
+          </input>
+
+        </div>
+
+        <br>
+
+        <!-- Email Input -->
+        <div
+          class="item item-input form form-input"
+          ng-class= "{'has-error' : signUpForm.$invalid, 'no-error' : signUpForm.$valid || !signUpForm.$submitted }">
+
+          <input
+            name="emailAdress"
+            type="email"
+            placeholder="Email"
+            ng-model="credentials.email"
+            required
+            ng-focus="clearError(signUpForm)">
+          </input>
+
+        </div>
+
+        <br>
+
+        <!-- Password Input -->
+        <div
+          class="item item-input form form-input"
+          ng-class= "{'has-error' : signUpForm.$invalid, 'no-error' : signUpForm.$valid || !signUpForm.$submitted }">
+
+          <input
+            type="password"
+            placeholder="Password"
+            ng-model="credentials.password"
+            required
+            ng-focus="clearError(signUpForm)">
+          </input>
+
+        </div>
+
+        <br>
+
+        <!-- Password2 Input -->
+        <div
+          class="item item-input form form-input"
+          ng-class="{'has-error' : signUpForm.$invalid, 'no-error' : signUpForm.$valid || !signUpForm.$submitted }">
+
+          <input
+            type="password"
+            placeholder="Confirm your Password"
+            ng-model="credentials.password2"
+            required
+            ng-focus="clearError(signUpForm)">
+          </input>
+
+        </div>
+
+        <!-- Submit Button -->
+        <div class="row expand">
+
+          <button
+            class="submit-button"
+            type="submit">Sign Up
+          </button>
+
+       </div>
+
+       <!-- Error Messages -->
+        <div>
+          <span ng-show="signUpForm.$error.required && signUpForm.$submitted" class="error-messages">Email and Password required.</span>
+        </div>
+
+        <div>
+          <span ng-show="signUpForm.$error.email && signUpForm.$submitted" class="error-messages">Please enter a valid email address.</span>
+        </div>
+
+        <div>
+          <span ng-show="invalidLogin" class="error-messages">Invalid username or password.</span>
+        </div>
+
+      </form><br>
+
+    </div>
+
+    <div class="row">
+      <span class="sign-up-link" ng-click="redirectToLogin();">I already have an account</span>
+    </div>
+
+  </ion-content>
+
+</ion-view>
