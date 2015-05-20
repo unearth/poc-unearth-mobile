@@ -86,12 +86,13 @@ angular.module('unearth.mapServices', [])
 
   /////////////////////////////////////////////
   // Map Rendering functions
-  .factory('RenderMap', function($rootScope) {
+  .factory('RenderMap', function($rootScope, Markers, $ionicModal) {
 
     var zoomLevel;
     var layer;
     var currentPosition;
     var map;
+    var createMarkerModal;
     L.mapbox.accessToken = mapboxAccessToken;
 
     // Load map
@@ -111,6 +112,12 @@ angular.module('unearth.mapServices', [])
       map = L.mapbox.map('map', mapboxLogin, {
         zoomControl: false
       });
+
+      $ionicModal.fromTemplateUrl('../../templates/marker-modal.html', {
+        animation: 'slide-in-up'
+      }).then(function(modal) {
+        createMarkerModal = modal;
+      })
 
       // Disables zoom
       map.touchZoom.disable();
@@ -146,19 +153,20 @@ angular.module('unearth.mapServices', [])
       for (var i = 0; i < markerArr.length; i++) {
         L.marker(markerArr[i].coords)
           .bindPopup (
-            '<h1>' + markerArr[i].title + '</h1>' +
-            '<div>' + markerArr[i].description + '</div>'
-            )
+            ['<h1>', markerArr[i].title, '</h1>',
+            '<div>', markerArr[i].description, '</div>'
+            ].join(''))
           .addTo(map)
       }
     };
 
     var addMarkerListener = function() {
       map.on('click', function(event) {
+
         console.log('click');
         console.log(event.latlng);
         createMarker([event.latlng.lat, event.latlng.lng]);
-      })
+      });
     }
 
     var createMarker = function(coordinates) {
@@ -168,10 +176,12 @@ angular.module('unearth.mapServices', [])
         '<input name="description" type="text" value="Description"\/>' +
         '<input type="submit" \/><\/form>'
       );
-
+      map.off('click');
       newMarker.addTo(map);
-      newMarker.openPopup();
+      createMarkerModal.show()
     };
+
+
 
     return {
       init: init,
@@ -191,7 +201,7 @@ angular.module('unearth.mapServices', [])
         // Create a marker with passed lat lng
         console.log(latlng);
       })
-    }
+    };
 
     return {
       placeMarker: placeMarker
