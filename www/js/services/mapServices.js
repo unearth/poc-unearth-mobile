@@ -26,19 +26,6 @@ angular.module('unearth.mapServices', [])
         // Checks to see if the waypoints array is 3 or more.
       if (waypointsToBeSent.waypoints.length > 2) {
 
-        //check 'currentExpedition'
-        //if 'Solo Expedition' then POST
-        //else POST then GET all waypoints from group (except for current user)
-        //set waypoints to the result of the current user waypoints and rest of the group waypoints combined
-        //store waypoints in local storage
-        //broadcast 'storage' event
-
-
-        //solo waypoints are seperate from group waypoints
-        //
-
-
-
         // Sends waypoints to the database
         Waypoints.sendWaypoints(waypointsToBeSent, function(response) {
           if (response) {
@@ -99,7 +86,7 @@ angular.module('unearth.mapServices', [])
 
   /////////////////////////////////////////////
   // Map Rendering functions
-  .factory('RenderMap', function() {
+  .factory('RenderMap', function($rootScope) {
 
     var zoomLevel;
     var layer;
@@ -109,7 +96,7 @@ angular.module('unearth.mapServices', [])
 
     // Load map
     var init = function() {
-      zoomLevel = 13;
+      zoomLevel = 12;
 
       layer = L.TileLayer.maskCanvas({
         radius: 25,               // Radius in pixels or in meters of transparent circles (see useAbsoluteRadius)
@@ -125,22 +112,30 @@ angular.module('unearth.mapServices', [])
         zoomControl: false
       });
 
+      var dummyData = [{
+        title: 'MakerSquare',
+        description: 'This place is awesome heres some info about them: MakerSquare is a 3 month full-time career accelerator for software engineering. By teaching computer science fundamentals and modern web languages like JavaScript, we prepare students to join top flight engineering teams.',
+        coords: [37.750288, -122.414675]
+      }];
+
+      displayMarkers(dummyData);
+
       // Disables zoom
       map.touchZoom.disable();
       map.doubleClickZoom.disable();
       map.scrollWheelZoom.disable();
 
-    }
+    };
 
     // Sets zoom level to wide or zoom and centers view on current position
     var handleZoom = function() {
-      if(zoomLevel === 13) {
-        zoomLevel = 18;
+      if(zoomLevel === 16) {
+        zoomLevel = 14;
       } else {
-        zoomLevel = 13;
+        zoomLevel = 16;
       }
       centerView();
-    }
+    };
 
     // Draws the fog overlay and centers the map on the most recent coordinate
     var renderLayer = function(waypoints) {
@@ -148,9 +143,8 @@ angular.module('unearth.mapServices', [])
       layer.setData(waypoints);
       map.addLayer(layer);
       currentPosition = waypoints[waypoints.length - 1];
-      centerView();
-
     };
+
 
     // Centers map on current position
     var centerView = function() {
@@ -159,6 +153,15 @@ angular.module('unearth.mapServices', [])
 
     var createMarker = function(coordinates) {
       L.marker(coordinates).addTo(map);
+    var displayMarkers = function (markerArr) {
+      for (var i = 0; i < markerArr.length; i++) {
+        L.marker(markerArr[i].coords)
+          .bindPopup (
+            '<h1>' + markerArr[i].title + '</h1>' +
+            '<div>' + markerArr[i].description + '</div>'
+            )
+          .addTo(map)
+      };
     };
 
     return {
@@ -167,6 +170,7 @@ angular.module('unearth.mapServices', [])
       renderLayer: renderLayer,
       centerView: centerView,
       createMarker: createMarker
+      displayMarkers: displayMarkers,
     };
 
   })
