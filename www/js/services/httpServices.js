@@ -61,22 +61,21 @@ angular.module('unearth.httpServices', [])
         window.localStorage.setItem('markers', response.data);
         return true;
       },
-
       //If error return false.
       function(){return false});
     }
 
-    var postMarkers = function() {
+    var postMarkers = function(marker) {
       return $http({
         method: 'POST',
         url: 'http://162.243.134.216:3000/marker',
+        data: marker,
         processData: false,
         header: {'Content-Type':'application/JSON'}
       })
       .then(function(response) {
         return true;
       },
-
       //If error return false.
       function(){return false});
     }

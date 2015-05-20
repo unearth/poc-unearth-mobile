@@ -86,7 +86,7 @@ angular.module('unearth.mapServices', [])
 
   /////////////////////////////////////////////
   // Map Rendering functions
-  .factory('RenderMap', function($rootScope) {
+  .factory('RenderMap', function($rootScope, Markers) {
 
     var zoomLevel;
     var layer;
@@ -147,20 +147,36 @@ angular.module('unearth.mapServices', [])
       map.on('click', function(event) {
         console.log('click');
         console.log(event.latlng);
-        createMarker([event.latlng.lat, event.latlng.lng]);
+        createMarker([event.latlng.lat, event.latlng.lng], 'This is the title', 'this is the description');
       })
     }
 
-    var createMarker = function(coordinates) {
+    var createMarker = function(coordinates, title, description) {
       var newMarker = L.marker(coordinates).bindPopup(
-        '<form name="markerForm">' +
-        '<input name="title" type="text" value="Title"\/>' +
-        '<input name="description" type="text" value="Description"\/>' +
-        '<input type="submit" \/><\/form>'
+        ['<h1>' + title + '</h1>',
+        '<p>' + description + '</p>'].join('')
       );
 
       newMarker.addTo(map);
       newMarker.openPopup();
+      map.off('click');
+
+      // Calls function to save new marker to local storage and make POST request
+      storeMarker({
+        location: coordinates,
+        title: 'title',
+        description: 'description',
+        groupId: window.localStorage.currentExpedition,
+        imageUrl: '',
+      });
+    }
+
+    var storeMarker = function(marker) {
+      markerArray = window.localStorage.get('markers');
+      markerArray = JSON.parse(markerArray);
+      markerArray.push(marker);
+      window.localStorage.set('markers', JSON.stringify(markerArray));
+      Markers.postMarkers(marker);
     }
 
     var displayMarkers = function (markerArr) {
