@@ -86,12 +86,13 @@ angular.module('unearth.mapServices', [])
 
   /////////////////////////////////////////////
   // Map Rendering functions
-  .factory('RenderMap', function($rootScope, Markers) {
+  .factory('RenderMap', function($rootScope, Markers, $ionicModal) {
 
     var zoomLevel;
     var layer;
     var currentPosition;
     var map;
+    var createMarkerModal;
     L.mapbox.accessToken = mapboxAccessToken;
 
     // Load map
@@ -112,11 +113,16 @@ angular.module('unearth.mapServices', [])
         zoomControl: false
       });
 
+      $ionicModal.fromTemplateUrl('../../templates/marker-modal.html', {
+        animation: 'slide-in-up'
+      }).then(function(modal) {
+        createMarkerModal = modal;
+      })
+
       // Disables zoom
       map.touchZoom.disable();
       map.doubleClickZoom.disable();
       map.scrollWheelZoom.disable();
-
     };
 
     // Sets zoom level to wide or zoom and centers view on current position
@@ -143,12 +149,24 @@ angular.module('unearth.mapServices', [])
       map.setView(currentPosition, zoomLevel);
     };
 
+    var displayMarkers = function (markerArr) {
+      for (var i = 0; i < markerArr.length; i++) {
+        L.marker(markerArr[i].coords)
+          .bindPopup (
+            ['<h1>', markerArr[i].title, '</h1>',
+            '<div>', markerArr[i].description, '</div>'
+            ].join(''))
+          .addTo(map)
+      }
+    };
+
     var addMarkerListener = function() {
       map.on('click', function(event) {
+
         console.log('click');
         console.log(event.latlng);
-        createMarker([event.latlng.lat, event.latlng.lng], 'This is the title', 'this is the description');
-      })
+        createMarker([event.latlng.lat, event.latlng.lng]);
+      });
     }
 
     var createMarker = function(coordinates, title, description) {
@@ -156,10 +174,9 @@ angular.module('unearth.mapServices', [])
         ['<h1>' + title + '</h1>',
         '<p>' + description + '</p>'].join('')
       );
-
+      map.off('click');
       newMarker.addTo(map);
       newMarker.openPopup();
-      map.off('click');
 
       // Calls function to save new marker to local storage and make POST request
       storeMarker({
@@ -188,16 +205,19 @@ angular.module('unearth.mapServices', [])
             )
           .addTo(map)
       }
+      createMarkerModal.show()
     };
+
+
 
     return {
       init: init,
       handleZoom: handleZoom,
       renderLayer: renderLayer,
       centerView: centerView,
+      displayMarkers: displayMarkers,
       createMarker: createMarker,
-      addMarkerListener: addMarkerListener,
-      displayMarkers: displayMarkers
+      addMarkerListener: addMarkerListener
     };
 
   })
@@ -208,7 +228,7 @@ angular.module('unearth.mapServices', [])
         // Create a marker with passed lat lng
         console.log(latlng);
       })
-    }
+    };
 
     return {
       placeMarker: placeMarker

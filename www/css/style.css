@@ -50,6 +50,11 @@
   margin: 0 auto;
 }
 
+.center {
+  display: block;
+  margin: 0 auto;
+}
+
 .center-form {
   margin: 145px auto 30px auto;
   width: 80%;
@@ -122,4 +127,25 @@ input::-webkit-input-placeholder {
   top:10px;
   right:10px;
   z-index:1000;
+}
+
+.title-modal {
+  height: 2em;
+}
+
+.header-modal {
+  font-size: 20px;
+}
+
+.text-box-modal {
+  height: 13em;
+}
+
+.shrink-left {
+  width: .5em;
+}
+
+.modal-break {
+  display: block;
+  height: 5em;
 }

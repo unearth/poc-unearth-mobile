@@ -7,9 +7,9 @@ angular.module('unearth.mapController', [])
     window.localStorage.currentExpedition = window.localStorage.currentExpedition || 'solo';
 
     var waypoints;
-    var currentPosition;
-    var waypoints;
     var initRender = true;
+    var waypoints;
+    var currentPosition;
 
     // Initializes the map render on load
     RenderMap.init();
@@ -56,6 +56,7 @@ angular.module('unearth.mapController', [])
         }
       }, function(error) { console.log(error); }, positionOptions);
     });
+
 
     // Sets zoom level when zoom button is pressed
     $scope.setZoom = function() {
