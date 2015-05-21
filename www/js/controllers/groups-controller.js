@@ -27,7 +27,7 @@ angular.module('unearth.groupsController', [])
       // ]
 
     Group.getGroups(function(groupsData) {
-      //$scope.groupsData = groupsData;
+      $scope.groupsData = groupsData;
     });
 
     $scope.credentials = {
@@ -44,20 +44,6 @@ angular.module('unearth.groupsController', [])
 
     $scope.myGoBack = function() {
       $ionicHistory.goBack();
-    };
-
-    $scope.createGroup = function(group) {
-      // DEBUG: Not sure that the http callback will return error, response -> look in httpServices
-      Group.groupCreate(group.name, group.description, function(response, error) {
-        if(error){
-          console.log('didn\'t work!');
-        } else{
-          // window.localStorage.setItem('currentExpedition', JSON.stringify(group.id));
-          $scope.groupsData = [group];
-          debugger;
-          $state.go('tab.groups');
-        }
-      });
     };
 
     $scope.switchGroup = function(group) {

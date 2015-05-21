@@ -131,10 +131,12 @@ input::-webkit-input-placeholder {
 
 .title-modal {
   height: 2em;
+  text-shadow: #aaa 2px 2px 2px;
 }
 
 .header-modal {
   font-size: 20px;
+  text-shadow: #aaa 2px 2px 2px;
 }
 
 .text-box-modal {
@@ -148,4 +150,21 @@ input::-webkit-input-placeholder {
 .modal-break {
   display: block;
   height: 5em;
+}
+
+.modal-wrapper {
+
+}
+
+@media (max-width: 680px) {
+  .modal {
+    top: 20%;
+    left: 10%;
+    min-height: 60%;
+    width: 80%;
+  }
+}
+
+.text-shadow {
+  text-shadow: #aaa 2px 2px 2px;
 }
