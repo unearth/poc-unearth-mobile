@@ -145,3 +145,4 @@ angular.module('unearth', ['ionic', 'angular-jwt', 'unearth.mapController', 'une
     //that would prevent CORS from working
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
   });
+
