@@ -1,3 +1,4 @@
+
 angular.module('unearth.modalController', [])
   .controller('ModalController', function($scope, RenderMap) {
     $scope.contact = {
