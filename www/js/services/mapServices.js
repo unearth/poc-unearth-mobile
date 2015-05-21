@@ -86,12 +86,14 @@ angular.module('unearth.mapServices', [])
 
   /////////////////////////////////////////////
   // Map Rendering functions
-  .factory('RenderMap', function($rootScope) {
+  .factory('RenderMap', function($rootScope, Markers, $ionicModal) {
 
     var zoomLevel;
     var layer;
     var currentPosition;
     var map;
+    var modal;
+    var markerCoords;
     L.mapbox.accessToken = mapboxAccessToken;
 
     // Load map
@@ -112,13 +114,11 @@ angular.module('unearth.mapServices', [])
         zoomControl: false
       });
 
-      var dummyData = [{
-        title: 'MakerSquare',
-        description: 'This place is awesome heres some info about them: MakerSquare is a 3 month full-time career accelerator for software engineering. By teaching computer science fundamentals and modern web languages like JavaScript, we prepare students to join top flight engineering teams.',
-        coords: [37.750288, -122.414675]
-      }];
-
-      displayMarkers(dummyData);
+      $ionicModal.fromTemplateUrl('../../templates/marker-modal.html', {
+        animation: 'slide-in-up'
+      }).then(function(newModal) {
+        modal = newModal;
+      })
 
       // Disables zoom
       map.touchZoom.disable();
@@ -153,6 +153,57 @@ angular.module('unearth.mapServices', [])
 
     var createMarker = function(coordinates) {
       L.marker(coordinates).addTo(map);
+    };
+
+    var displayMarkers = function (markerArr) {
+      for (var i = 0; i < markerArr.length; i++) {
+        L.marker(markerArr[i].coords)
+          .bindPopup (
+            ['<h1>', markerArr[i].title, '</h1>',
+            '<div>', markerArr[i].description, '</div>'
+            ].join(''))
+          .addTo(map)
+      }
+    };
+
+    var addMarkerListener = function() {
+      map.on('click', function(event) {
+        console.log('click');
+        console.log(event.latlng);
+        markerCoords = [event.latlng.lat, event.latlng.lng];
+        modal.show();
+        // createMarker([event.latlng.lat, event.latlng.lng]);
+      });
+    }
+
+    var createMarker = function(title, description) {
+      var newMarker = L.marker(markerCoords).bindPopup(
+        ['<h1>' + title + '</h1>',
+        '<p>' + description + '</p>'].join('')
+      );
+      map.off('click');
+      newMarker.addTo(map);
+      newMarker.openPopup();
+
+      modal.hide();
+      // Calls function to save new marker to local storage and make POST request
+      // storeMarker({
+      //   location: markerCoords,
+      //   title: 'title',
+      //   description: 'description',
+      //   groupId: window.localStorage.currentExpedition,
+      //   imageUrl: '',
+      // });
+    }
+
+    var storeMarker = function(marker) {
+      markerArray = window.localStorage.get('markers');
+      markerArray = JSON.parse(markerArray);
+      markerArray.push(marker);
+      window.localStorage.setItem('markers', JSON.stringify(markerArray));
+      Markers.postMarkers(marker);
+    }
+
     var displayMarkers = function (markerArr) {
       for (var i = 0; i < markerArr.length; i++) {
         L.marker(markerArr[i].coords)
@@ -161,7 +212,9 @@ angular.module('unearth.mapServices', [])
             '<div>' + markerArr[i].description + '</div>'
             )
           .addTo(map)
-      };
+
+      }
+      createMarkerModal.show()
     };
 
     return {
@@ -169,19 +222,21 @@ angular.module('unearth.mapServices', [])
       handleZoom: handleZoom,
       renderLayer: renderLayer,
       centerView: centerView,
-      createMarker: createMarker
       displayMarkers: displayMarkers,
+      createMarker: createMarker,
+      addMarkerListener: addMarkerListener
     };
 
   })
 
-  .factory('Markers', function() {
+
+  .factory('Markers', function($rootScope) {
     var placeMarker = function() {
-      $rootScope.on('marker', function(latlng) {
+      $rootScope.$on('marker', function(latlng) {
         // Create a marker with passed lat lng
         console.log(latlng);
       })
-    }
+    };
 
     return {
       placeMarker: placeMarker

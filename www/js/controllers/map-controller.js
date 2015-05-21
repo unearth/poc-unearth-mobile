@@ -1,15 +1,16 @@
 angular.module('unearth.mapController', [])
   .controller('MapController', function($scope, Waypoints, CoordinateFilter, RenderMap, $interval, Group, $rootScope, Markers) {
 
-
     // Sets geolocation.watchPosition options
-    var positionOptions = {timeout: 10000, maximumAge: 60000, enableHighAccuracy: true};
+    var positionOptions = {timeout: 10000, maximumAge: 60000, enableHighAccuracy: false};
 
-    window.localStorage.currentExpedition = window.localStorage.currentExpedition || 'solo';
+    if (!window.localStorage.getItem('currentExpedition')) {
+      window.localStorage.setItem('currentExpedition', 'solo');
+    }
 
+    var initRender = true;
     var waypoints;
     var currentPosition;
-    var initRender = true;
 
     // Initializes the map render on load
     RenderMap.init();
@@ -17,6 +18,7 @@ angular.module('unearth.mapController', [])
     if (window.localStorage.getItem('waypoints')) {
       if (window.localStorage.getItem('waypoints') !== "[]") {
         waypoints = JSON.parse(window.localStorage.getItem('waypoints'));
+        currentPosition = waypoints[waypoints.length - 1];
         RenderMap.renderLayer(waypoints);
       }
     }
@@ -35,8 +37,8 @@ angular.module('unearth.mapController', [])
       waypoints = JSON.parse(window.localStorage.waypoints);
 
       // TODO: Group waypoints are only loaded on initial load, need to continuously get group data
-      if (window.localStorage.currentExpedition !== 'solo') {
-        Group.getGroupWaypoints(window.localStorage.currentExpedition, function(group) {
+      if (window.localStorage.getItem('currentExpedition') !== "undefined" && window.localStorage.getItem('currentExpedition') !== 'solo') {
+        Group.getGroupWaypoints(window.localStorage.getItem('groupId'), function(group) {
           window.localStorage.setItem('groupWaypoints', group.waypoints);
           waypoints.concat(window.localStorage.getItem('groupWaypoints'));
         });
@@ -56,6 +58,7 @@ angular.module('unearth.mapController', [])
       }, function(error) { console.log(error); }, positionOptions);
     });
 
+
     // Sets zoom level when zoom button is pressed
     $scope.setZoom = function() {
       RenderMap.handleZoom();
@@ -65,7 +68,7 @@ angular.module('unearth.mapController', [])
     $rootScope.$watch('addMarker', function() {
       if(once) {
         console.log('markeradd');
-        RenderMap.createMarker(currentPosition);
+        RenderMap.addMarkerListener();
       } else {
         once = true;
       }
