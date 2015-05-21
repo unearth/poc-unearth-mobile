@@ -1,4 +1,4 @@
-angular.module('unearth.groupsController', [])
+angular.module('unearth.modalController', [])
   .controller('ModalController', function($scope, RenderMap) {
     $scope.contact = {
       title: '',
