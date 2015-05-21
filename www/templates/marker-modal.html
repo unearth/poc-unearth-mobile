@@ -6,7 +6,7 @@
       <div class="list">
         <label class="item item-input">
           <span class="input-label title-modal shrink-left">Title:</span>
-          <input type="text" ng-model="contact.title">
+          <input type="text" ng-model="contact.title" autofocus required>
         </label>
         <div class="modal-break"></div>
         <label class="item item-input">
@@ -15,7 +15,7 @@
         </label>
       </div>
       <div>
-        <button class="center button button-energized" ng-click="closeModal()">Done</button>
+        <button class="center button button-energized text-shadow" ng-click="closeModal()" required>Done</button>
       </div>
     </ion-content>
   </div>

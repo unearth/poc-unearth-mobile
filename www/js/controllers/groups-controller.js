@@ -52,9 +52,18 @@ angular.module('unearth.groupsController', [])
         if(error){
           console.log('didn\'t work!');
         } else{
-          // window.localStorage.setItem('currentExpedition', JSON.stringify(group.id));
-          $scope.groupsData = [group];
-          debugger;
+          // DEBUG: Expeditions do not populate when we click on expeditions tab.
+          if (!window.localStorage.getItem('expeditions')) {
+            window.localStorage.setItem('expeditions', JSON.stringify([group]));
+          } else {
+            var expeditions = JSON.parse(window.localStorage.getItem('expeditions'));
+            expeditions.push(group);
+
+            window.localStorage.setItem('expeditions', JSON.stringify(expeditions));
+
+            // DEBUG: Need to receive group id from response.
+            window.localStorage.setItem('currentExpedition', JSON.stringify(group.id));
+          }
           $state.go('tab.groups');
         }
       });
