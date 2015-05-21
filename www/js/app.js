@@ -1,4 +1,4 @@
-angular.module('unearth', ['ionic', 'angular-jwt', 'unearth.mapController', 'unearth.signUpController', 'unearth.loginController', 'unearth.groupsController', 'unearth.httpServices', 'unearth.settingsController', 'unearth.mapServices', 'unearth.modalController'])
+angular.module('unearth', ['ionic', 'angular-jwt', 'unearth.mapController', 'unearth.signUpController', 'unearth.loginController', 'unearth.groupsController', 'unearth.httpServices', 'unearth.settingsController', 'unearth.mapServices', 'unearth.modalController', 'unearth.createGroupController'])
 
   .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
@@ -104,7 +104,7 @@ angular.module('unearth', ['ionic', 'angular-jwt', 'unearth.mapController', 'une
       views: {
         'tab-groups': {
           templateUrl: 'templates/tab-createGroup.html',
-          controller: 'GroupsController'
+          controller: 'CreateGroupController'
         }
       }
     })

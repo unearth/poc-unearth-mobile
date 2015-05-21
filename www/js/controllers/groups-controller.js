@@ -27,7 +27,7 @@ angular.module('unearth.groupsController', [])
       // ]
 
     Group.getGroups(function(groupsData) {
-      //$scope.groupsData = groupsData;
+      $scope.groupsData = groupsData;
     });
 
     $scope.credentials = {
