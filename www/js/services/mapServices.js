@@ -195,7 +195,7 @@ angular.module('unearth.mapServices', [])
       markerArray = window.localStorage.get('markers');
       markerArray = JSON.parse(markerArray);
       markerArray.push(marker);
-      window.localStorage.set('markers', JSON.stringify(markerArray));
+      window.localStorage.setItem('markers', JSON.stringify(markerArray));
       Markers.postMarkers(marker);
     }
 

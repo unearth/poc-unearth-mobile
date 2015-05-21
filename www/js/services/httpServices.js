@@ -122,9 +122,9 @@ angular.module('unearth.httpServices', [])
         method: 'GET',
         url: 'http://162.243.134.216:3000/group/waypoints',
         processData: false,
-        headers: {'Content-Type': 'application/JSON'}
+        headers: {'Content-Type': 'application/JSON', 'groupId': '65'}
       })
-      .then(function(respose) {
+      .then(function(response) {
         callback(response.data);
       });
     };
@@ -132,7 +132,7 @@ angular.module('unearth.httpServices', [])
     var getGroups = function(callback) {
       return $http({
         method: 'GET',
-        url: 'http://162.243.134.216:3000/group/groups',
+        url: 'http://162.243.134.216:3000/group',
         processData: false,
         headers: {'Content-Type':'application/JSON'}
       })
@@ -150,7 +150,7 @@ angular.module('unearth.httpServices', [])
         data: {
           groupName: groupName,
           groupDescription: groupDescription,
-          emails: ['sean@sean.com']
+          emails: ['trav2@trav2.com']
         },
         headers: {'Content-Type':'application/JSON'}
       })
