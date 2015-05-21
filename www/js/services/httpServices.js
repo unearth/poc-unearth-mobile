@@ -27,7 +27,7 @@ angular.module('unearth.httpServices', [])
         url: 'http://162.243.134.216:3000/signup',
         processData: false,
         data: {
-          username: username,
+          name: username,
           email: email,
           password: password
           },
@@ -142,14 +142,15 @@ angular.module('unearth.httpServices', [])
       });
     };
 
-    var groupCreate = function(groupName, groupId, callback) {
+    var groupCreate = function(groupName, groupDescription, callback) {
       return $http({
         method: 'POST',
         url: 'http://162.243.134.216:3000/group/create',
         processData: false,
         data: {
           groupName: groupName,
-          groupID: groupId
+          groupDescription: groupDescription,
+          emails: ['sean@sean.com']
         },
         headers: {'Content-Type':'application/JSON'}
       })
@@ -181,21 +182,6 @@ angular.module('unearth.httpServices', [])
         processData: false,
         data: {
           groupID: groupId
-        },
-        headers: {'Content-Type':'application/JSON'}
-      })
-      .then(function(response) {
-        callback(response.data);
-      });
-    };
-
-    var groupCreate = function(groupID, callback) {
-      return $http({
-        method: 'POST',
-        url: 'http://162.243.134.216:3000/group/create',
-        processData: false,
-        data: {
-          groupID: groupID
         },
         headers: {'Content-Type':'application/JSON'}
       })
