@@ -111,18 +111,18 @@ angular.module('unearth', ['ionic', 'angular-jwt', 'unearth.mapController', 'une
       }
     })
 
-    .state('tab.pending', {
-      url: '/pendingGroups',
-      data: {
-        requireLogin: true
-      },
-      views: {
-        'tab-groups': {
-          templateUrl: 'templates/tab-pendingGroups.html',
-          controller: 'GroupsController'
-        }
-      }
-    })
+    // .state('tab.pending', {
+    //   url: '/pendingGroups',
+    //   data: {
+    //     requireLogin: true
+    //   },
+    //   views: {
+    //     'tab-groups': {
+    //       templateUrl: 'templates/tab-pendingGroups.html',
+    //       controller: 'GroupsController'
+    //     }
+    //   }
+    // })
 
     .state('tab.settings', {
       url: '/settings',

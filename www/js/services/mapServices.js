@@ -248,7 +248,6 @@ angular.module('unearth.mapServices', [])
         animation: 'slide-in-up'
       })
       .then(function(newModal) {
-        debugger;
         return newModal;
       });
     };

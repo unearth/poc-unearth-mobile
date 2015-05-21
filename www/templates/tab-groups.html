@@ -12,7 +12,7 @@
       <ion-item href="#/tab/createGroup" class="item-icon-left">Start an Expedition</ion-item>
 
       <!-- Pending Group Requests -->
-      <ion-item class="item-icon-left" href="#/tab/pendingGroups" >
+      <ion-item class="item-icon-left" ng-click="showPendingRequests()">
         <i class="icon ion-person-stalker"></i>
         Pending Requests
         <span class="badge badge-assertive">{{pendingMembers.length}}</span>
@@ -28,7 +28,7 @@
       <!-- Current Groups -->
       <ion-item ng-click="switchGroup(group)" ng-repeat="group in groupsData | orderBy:identity" class="item-icon-left ">
         <ion-delete-button class="ion-minus-circled" ng-click="leaveGroup(group)"></ion-delete-button>
-        <ion-option-button class="button-calm" ng-click="sendInvite(group)">
+        <ion-option-button class="button-calm" ng-click="inviteModal(group)">
           Invite An Explorer!
         </ion-option-button>
         {{group.name}}

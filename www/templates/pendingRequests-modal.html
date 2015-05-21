@@ -1,0 +1,14 @@
+  <div class="modal" ng-controller="ModalController">
+    <ion-header-bar>
+      <h1 class="header-modal center">Pending Group Requests</h1>
+    </ion-header-bar>
+    <ion-content>
+      <div class="list">
+      </div>
+      <div>
+        <button class="center button button-energized text-shadow" ng-click="acceptInvite(group)" required>Accept</button>
+        <button class="center button button-energized text-shadow" ng-click="declineInvite()" required>Decline</button>
+        <button class="center button button-energized text-shadow" ng-click="closeModal()" required>Done</button>
+      </div>
+    </ion-content>
+  </div>

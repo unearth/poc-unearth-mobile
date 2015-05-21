@@ -15,7 +15,7 @@ angular.module('unearth.mapController', [])
     // Initializes the map render on load
     RenderMap.init();
 
-    if (window.localStorage.getItem('waypoints')) {
+    if (window.localStorage.getItem('waypoints') && window.localStorage.getItem('waypoints') !== 'undefined') {
       if (window.localStorage.getItem('waypoints') !== "[]") {
         waypoints = JSON.parse(window.localStorage.getItem('waypoints'));
         currentPosition = waypoints[waypoints.length - 1];
@@ -38,7 +38,7 @@ angular.module('unearth.mapController', [])
 
       // TODO: Group waypoints are only loaded on initial load, need to continuously get group data
       if (window.localStorage.getItem('currentExpedition') !== "undefined" && window.localStorage.getItem('currentExpedition') !== 'solo') {
-        Group.getGroupWaypoints(window.localStorage.getItem('groupId'), function(group) {
+        Group.getGroupWaypoints(window.localStorage.getItem('currentExpedition'), function(group) {
 
           window.localStorage.setItem('groupWaypoints', group.waypoints);
           waypoints.concat(window.localStorage.getItem('groupWaypoints'));

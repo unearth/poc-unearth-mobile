@@ -1,5 +1,5 @@
 angular.module('unearth.groupsController', [])
-  .controller('GroupsController', function ($scope, $state, $ionicHistory, $rootScope, Group, Authorization) {
+  .controller('GroupsController', function ($scope, $state, $ionicHistory, $rootScope, Group, Authorization, ModalMaker) {
 
     // if(window.localStorage.groups === undefined){
     //   window.localStorage.groups = JSON.stringify( [{id: 1, name: 'Group'}] );
@@ -25,6 +25,8 @@ angular.module('unearth.groupsController', [])
       // {id: 453, name:'group2'},
       // {id: 453, name:'group3'}
       // ]
+
+    var pendingRequestsModal;
 
     Group.getGroups(function(groupsData) {
       $scope.groupsData = groupsData.groups;
@@ -127,4 +129,23 @@ angular.module('unearth.groupsController', [])
         });
       }
     };
+
+    $scope.showPendingRequests = function() {
+      if(!pendingRequestsModal) {
+        ModalMaker.createModal('../../templates/pendingRequests-modal.html')
+          .then(function(modal) {
+            pendingRequestsModal = modal;
+            pendingRequestsModal.show();
+        });
+      } else {
+        pendingRequestsModal.show();
+      }
+
+    }
   });
+
+
+
+
+
+
