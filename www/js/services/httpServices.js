@@ -1,16 +1,6 @@
 angular.module('unearth.httpServices', [])
   .factory('Authorization', function($http) {
 
-    var loginError = function (error) {
-      //For login this would return invalid username or password.
-      return false;
-    };
-
-    var signUpError = function (error) {
-      //If there is already a current user with email in signUp this will need to send proper response to controller.
-      return false;
-    };
-
     var login = function(email, password) {
       return $http({
         method: 'POST',
@@ -25,15 +15,19 @@ angular.module('unearth.httpServices', [])
       .then(function(response) {
         window.localStorage.accessToken = response.data.token;
         return true;
-      }, loginError);
+      },
+
+      //If error return false.
+      function(){return false});
     };
 
-    var signUp = function(email, password) {
+    var signUp = function(email, password, username) {
       return $http({
         method: 'POST',
         url: 'http://162.243.134.216:3000/signup',
         processData: false,
         data: {
+          name: username,
           email: email,
           password: password
           },
@@ -42,7 +36,10 @@ angular.module('unearth.httpServices', [])
       .then(function(response) {
         window.localStorage.accessToken = response.data.token;
         return true;
-      }, signUpError);
+      },
+
+      //If error return false.
+      function(){return false});
     };
 
     return {
@@ -51,9 +48,42 @@ angular.module('unearth.httpServices', [])
     };
   })
 
+  .factory('Markers', function($http) {
+
+    var getMarkers = function() {
+      return $http({
+        method: 'GET',
+        url: 'http://162.243.134.216:3000/marker',
+        processData: false,
+        header: {'Content-Type':'application/JSON'}
+      })
+      .then(function(response) {
+        window.localStorage.setItem('markers', response.data);
+        return true;
+      },
+      //If error return false.
+      function(){return false});
+    }
+
+    var postMarkers = function(marker) {
+      return $http({
+        method: 'POST',
+        url: 'http://162.243.134.216:3000/marker',
+        data: marker,
+        processData: false,
+        header: {'Content-Type':'application/JSON'}
+      })
+      .then(function(response) {
+        return true;
+      },
+      //If error return false.
+      function(){return false});
+    }
+  })
+
   .factory('Waypoints', function($http) {
     //needs to handle get waypoint requests for user and group waypoints
-    var getWaypoints = function(callback){
+    var getWaypoints = function(callback) {
       return $http({
         method: 'GET',
         url: 'http://162.243.134.216:3000/waypoints',
@@ -112,14 +142,15 @@ angular.module('unearth.httpServices', [])
       });
     };
 
-    var groupCreate = function(groupName, groupId, callback) {
+    var groupCreate = function(groupName, groupDescription, callback) {
       return $http({
         method: 'POST',
         url: 'http://162.243.134.216:3000/group/create',
         processData: false,
         data: {
           groupName: groupName,
-          groupID: groupId
+          groupDescription: groupDescription,
+          emails: ['sean@sean.com']
         },
         headers: {'Content-Type':'application/JSON'}
       })
@@ -151,21 +182,6 @@ angular.module('unearth.httpServices', [])
         processData: false,
         data: {
           groupID: groupId
-        },
-        headers: {'Content-Type':'application/JSON'}
-      })
-      .then(function(response) {
-        callback(response.data);
-      });
-    };
-
-    var groupCreate = function(groupID, callback) {
-      return $http({
-        method: 'POST',
-        url: 'http://162.243.134.216:3000/group/create',
-        processData: false,
-        data: {
-          groupID: groupID
         },
         headers: {'Content-Type':'application/JSON'}
       })

@@ -26,19 +26,6 @@ angular.module('unearth.mapServices', [])
         // Checks to see if the waypoints array is 3 or more.
       if (waypointsToBeSent.waypoints.length > 2) {
 
-        //check 'currentExpedition'
-        //if 'Solo Expedition' then POST
-        //else POST then GET all waypoints from group (except for current user)
-        //set waypoints to the result of the current user waypoints and rest of the group waypoints combined
-        //store waypoints in local storage
-        //broadcast 'storage' event
-
-
-        //solo waypoints are seperate from group waypoints
-        //
-
-
-
         // Sends waypoints to the database
         Waypoints.sendWaypoints(waypointsToBeSent, function(response) {
           if (response) {
@@ -99,17 +86,19 @@ angular.module('unearth.mapServices', [])
 
   /////////////////////////////////////////////
   // Map Rendering functions
-  .factory('RenderMap', function() {
+  .factory('RenderMap', function($rootScope, Markers, $ionicModal) {
 
     var zoomLevel;
     var layer;
     var currentPosition;
     var map;
+    var modal;
+    var markerCoords;
     L.mapbox.accessToken = mapboxAccessToken;
 
     // Load map
     var init = function() {
-      zoomLevel = 13;
+      zoomLevel = 12;
 
       layer = L.TileLayer.maskCanvas({
         radius: 25,               // Radius in pixels or in meters of transparent circles (see useAbsoluteRadius)
@@ -125,22 +114,27 @@ angular.module('unearth.mapServices', [])
         zoomControl: false
       });
 
+      $ionicModal.fromTemplateUrl('../../templates/marker-modal.html', {
+        animation: 'slide-in-up'
+      }).then(function(newModal) {
+        modal = newModal;
+      })
+
       // Disables zoom
       map.touchZoom.disable();
       map.doubleClickZoom.disable();
       map.scrollWheelZoom.disable();
-
-    }
+    };
 
     // Sets zoom level to wide or zoom and centers view on current position
     var handleZoom = function() {
-      if(zoomLevel === 13) {
-        zoomLevel = 18;
+      if(zoomLevel === 16) {
+        zoomLevel = 14;
       } else {
-        zoomLevel = 13;
+        zoomLevel = 16;
       }
       centerView();
-    }
+    };
 
     // Draws the fog overlay and centers the map on the most recent coordinate
     var renderLayer = function(waypoints) {
@@ -148,17 +142,73 @@ angular.module('unearth.mapServices', [])
       layer.setData(waypoints);
       map.addLayer(layer);
       currentPosition = waypoints[waypoints.length - 1];
-      centerView();
-
     };
+
 
     // Centers map on current position
     var centerView = function() {
       map.setView(currentPosition, zoomLevel);
     };
 
-    var createMarker = function(coordinates) {
-      L.marker(coordinates).addTo(map);
+    var displayMarkers = function (markerArr) {
+      for (var i = 0; i < markerArr.length; i++) {
+        L.marker(markerArr[i].coords)
+          .bindPopup (
+            ['<h1>', markerArr[i].title, '</h1>',
+            '<div>', markerArr[i].description, '</div>'
+            ].join(''))
+          .addTo(map)
+      }
+    };
+
+    var addMarkerListener = function() {
+      map.on('click', function(event) {
+        console.log('click');
+        console.log(event.latlng);
+        markerCoords = [event.latlng.lat, event.latlng.lng];
+        modal.show();
+        // createMarker([event.latlng.lat, event.latlng.lng]);
+      });
+    }
+
+    var createMarker = function(title, description) {
+      var newMarker = L.marker(markerCoords).bindPopup(
+        ['<h1>' + title + '</h1>',
+        '<p>' + description + '</p>'].join('')
+      );
+      map.off('click');
+      newMarker.addTo(map);
+      newMarker.openPopup();
+
+      modal.hide();
+      // Calls function to save new marker to local storage and make POST request
+      // storeMarker({
+      //   location: markerCoords,
+      //   title: 'title',
+      //   description: 'description',
+      //   groupId: window.localStorage.currentExpedition,
+      //   imageUrl: '',
+      // });
+    }
+
+    var storeMarker = function(marker) {
+      markerArray = window.localStorage.get('markers');
+      markerArray = JSON.parse(markerArray);
+      markerArray.push(marker);
+      window.localStorage.set('markers', JSON.stringify(markerArray));
+      Markers.postMarkers(marker);
+    }
+
+    var displayMarkers = function (markerArr) {
+      for (var i = 0; i < markerArr.length; i++) {
+        L.marker(markerArr[i].coords)
+          .bindPopup (
+            '<h1>' + markerArr[i].title + '</h1>' +
+            '<div>' + markerArr[i].description + '</div>'
+            )
+          .addTo(map)
+      }
+      createMarkerModal.show()
     };
 
     return {
@@ -166,18 +216,20 @@ angular.module('unearth.mapServices', [])
       handleZoom: handleZoom,
       renderLayer: renderLayer,
       centerView: centerView,
-      createMarker: createMarker
+      displayMarkers: displayMarkers,
+      createMarker: createMarker,
+      addMarkerListener: addMarkerListener
     };
 
   })
 
-  .factory('Markers', function() {
+  .factory('Markers', function($rootScope) {
     var placeMarker = function() {
-      $rootScope.on('marker', function(latlng) {
+      $rootScope.$on('marker', function(latlng) {
         // Create a marker with passed lat lng
         console.log(latlng);
       })
-    }
+    };
 
     return {
       placeMarker: placeMarker

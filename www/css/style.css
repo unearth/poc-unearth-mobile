@@ -50,6 +50,11 @@
   margin: 0 auto;
 }
 
+.center {
+  display: block;
+  margin: 0 auto;
+}
+
 .center-form {
   margin: 145px auto 30px auto;
   width: 80%;
@@ -86,7 +91,8 @@ font-style: italic;
 }
 
 input[type="email"],
-input[type="password"] {
+input[type="password"],
+input {
   color: white;
   font-weight: 900;
   font-size: 18px;
@@ -114,4 +120,32 @@ input::-webkit-input-placeholder {
   background-color: red;
   color: white;
   font-size: 15px;
+}
+
+.ui-control {
+  position:absolute;
+  top:10px;
+  right:10px;
+  z-index:1000;
+}
+
+.title-modal {
+  height: 2em;
+}
+
+.header-modal {
+  font-size: 20px;
+}
+
+.text-box-modal {
+  height: 13em;
+}
+
+.shrink-left {
+  width: .5em;
+}
+
+.modal-break {
+  display: block;
+  height: 5em;
 }

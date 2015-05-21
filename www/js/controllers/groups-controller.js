@@ -27,7 +27,7 @@ angular.module('unearth.groupsController', [])
       // ]
 
     Group.getGroups(function(groupsData) {
-      $scope.groupsData = groupsData;
+      //$scope.groupsData = groupsData;
     });
 
     $scope.credentials = {
@@ -36,7 +36,7 @@ angular.module('unearth.groupsController', [])
     };
 
     $scope.newGroup = {
-      id: '',
+      description: '',
       name: ''
     };
 
@@ -48,12 +48,13 @@ angular.module('unearth.groupsController', [])
 
     $scope.createGroup = function(group) {
       // DEBUG: Not sure that the http callback will return error, response -> look in httpServices
-      Group.groupCreate(group.name, group.id, function(error, response) {
+      Group.groupCreate(group.name, group.description, function(response, error) {
         if(error){
           console.log('didn\'t work!');
         } else{
-          window.localStorage.set('currentExpedition', JSON.stringify(group.id));
-
+          // window.localStorage.setItem('currentExpedition', JSON.stringify(group.id));
+          $scope.groupsData = [group];
+          debugger;
           $state.go('tab.groups');
         }
       });
