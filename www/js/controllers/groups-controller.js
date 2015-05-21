@@ -27,7 +27,8 @@ angular.module('unearth.groupsController', [])
       // ]
 
     Group.getGroups(function(groupsData) {
-      $scope.groupsData = groupsData;
+      $scope.groupsData = groupsData.groups;
+      $scope.pendingMembers= $scope.groupsData[0].pendingMembers;
     });
 
     $scope.credentials = {
@@ -71,7 +72,7 @@ angular.module('unearth.groupsController', [])
 
     $scope.switchGroup = function(group) {
       // Set maps to show
-      window.localStorage.setItem('currentExpedition', JSON.stringify(group.id));
+      window.localStorage.setItem('currentExpedition', JSON.stringify(group.group_id));
       $state.go('tab.map');
     };
 
@@ -81,7 +82,7 @@ angular.module('unearth.groupsController', [])
           console.log('didn\'t work!');
         } else{
           alert('accepted invite into: ' + group.name);
-          window.localStorage.setItem('currentExpedition', group.id);
+          window.localStorage.setItem('currentExpedition', group.group_id);
         }
       });
     };

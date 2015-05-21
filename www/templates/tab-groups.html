@@ -15,7 +15,7 @@
       <ion-item class="item-icon-left" href="#/tab/pendingGroups" >
         <i class="icon ion-person-stalker"></i>
         Pending Requests
-        <span class="badge badge-assertive">{{pendingGroups.length}}</span>
+        <span class="badge badge-assertive">{{pendingMembers.length}}</span>
       </ion-item>
 
       <div class="item item-divider">
@@ -26,7 +26,7 @@
       <ion-item ng-click="switchGroup('solo')" class="item-icon-left">Solo Expedition</ion-item>
 
       <!-- Current Groups -->
-      <ion-item ng-click="switchGroup(newGroup)" ng-repeat="group in groupsData | orderBy:identity" class="item-icon-left ">
+      <ion-item ng-click="switchGroup(group)" ng-repeat="group in groupsData | orderBy:identity" class="item-icon-left ">
         <ion-delete-button class="ion-minus-circled" ng-click="leaveGroup(group)"></ion-delete-button>
         <ion-option-button class="button-calm" ng-click="sendInvite(group)">
           Invite An Explorer!
