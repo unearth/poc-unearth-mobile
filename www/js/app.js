@@ -71,6 +71,7 @@ angular.module('unearth', ['ionic', 'angular-jwt', 'unearth.mapController', 'une
     })
 
     .state('tab.map', {
+      cache: false,
       url: '/map',
       data: {
         requireLogin: true
@@ -84,6 +85,7 @@ angular.module('unearth', ['ionic', 'angular-jwt', 'unearth.mapController', 'une
     })
 
     .state('tab.groups', {
+      cache: false,
       url: '/groups',
       data: {
         requireLogin: true

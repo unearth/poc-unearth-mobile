@@ -114,6 +114,7 @@ angular.module('unearth.mapServices', [])
         zoomControl: false
       });
 
+
       $ionicModal.fromTemplateUrl('../../templates/marker-modal.html', {
         animation: 'slide-in-up'
       }).then(function(newModal) {

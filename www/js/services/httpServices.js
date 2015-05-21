@@ -124,7 +124,7 @@ angular.module('unearth.httpServices', [])
         processData: false,
         headers: {
           'Content-Type': 'application/JSON',
-          'groupId': groupId
+          'groupid': groupId
         }
       })
       .then(function(response) {

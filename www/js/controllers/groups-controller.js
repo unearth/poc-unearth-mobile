@@ -27,7 +27,13 @@ angular.module('unearth.groupsController', [])
       // ]
 
     Group.getGroups(function(groupsData) {
-      $scope.groupsData = groupsData;
+      $scope.groupsData = groupsData.groups;
+      // DEBUG: pending members should update for all groups, implement a for loop to touch pending members of each group
+      $scope.pendingMembers = [];
+      for (var i = 0; i < $scope.groupsData.length; i++) {
+        $scope.pendingMembers.push($scope.groupsData[i].pendingMembers);
+      }
+      console.log($scope.pendingMembers);
     });
 
     $scope.credentials = {
@@ -48,23 +54,23 @@ angular.module('unearth.groupsController', [])
 
     $scope.switchGroup = function(group) {
       // Set maps to show
-      window.localStorage.setItem('currentExpedition', JSON.stringify(group.id));
+      window.localStorage.setItem('currentExpedition', JSON.stringify(group.group_id));
       $state.go('tab.map');
     };
 
     $scope.acceptInvite = function(group) {
-      Group.groupJoin('accept', group.id, function(group) {
+      Group.groupJoin('accept', group.group_id, function(group) {
         if(error) {
           console.log('didn\'t work!');
         } else{
           alert('accepted invite into: ' + group.name);
-          window.localStorage.setItem('currentExpedition', group.id);
+          window.localStorage.setItem('currentExpedition', group.group_id);
         }
       });
     };
 
     $scope.declineInvite = function(group) {
-      Group.groupJoin('decline', group.id, function() {
+      Group.groupJoin('decline', group.group_id, function() {
         if(error) {
           console.log('didn\'t work!');
         } else{
@@ -74,7 +80,8 @@ angular.module('unearth.groupsController', [])
     };
 
     $scope.sendInvite = function(group) {
-      Group.groupInvite(email, group.id, function() {
+      console.log(group);
+      Group.groupInvite(email, group.group_id, function() {
         if(error) {
           console.log('did\'t work!');
         } else{
@@ -85,11 +92,11 @@ angular.module('unearth.groupsController', [])
 
     $scope.leaveGroup = function(group) {
       if(confirm('You sure?  You can\'t rejoin an expedition without someone sending you an invite.')){
-        Group.groupJoin('leave', group.id, function() {
+        Group.groupJoin('leave', group.group_id, function() {
           if(error) {
             console.log('didn\'t work!');
           } else{
-            if(window.localStorage.getItem('currentExpedition') === JSON.stringify(group.id)) {
+            if(window.localStorage.getItem('currentExpedition') === JSON.stringify(group.group_id)) {
               window.localStorage.setItem('currentExpedition', 'solo');
             }
             $state.go('tab.groups');
