@@ -18,7 +18,8 @@ angular.module('unearth.httpServices', [])
       },
 
       //If error return false.
-      function(){return false});
+      function(){ return false; }
+      );
     };
 
     var signUp = function(email, password, username) {
@@ -39,7 +40,8 @@ angular.module('unearth.httpServices', [])
       },
 
       //If error return false.
-      function(){return false});
+      function(){ return false; }
+      );
     };
 
     return {
@@ -62,8 +64,9 @@ angular.module('unearth.httpServices', [])
         return true;
       },
       //If error return false.
-      function(){return false});
-    }
+      function(){ return false; }
+      );
+    };
 
     var postMarkers = function(marker) {
       return $http({
@@ -77,8 +80,9 @@ angular.module('unearth.httpServices', [])
         return true;
       },
       //If error return false.
-      function(){return false});
-    }
+      function(){ return false; }
+      );
+    };
   })
 
   .factory('Waypoints', function($http) {
