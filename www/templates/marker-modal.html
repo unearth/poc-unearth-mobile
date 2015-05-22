@@ -3,19 +3,35 @@
       <h1 class="header-modal center">{{contact.title}}</h1>
     </ion-header-bar>
     <ion-content>
+    <form
+        name="markerForm"
+        ng-submit="submit()"
+        novalidate
+        class="simple-form">
       <div class="list">
+      <div ng-class= "{'has-error' : signUpForm.$invalid, 'no-error' : signUpForm.$valid || !signUpForm.$submitted }">
         <label class="item item-input">
           <span class="input-label title-modal shrink-left">Title:</span>
-          <input type="text" ng-model="contact.title" autofocus required>
+          <input type="text" ng-model="contact.title" required>
+      </div>
         </label>
         <div class="modal-break"></div>
         <label class="item item-input">
           <textarea placeholder="Enter Description Here..." class="text-box-modal" type="text" ng-model="contact.description">
           </textarea>
         </label>
+        <div class="modal-break"></div>
+        <label class="item item-input">
+          <span class="input-label title-modal shrink-left">Upload Image:</span>
+          <input type="file" name="image" class="image" ng-model="file" valid-file required accept="image/*"></input>
+        </label>
       </div>
+      </form>
       <div>
-        <button class="center button button-energized text-shadow" ng-click="closeModal()" required>Done</button>
+        <button class="center button button-energized" ng-click="submit()">Done</button>
       </div>
     </ion-content>
   </div>
+
+
+
