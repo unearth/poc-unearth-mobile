@@ -1,9 +1,12 @@
 angular.module('unearth.groupsController', [])
   .controller('ModalController', function($scope, RenderMap, MarkersHTTP) {
-
     $scope.contact = {
       title: '',
       description: ''
+    };
+
+    $scope.clearError = function(markerForm) {
+      markerForm.$submitted = false;
     };
 
     $scope.submit = function() {
