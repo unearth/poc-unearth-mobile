@@ -118,10 +118,12 @@ angular.module('unearth.mapServices', [])
         .then(function(modal) {
           markerModal = modal;
         });
+
       // Disables zoom
       map.touchZoom.disable();
       map.doubleClickZoom.disable();
       map.scrollWheelZoom.disable();
+
     };
 
     // Sets zoom level to wide or zoom and centers view on current position
@@ -146,6 +148,10 @@ angular.module('unearth.mapServices', [])
     // Centers map on current position
     var centerView = function() {
       map.setView(currentPosition, zoomLevel);
+    };
+
+    var createMarker = function(coordinates) {
+      L.marker(coordinates).addTo(map);
     };
 
     var displayMarkers = function (markerArr) {
@@ -230,6 +236,8 @@ angular.module('unearth.mapServices', [])
 
   .factory('Modal', function($ionicModal, Group) {
     var inviteModal;
+    var pendingModal;
+    var groupsDataObj;
 
     var inviteData = {
       group: '',
@@ -244,15 +252,25 @@ angular.module('unearth.mapServices', [])
       });
     };
 
+    var groupsData = function() {
+      return groupsDataObj;
+    };
+
+    var createPendingModal = function() {
+      createModal('../../templates/pendingRequests-modal.html').then(function(newModal) {
+        pendingModal = newModal;
+        pendingModal.show();
+      });
+    };
+
+    var saveGroupsData = function(data) {
+      groupsDataObj = data;
+    };
+
     var createModal = function(url) {
       return $ionicModal.fromTemplateUrl(url, {
         animation: 'slide-in-up'
       });
-    };
-
-    var getInviteData = function() {
-      // Might not need this?
-      return inviteData;
     };
 
     var setInviteData = function(data) {
@@ -275,12 +293,19 @@ angular.module('unearth.mapServices', [])
       inviteModal.hide();
     };
 
+    var closePending = function() {
+      pendingModal.hide();
+    }
 
     return {
       createModal: createModal,
       createInviteModal: createInviteModal,
       closeInviteModal: closeInviteModal,
-      getInviteData: getInviteData,
-      setInviteData: setInviteData
+      setInviteData: setInviteData,
+      saveGroupsData: saveGroupsData,
+      groupsData: groupsData,
+      createPendingModal,
+      closePending: closePending
     };
+
   });
