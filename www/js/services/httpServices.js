@@ -160,19 +160,24 @@ angular.module('unearth.httpServices', [])
     };
 
     var groupInvite = function(email, groupId, callback) {
+      debugger;
       return $http({
         method: 'POST',
         url: 'http://162.243.134.216:3000/group/invite',
         processData: false,
         data: {
           email: email,
-          groupID: groupId
+          groupId: groupId
         },
         headers: {'Content-Type':'application/JSON'}
       })
-      .then(function(response) {
-        callback(response.data);
-      });
+      .then(
+        //If succcess...
+        function(success) {callback(success)},
+
+        //If error...
+        function(error){callback(error)}
+      );
     };
 
     var groupJoin = function(choice, groupId, callback) {

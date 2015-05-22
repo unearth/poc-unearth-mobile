@@ -15,7 +15,7 @@ angular.module('unearth.mapController', [])
     // Initializes the map render on load
     RenderMap.init();
 
-    if (window.localStorage.getItem('waypoints')) {
+    if (window.localStorage.getItem('waypoints') && window.localStorage.getItem('waypoints') !== "undefined") {
       if (window.localStorage.getItem('waypoints') !== "[]") {
         waypoints = JSON.parse(window.localStorage.getItem('waypoints'));
         currentPosition = waypoints[waypoints.length - 1];
