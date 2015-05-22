@@ -1,7 +1,7 @@
-angular.module('unearth.groupsController', [])
-  .controller('ModalController', function($scope, RenderMap, MarkersHTTP) {
+angular.module('unearth.modalController', [])
+  .controller('ModalController', function($scope, RenderMap, MarkersHTTP, Modal) {
     $scope.contact = {
-      title: '',
+      name: '',
       description: ''
     };
 
@@ -13,11 +13,20 @@ angular.module('unearth.groupsController', [])
       var fd = new FormData();
       fd.append('file', $('.image')[0].files[0], 'image');
       MarkersHTTP.postMarkerImage(fd, function(response) {
-        console.log(response)
-        RenderMap.createMarker($scope.contact.title, $scope.contact.description, response.data.image_url);
-        $scope.contact.title = '';
+        RenderMap.createMarker($scope.contact.name, $scope.contact.description, response.data.image_url);
+        $scope.contact.name = '';
         $scope.contact.description = '';
       });
+    };
+    $scope.closeModal = function() {
+      RenderMap.createMarker($scope.contact.name, $scope.contact.description);
+      $scope.contact.name = '';
+      $scope.contact.description = '';
+    };
+
+    $scope.sendInvite = function(email) {
+      Modal.setInviteData({email: email});
+      Modal.closeInviteModal();
     };
   })
 
@@ -37,3 +46,4 @@ angular.module('unearth.groupsController', [])
   };
 
 });
+

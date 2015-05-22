@@ -18,7 +18,8 @@ angular.module('unearth.httpServices', [])
       },
 
       //If error return false.
-      function(){return false});
+      function(){ return false; }
+      );
     };
 
     var signUp = function(email, password, username) {
@@ -39,7 +40,8 @@ angular.module('unearth.httpServices', [])
       },
 
       //If error return false.
-      function(){return false});
+      function(){ return false; }
+      );
     };
 
     return {
@@ -62,7 +64,8 @@ angular.module('unearth.httpServices', [])
         return true;
       },
       //If error return false.
-      function(){return false});
+      function(){ return false; }
+      );
     };
 
     var postMarkerImage = function(fd, callback) {
@@ -91,15 +94,15 @@ angular.module('unearth.httpServices', [])
         return true;
       },
       //If error return false.
-      function(){return false});
-    }
+      function(){ return false; }
+      );
+    };
 
     return {
       getMarkers: getMarkers,
       postMarkerImage: postMarkerImage,
       postMarkers: postMarkers
     };
-
   })
 
   .factory('Waypoints', function($http) {
@@ -187,13 +190,17 @@ angular.module('unearth.httpServices', [])
         processData: false,
         data: {
           email: email,
-          groupID: groupId
+          groupId: groupId
         },
         headers: {'Content-Type':'application/JSON'}
       })
-      .then(function(response) {
-        callback(response.data);
-      });
+      .then(
+        //If succcess...
+        function(success) {callback(success)},
+
+        //If error...
+        function(error){callback(error)}
+      );
     };
 
     var groupJoin = function(choice, groupId, callback) {

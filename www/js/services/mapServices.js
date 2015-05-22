@@ -23,7 +23,7 @@ angular.module('unearth.mapServices', [])
 
       waypointsToBeSent.waypoints.push(coordinate);
 
-        // Checks to see if the waypoints array is 3 or more.
+      // Checks to see if the waypoints array is 3 or more.
       if (waypointsToBeSent.waypoints.length > 2) {
 
         // Sends waypoints to the database
@@ -86,7 +86,7 @@ angular.module('unearth.mapServices', [])
 
   /////////////////////////////////////////////
   // Map Rendering functions
-  .factory('RenderMap', function($rootScope, Markers, ModalMaker) {
+  .factory('RenderMap', function($rootScope, Markers, Modal) {
 
     var zoomLevel;
     var layer;
@@ -114,10 +114,10 @@ angular.module('unearth.mapServices', [])
         zoomControl: false
       });
 
-      ModalMaker.createModal('../../templates/marker-modal.html')
+      Modal.createModal('../../templates/marker-modal.html')
         .then(function(modal) {
           markerModal = modal;
-        })
+        });
       // Disables zoom
       map.touchZoom.disable();
       map.doubleClickZoom.disable();
@@ -156,7 +156,7 @@ angular.module('unearth.mapServices', [])
             '<div>', markerArr[i].description, '</div>',
             '<img>', markerArr[i].imageUrl, '</img>'
             ].join(''))
-          .addTo(map)
+          .addTo(map);
       }
     };
 
@@ -168,29 +168,32 @@ angular.module('unearth.mapServices', [])
         markerModal.show();
         // createMarker([event.latlng.lat, event.latlng.lng]);
       });
-    }
+    };
 
-    var createMarker = function(title, description, imgUrl) {
+
+    var createMarker = function(name, description, imgUrl) {
       console.log('in createMarker');
       var newMarker = L.marker(markerCoords).bindPopup(
-        ['<h1>' + title + '</h1>',
-        '<p>' + description + '</p>',
-        '<img src =' + imgUrl + '>'].join('')
+        ['<h1>', name, '</h1>',
+        '<p>', description, '</p>',
+        '<img src =', imgUrl, '>'].join('')
       );
       map.off('click');
       newMarker.addTo(map);
       newMarker.openPopup();
 
       markerModal.hide();
+
       // Calls function to save new marker to local storage and make POST request
-      // storeMarker({
-      //   location: markerCoords,
-      //   title: 'title',
-      //   description: 'description',
-      //   groupId: window.localStorage.currentExpedition,
-      //   imageUrl: 'imgUrl',
-      // });
-    }
+      storeMarker({
+        groupId: window.localStorage.currentExpedition,
+        location: markerCoords,
+        name: name,
+        description: description,
+        imageUrl: imgUrl
+      });
+    };
+
 
     var storeMarker = function(marker) {
       markerArray = window.localStorage.get('markers');
@@ -198,18 +201,6 @@ angular.module('unearth.mapServices', [])
       markerArray.push(marker);
       window.localStorage.setItem('markers', JSON.stringify(markerArray));
       Markers.postMarkers(marker);
-    }
-
-    var displayMarkers = function (markerArr) {
-      for (var i = 0; i < markerArr.length; i++) {
-        L.marker(markerArr[i].coords)
-          .bindPopup (
-            '<h1>' + markerArr[i].title + '</h1>' +
-            '<div>' + markerArr[i].description + '</div>' +
-            '<img>' + markerArr[i].imageUrl + '</img>'
-            )
-          .addTo(map)
-      }
     };
 
     return {
@@ -229,27 +220,66 @@ angular.module('unearth.mapServices', [])
       $rootScope.$on('marker', function(latlng) {
         // Create a marker with passed lat lng
         console.log(latlng);
-      })
-    };
-
-    return {
-      placeMarker: placeMarker
-    }
-  })
-
-  .factory('ModalMaker', function($ionicModal) {
-
-    var createModal = function(url) {
-      return $ionicModal.fromTemplateUrl(url, {
-        animation: 'slide-in-up'
-      })
-      .then(function(newModal) {
-        debugger;
-        return newModal;
       });
     };
 
     return {
-      createModal: createModal
-    }
+      placeMarker: placeMarker
+    };
+  })
+
+  .factory('Modal', function($ionicModal, Group) {
+    var inviteModal;
+
+    var inviteData = {
+      group: '',
+      email: ''
+    };
+
+    var createInviteModal = function(url) {
+      createModal(url)
+      .then(function(modal) {
+        inviteModal = modal;
+        inviteModal.show();
+      });
+    };
+
+    var createModal = function(url) {
+      return $ionicModal.fromTemplateUrl(url, {
+        animation: 'slide-in-up'
+      });
+    };
+
+    var getInviteData = function() {
+      // Might not need this?
+      return inviteData;
+    };
+
+    var setInviteData = function(data) {
+
+      if (data.email) {
+        inviteData.email = data.email;
+      }
+
+      if (data.group) {
+        inviteData.group = data.group;
+      }
+    };
+
+    var closeInviteModal = function() {
+      Group.groupInvite(inviteData.email, inviteData.group, function(response) {
+        console.log(response);
+      });
+      inviteData.email = '';
+      inviteData.group = '';
+      inviteModal.hide();
+    };
+
+
+    return {
+      createInviteModal: createInviteModal,
+      closeInviteModal: closeInviteModal,
+      getInviteData: getInviteData,
+      setInviteData: setInviteData
+    };
   });
