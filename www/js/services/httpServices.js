@@ -48,12 +48,12 @@ angular.module('unearth.httpServices', [])
     };
   })
 
-  .factory('Markers', function($http) {
+  .factory('MarkersHTTP', function($http) {
 
     var getMarkers = function() {
       return $http({
         method: 'GET',
-        url: 'http://162.243.134.216:3000/marker',
+        url: 'http://localhost:3000/marker',
         processData: false,
         header: {'Content-Type':'application/JSON'}
       })
@@ -63,7 +63,21 @@ angular.module('unearth.httpServices', [])
       },
       //If error return false.
       function(){return false});
-    }
+    };
+
+    var postMarkerImage = function(fd, callback) {
+      return $http({
+        method: 'POST',
+        url: 'http://162.243.134.216:3000/markers/image',
+        processData: false,
+        data: fd,
+        transformRequest:angular.identity,
+        headers:{'Content-Type':undefined}
+      })
+      .then(function(response){
+        callback(response);
+      });
+    };
 
     var postMarkers = function(marker) {
       return $http({
@@ -79,6 +93,13 @@ angular.module('unearth.httpServices', [])
       //If error return false.
       function(){return false});
     }
+
+    return {
+      getMarkers: getMarkers,
+      postMarkerImage: postMarkerImage,
+      postMarkers: postMarkers
+    };
+
   })
 
   .factory('Waypoints', function($http) {

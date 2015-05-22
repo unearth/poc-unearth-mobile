@@ -153,7 +153,8 @@ angular.module('unearth.mapServices', [])
         L.marker(markerArr[i].coords)
           .bindPopup (
             ['<h1>', markerArr[i].title, '</h1>',
-            '<div>', markerArr[i].description, '</div>'
+            '<div>', markerArr[i].description, '</div>',
+            '<img>', markerArr[i].imageUrl, '</img>'
             ].join(''))
           .addTo(map)
       }
@@ -169,10 +170,12 @@ angular.module('unearth.mapServices', [])
       });
     }
 
-    var createMarker = function(title, description) {
+    var createMarker = function(title, description, imgUrl) {
+      console.log('in createMarker');
       var newMarker = L.marker(markerCoords).bindPopup(
         ['<h1>' + title + '</h1>',
-        '<p>' + description + '</p>'].join('')
+        '<p>' + description + '</p>',
+        '<img src =' + imgUrl + '>'].join('')
       );
       map.off('click');
       newMarker.addTo(map);
@@ -185,7 +188,7 @@ angular.module('unearth.mapServices', [])
       //   title: 'title',
       //   description: 'description',
       //   groupId: window.localStorage.currentExpedition,
-      //   imageUrl: '',
+      //   imageUrl: 'imgUrl',
       // });
     }
 
@@ -202,7 +205,8 @@ angular.module('unearth.mapServices', [])
         L.marker(markerArr[i].coords)
           .bindPopup (
             '<h1>' + markerArr[i].title + '</h1>' +
-            '<div>' + markerArr[i].description + '</div>'
+            '<div>' + markerArr[i].description + '</div>' +
+            '<img>' + markerArr[i].imageUrl + '</img>'
             )
           .addTo(map)
       }

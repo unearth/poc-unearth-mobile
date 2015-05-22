@@ -110,15 +110,15 @@ L.TileLayer.MaskCanvas = L.TileLayer.Canvas.extend({
             g.fillRect(0, 0, tileSize, tileSize);
             g.globalCompositeOperation = 'destination-out';
         }
-        coordinates.forEach(function(coords) {
-            p = self._tilePoint(ctx, coords);
+        for (var i = 0, len = coordinates.length; i++) {
+            p = self._tilePoint(ctx, coordinates[i]);
             g.beginPath();
             g.arc(p[0], p[1], self._getRadius(), 0, Math.PI * 2);
             g.fill();
             if (self.options.lineColor) {
                 g.stroke();
             }
-        });
+        }
     },
 
     _boundsToQuery: function(bounds) {
