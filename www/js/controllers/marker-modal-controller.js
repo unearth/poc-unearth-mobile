@@ -1,5 +1,6 @@
 angular.module('unearth.groupsController', [])
   .controller('ModalController', function($scope, RenderMap, MarkersHTTP) {
+
     $scope.contact = {
       title: '',
       description: ''

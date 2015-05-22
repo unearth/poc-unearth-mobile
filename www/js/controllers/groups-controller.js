@@ -27,7 +27,8 @@ angular.module('unearth.groupsController', [])
       // ]
 
     Group.getGroups(function(groupsData) {
-      $scope.groupsData = groupsData;
+      $scope.groupsData = groupsData.groups;
+      $scope.pendingMembers= $scope.groupsData[0].pendingMembers;
     });
 
     $scope.credentials = {
@@ -36,7 +37,7 @@ angular.module('unearth.groupsController', [])
     };
 
     $scope.newGroup = {
-      id: '',
+      description: '',
       name: ''
     };
 
@@ -48,12 +49,22 @@ angular.module('unearth.groupsController', [])
 
     $scope.createGroup = function(group) {
       // DEBUG: Not sure that the http callback will return error, response -> look in httpServices
-      Group.groupCreate(group.name, group.id, function(error, response) {
+      Group.groupCreate(group.name, group.description, function(response, error) {
         if(error){
           console.log('didn\'t work!');
         } else{
-          window.localStorage.set('currentExpedition', JSON.stringify(group.id));
+          // DEBUG: Expeditions do not populate when we click on expeditions tab.
+          if (!window.localStorage.getItem('expeditions')) {
+            window.localStorage.setItem('expeditions', JSON.stringify([group]));
+          } else {
+            var expeditions = JSON.parse(window.localStorage.getItem('expeditions'));
+            expeditions.push(group);
 
+            window.localStorage.setItem('expeditions', JSON.stringify(expeditions));
+
+            // DEBUG: Need to receive group id from response.
+            window.localStorage.setItem('currentExpedition', JSON.stringify(group.id));
+          }
           $state.go('tab.groups');
         }
       });
@@ -61,7 +72,7 @@ angular.module('unearth.groupsController', [])
 
     $scope.switchGroup = function(group) {
       // Set maps to show
-      window.localStorage.setItem('currentExpedition', JSON.stringify(group.id));
+      window.localStorage.setItem('currentExpedition', JSON.stringify(group.group_id));
       $state.go('tab.map');
     };
 
@@ -71,7 +82,7 @@ angular.module('unearth.groupsController', [])
           console.log('didn\'t work!');
         } else{
           alert('accepted invite into: ' + group.name);
-          window.localStorage.setItem('currentExpedition', group.id);
+          window.localStorage.setItem('currentExpedition', group.group_id);
         }
       });
     };
