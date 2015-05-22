@@ -1,5 +1,5 @@
 angular.module('unearth.groupsController', [])
-  .controller('GroupsController', function ($scope, $state, $ionicHistory, $rootScope, Group, Authorization) {
+  .controller('GroupsController', function ($scope, $state, $ionicHistory, $rootScope, Group, Authorization, Modal) {
 
     // if(window.localStorage.groups === undefined){
     //   window.localStorage.groups = JSON.stringify( [{id: 1, name: 'Group'}] );
@@ -28,6 +28,7 @@ angular.module('unearth.groupsController', [])
 
     Group.getGroups(function(groupsData) {
       $scope.groupsData = groupsData.groups;
+      //DEBUG: throws error if there are no groups.
       $scope.pendingMembers= $scope.groupsData[0].pendingMembers;
     });
 
@@ -63,7 +64,7 @@ angular.module('unearth.groupsController', [])
             window.localStorage.setItem('expeditions', JSON.stringify(expeditions));
 
             // DEBUG: Need to receive group id from response.
-            window.localStorage.setItem('currentExpedition', JSON.stringify(group.id));
+            window.localStorage.setItem('currentExpedition', JSON.stringify(group.group_id));
           }
           $state.go('tab.groups');
         }
@@ -77,7 +78,7 @@ angular.module('unearth.groupsController', [])
     };
 
     $scope.acceptInvite = function(group) {
-      Group.groupJoin('accept', group.id, function(group) {
+      Group.groupJoin('accept', group.group_id, function(group) {
         if(error) {
           console.log('didn\'t work!');
         } else{
@@ -88,7 +89,7 @@ angular.module('unearth.groupsController', [])
     };
 
     $scope.declineInvite = function(group) {
-      Group.groupJoin('decline', group.id, function() {
+      Group.groupJoin('decline', group.group_id, function() {
         if(error) {
           console.log('didn\'t work!');
         } else{
@@ -97,23 +98,23 @@ angular.module('unearth.groupsController', [])
       });
     };
 
-    $scope.sendInvite = function(group) {
-      Group.groupInvite(email, group.id, function() {
-        if(error) {
-          console.log('did\'t work!');
-        } else{
-          alert('inviting a friend to: ' + group.name + '!');
-        }
-      });
+
+    //DEBUG: Modals need to be made once and then cleared out after each use.
+    $scope.inviteModal = function(group) {
+      Modal.setInviteData({group: group.group_id});
+      //Modal service needs group to be saved to Modaldata
+      Modal.createInviteModal('../../templates/invite-modal.html');
     };
+
+    // DEBUG: currently this just sends to server. Modal needs to populate data then call this once submitted.
 
     $scope.leaveGroup = function(group) {
       if(confirm('You sure?  You can\'t rejoin an expedition without someone sending you an invite.')){
-        Group.groupJoin('leave', group.id, function() {
+        Group.groupJoin('leave', group.group_id, function() {
           if(error) {
             console.log('didn\'t work!');
           } else{
-            if(window.localStorage.getItem('currentExpedition') === JSON.stringify(group.id)) {
+            if(window.localStorage.getItem('currentExpedition') === JSON.stringify(group.group_id)) {
               window.localStorage.setItem('currentExpedition', 'solo');
             }
             $state.go('tab.groups');

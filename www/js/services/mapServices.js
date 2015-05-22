@@ -86,7 +86,7 @@ angular.module('unearth.mapServices', [])
 
   /////////////////////////////////////////////
   // Map Rendering functions
-  .factory('RenderMap', function($rootScope, Markers, ModalMaker) {
+  .factory('RenderMap', function($rootScope, Markers, Modal) {
 
     var zoomLevel;
     var layer;
@@ -114,7 +114,7 @@ angular.module('unearth.mapServices', [])
         zoomControl: false
       });
 
-      ModalMaker.createModal('../../templates/marker-modal.html')
+      Modal.createModal('../../templates/marker-modal.html')
         .then(function(modal) {
           markerModal = modal;
         });
@@ -174,9 +174,9 @@ angular.module('unearth.mapServices', [])
     var createMarker = function(name, description, imgUrl) {
       console.log('in createMarker');
       var newMarker = L.marker(markerCoords).bindPopup(
-        ['<h1>' + name + '</h1>',
-        '<p>' + description + '</p>',
-        '<img src =' + imgUrl + '>'].join('')
+        ['<h1>', name, '</h1>',
+        '<p>', description, '</p>',
+        '<img src =', imgUrl, '>'].join('')
       );
       map.off('click');
       newMarker.addTo(map);
@@ -228,19 +228,58 @@ angular.module('unearth.mapServices', [])
     };
   })
 
-  .factory('ModalMaker', function($ionicModal) {
+  .factory('Modal', function($ionicModal, Group) {
+    var inviteModal;
+
+    var inviteData = {
+      group: '',
+      email: ''
+    };
+
+    var createInviteModal = function(url) {
+      createModal(url)
+      .then(function(modal) {
+        inviteModal = modal;
+        inviteModal.show();
+      });
+    };
 
     var createModal = function(url) {
       return $ionicModal.fromTemplateUrl(url, {
         animation: 'slide-in-up'
-      })
-      .then(function(newModal) {
-        debugger;
-        return newModal;
       });
     };
 
+    var getInviteData = function() {
+      // Might not need this?
+      return inviteData;
+    };
+
+    var setInviteData = function(data) {
+
+      if (data.email) {
+        inviteData.email = data.email;
+      }
+
+      if (data.group) {
+        inviteData.group = data.group;
+      }
+    };
+
+    var closeInviteModal = function() {
+      Group.groupInvite(inviteData.email, inviteData.group, function(response) {
+        console.log(response);
+      });
+      inviteData.email = '';
+      inviteData.group = '';
+      inviteModal.hide();
+    };
+
+
     return {
-      createModal: createModal
+      createInviteModal: createInviteModal,
+      closeInviteModal: closeInviteModal,
+      getInviteData: getInviteData,
+      setInviteData: setInviteData
     };
   });
