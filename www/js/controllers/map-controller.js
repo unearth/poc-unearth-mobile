@@ -72,5 +72,7 @@ angular.module('unearth.mapController', [])
         once = true;
       }
     });
+
+
   });
 
