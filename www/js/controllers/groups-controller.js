@@ -1,5 +1,5 @@
 angular.module('unearth.groupsController', [])
-  .controller('GroupsController', function ($scope, $state, $ionicHistory, $rootScope, Group, Authorization, ModalMaker) {
+  .controller('GroupsController', function ($scope, $state, $ionicHistory, $rootScope, Group, Authorization, Modal) {
 
     // if(window.localStorage.groups === undefined){
     //   window.localStorage.groups = JSON.stringify( [{id: 1, name: 'Group'}] );
@@ -26,16 +26,12 @@ angular.module('unearth.groupsController', [])
       // {id: 453, name:'group3'}
       // ]
 
-    var pendingRequestsModal;
-
     Group.getGroups(function(groupsData) {
+      // Sets the groupsData variable to the returned groups data to update the pending requests badge
       $scope.groupsData = groupsData.groups;
-      // DEBUG: pending members should update for all groups, implement a for loop to touch pending members of each group
-      $scope.pendingMembers = [];
-      for (var i = 0; i < $scope.groupsData.length; i++) {
-        $scope.pendingMembers.push($scope.groupsData[i].pendingMembers);
-      }
-      console.log($scope.pendingMembers);
+      console.log("groupsData: ", groupsData);
+      // Saves the group data from the server to the Modal factory to be accessed by the modal
+      Modal.saveGroupsData(groupsData);
     });
 
     $scope.credentials = {
@@ -131,16 +127,7 @@ angular.module('unearth.groupsController', [])
     };
 
     $scope.showPendingRequests = function() {
-      if(!pendingRequestsModal) {
-        ModalMaker.createModal('../../templates/pendingRequests-modal.html')
-          .then(function(modal) {
-            pendingRequestsModal = modal;
-            pendingRequestsModal.show();
-        });
-      } else {
-        pendingRequestsModal.show();
-      }
-
+      Modal.createPendingModal();
     }
   });
 

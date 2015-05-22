@@ -86,7 +86,7 @@ angular.module('unearth.mapServices', [])
 
   /////////////////////////////////////////////
   // Map Rendering functions
-  .factory('RenderMap', function($rootScope, Markers, ModalMaker) {
+  .factory('RenderMap', function($rootScope, Markers, Modal) {
 
     var zoomLevel;
     var layer;
@@ -114,7 +114,7 @@ angular.module('unearth.mapServices', [])
         zoomControl: false
       });
 
-      ModalMaker.createModal('../../templates/marker-modal.html')
+      Modal.createModal('../../templates/marker-modal.html')
         .then(function(modal) {
           markerModal = modal;
         })
@@ -203,18 +203,6 @@ angular.module('unearth.mapServices', [])
       Markers.postMarkers(marker);
     }
 
-    var displayMarkers = function (markerArr) {
-      for (var i = 0; i < markerArr.length; i++) {
-        L.marker(markerArr[i].coords)
-          .bindPopup (
-            '<h1>' + markerArr[i].title + '</h1>' +
-            '<div>' + markerArr[i].description + '</div>'
-            )
-          .addTo(map)
-
-      }
-    };
-
     return {
       init: init,
       handleZoom: handleZoom,
@@ -226,7 +214,6 @@ angular.module('unearth.mapServices', [])
     };
 
   })
-
 
   .factory('Markers', function($rootScope) {
     var placeMarker = function() {
@@ -241,7 +228,24 @@ angular.module('unearth.mapServices', [])
     }
   })
 
-  .factory('ModalMaker', function($ionicModal) {
+  .factory('Modal', function($ionicModal) {
+    var pendingModal;
+    var groupsDataObj;
+
+    var groupsData = function() {
+      return groupsDataObj;
+    };
+
+    var createPendingModal = function() {
+      createModal('../../templates/pendingRequests-modal.html').then(function(newModal) {
+        pendingModal = newModal;
+        pendingModal.show();
+      });
+    };
+
+    var saveGroupsData = function(data) {
+      groupsDataObj = data;
+    };
 
     var createModal = function(url) {
       return $ionicModal.fromTemplateUrl(url, {
@@ -253,6 +257,9 @@ angular.module('unearth.mapServices', [])
     };
 
     return {
-      createModal: createModal
+      createModal: createModal,
+      saveGroupsData: saveGroupsData,
+      groupsData: groupsData,
+      createPendingModal
     }
   });
