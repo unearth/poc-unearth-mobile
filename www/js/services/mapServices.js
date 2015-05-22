@@ -153,7 +153,8 @@ angular.module('unearth.mapServices', [])
         L.marker(markerArr[i].coords)
           .bindPopup (
             ['<h1>', markerArr[i].title, '</h1>',
-            '<div>', markerArr[i].description, '</div>'
+            '<div>', markerArr[i].description, '</div>',
+            '<img>', markerArr[i].imageUrl, '</img>'
             ].join(''))
           .addTo(map);
       }
@@ -169,25 +170,30 @@ angular.module('unearth.mapServices', [])
       });
     };
 
-    var createMarker = function(name, description) {
+
+    var createMarker = function(name, description, imgUrl) {
+      console.log('in createMarker');
       var newMarker = L.marker(markerCoords).bindPopup(
         ['<h1>' + name + '</h1>',
-        '<p>' + description + '</p>'].join('')
+        '<p>' + description + '</p>',
+        '<img src =' + imgUrl + '>'].join('')
       );
       map.off('click');
       newMarker.addTo(map);
       newMarker.openPopup();
 
       markerModal.hide();
+
       // Calls function to save new marker to local storage and make POST request
       storeMarker({
         groupId: window.localStorage.currentExpedition,
         location: markerCoords,
         name: name,
         description: description,
-        imageUrl: ''
+        imageUrl: imgUrl
       });
     };
+
 
     var storeMarker = function(marker) {
       markerArray = window.localStorage.get('markers');
