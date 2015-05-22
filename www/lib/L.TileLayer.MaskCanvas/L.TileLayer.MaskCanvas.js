@@ -110,7 +110,7 @@ L.TileLayer.MaskCanvas = L.TileLayer.Canvas.extend({
             g.fillRect(0, 0, tileSize, tileSize);
             g.globalCompositeOperation = 'destination-out';
         }
-        for (var i = 0, len = coordinates.length; i++) {
+        for (var i = 0, len = coordinates.length; i < len; i++) {
             p = self._tilePoint(ctx, coordinates[i]);
             g.beginPath();
             g.arc(p[0], p[1], self._getRadius(), 0, Math.PI * 2);
