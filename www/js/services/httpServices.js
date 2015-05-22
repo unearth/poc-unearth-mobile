@@ -219,6 +219,7 @@ angular.module('unearth.httpServices', [])
     };
 
     var groupJoin = function(choice, groupId, callback) {
+      console.log(groupId);
       return $http({
         method: 'POST',
         url: 'http://162.243.134.216:3000/group/' + choice,

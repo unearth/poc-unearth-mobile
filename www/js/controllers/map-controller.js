@@ -52,7 +52,6 @@ angular.module('unearth.mapController', [])
           waypoints = groupWaypoints;
           window.localStorage.setItem('waypoints', JSON.stringify(groupWaypoints));
           console.log(waypoints);
-        //}, 10000);
         });
       }
       // Sets watch position that calls the map service when a new position is received.

@@ -6,6 +6,10 @@ angular.module('unearth.modalController', [])
     };
     $scope.groupsData = Modal.groupsData();
 
+    $scope.closePending = function() {
+      Modal.closePending();
+    };
+
     $scope.submit = function() {
       var fd = new FormData();
       fd.append('file', $('.image')[0].files[0], 'image');
@@ -15,6 +19,7 @@ angular.module('unearth.modalController', [])
         $scope.contact.description = '';
       });
     };
+
     $scope.closeModal = function() {
       RenderMap.createMarker($scope.contact.name, $scope.contact.description);
       $scope.contact.name = '';
@@ -28,16 +33,20 @@ angular.module('unearth.modalController', [])
 
     Group.getInvites(function(pendingGroups) {
       console.log(pendingGroups);
-      $scope.numInvites = pendingGroups.groups[0].outstandingInvites.length;
-      $scope.pendingGroups = [];
-      for (var i = 0; i < $scope.numInvites; i++) {
-        $scope.pendingGroups.push(pendingGroups.groups[0].outstandingInvites[i][1][0]);
+      if(pendingGroups.groups.length > 0){
+        $scope.numInvites = pendingGroups.groups[0].outstandingInvites.length;
+        $scope.pendingGroups = [];
+        for (var i = 0; i < $scope.numInvites; i++) {
+          $scope.pendingGroups.push(pendingGroups.groups[0].outstandingInvites[i][1][0]);
+          $scope.pendingGroups[$scope.pendingGroups.length - 1].group_id = pendingGroups.groups[0].outstandingInvites[i][0].group_id;
+        }
       }
     });
 
     $scope.acceptInvite = function(group) {
-      Group.groupJoin('accept', group.group_id, function(group) {
-        if(group) {
+
+      Group.groupJoin('accept', group.group_id, function(response) {
+        if(response) {
           alert('accepted invite into: ' + group.name);
           window.localStorage.setItem('currentExpedition', group.group_id);
         } else{
@@ -50,10 +59,7 @@ angular.module('unearth.modalController', [])
 
     $scope.declineInvite = function(group) {
       Group.groupJoin('deny', group.group_id, function(response) {
-        if(response) {
-          alert('declined invite into: ' + group.name);
-          console.log(response);
-        } else{
+        if(!response) {
           console.log('didn\'t work!');
         }
       });

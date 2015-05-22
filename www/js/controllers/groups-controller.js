@@ -32,6 +32,7 @@ angular.module('unearth.groupsController', [])
 
       // Saves the group data from the server to the Modal factory to be accessed by the modal
       Modal.saveGroupsData(groupsData);
+      console.log("groupsData: ", groupsData);
     });
 
     $scope.credentials = {
