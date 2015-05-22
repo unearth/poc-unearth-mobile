@@ -61,7 +61,7 @@ angular.module('unearth.mapController', [])
           CoordinateFilter.handleCoordinate(position);
           waypoints = JSON.parse(window.localStorage.getItem('waypoints'));
           RenderMap.renderLayer(waypoints);
-          RenderMap.centerView()
+          RenderMap.centerView();
           initRender = false;
         } else {
           CoordinateFilter.handleCoordinate(position);
