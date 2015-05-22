@@ -160,7 +160,6 @@ angular.module('unearth.httpServices', [])
     };
 
     var groupInvite = function(email, groupId, callback) {
-      debugger;
       return $http({
         method: 'POST',
         url: 'http://162.243.134.216:3000/group/invite',
