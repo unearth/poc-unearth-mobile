@@ -256,10 +256,15 @@ angular.module('unearth.mapServices', [])
       });
     };
 
+    var closePending = function() {
+      pendingModal.hide();
+    }
+
     return {
       createModal: createModal,
       saveGroupsData: saveGroupsData,
       groupsData: groupsData,
-      createPendingModal
+      createPendingModal,
+      closePending: closePending
     }
   });

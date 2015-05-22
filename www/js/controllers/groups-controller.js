@@ -79,27 +79,6 @@ angular.module('unearth.groupsController', [])
       $state.go('tab.map');
     };
 
-    $scope.acceptInvite = function(group) {
-      Group.groupJoin('accept', group.group_id, function(group) {
-        if(error) {
-          console.log('didn\'t work!');
-        } else{
-          alert('accepted invite into: ' + group.name);
-          window.localStorage.setItem('currentExpedition', group.group_id);
-        }
-      });
-    };
-
-    $scope.declineInvite = function(group) {
-      Group.groupJoin('decline', group.group_id, function() {
-        if(error) {
-          console.log('didn\'t work!');
-        } else{
-          alert('declined invite into: ' + group.name);
-        }
-      });
-    };
-
     $scope.sendInvite = function(group) {
       console.log(group);
       Group.groupInvite(email, group.group_id, function() {

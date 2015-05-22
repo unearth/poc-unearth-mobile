@@ -38,10 +38,12 @@ angular.module('unearth.mapController', [])
 
       // TODO: Group waypoints are only loaded on initial load, need to continuously get group data
       if (window.localStorage.getItem('currentExpedition') !== "undefined" && window.localStorage.getItem('currentExpedition') !== 'solo') {
-        Group.getGroupWaypoints(window.localStorage.getItem('currentExpedition'), function(group) {
+        $interval(function() {
+          Group.getGroupWaypoints(window.localStorage.getItem('currentExpedition'), function(group) {
 
           window.localStorage.setItem('groupWaypoints', group.waypoints);
           waypoints.concat(window.localStorage.getItem('groupWaypoints'));
+        }, 10000);
         });
       }
       // Sets watch position that calls the map service when a new position is received.
