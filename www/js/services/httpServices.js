@@ -120,7 +120,6 @@ angular.module('unearth.httpServices', [])
     };
 
     var sendWaypoints = function(waypoints, callback) {
-      debugger;
       console.log('waypoints sent: ', waypoints);
       return $http({
         method: 'POST',

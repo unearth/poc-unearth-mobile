@@ -129,7 +129,7 @@ angular.module('unearth.mapController', [])
         } else {
           // Retreives waypoints for group then renders.
           storeGroupWaypoints(function(groupWaypoints) {
-            window.localStorage.setItem('waypoints', JSON.stringify(groupWaypoints));
+            window.localStorage.setItem('groupWaypoints', JSON.stringify(groupWaypoints));
             RenderMap.renderLayer(groupWaypoints);
             RenderMap.centerView();
           })
