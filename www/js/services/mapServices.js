@@ -311,7 +311,7 @@ angular.module('unearth.mapServices', [])
       setInviteData: setInviteData,
       saveGroupsData: saveGroupsData,
       groupsData: groupsData,
-      createPendingModal,
+      createPendingModal: createPendingModal,
       closePending: closePending
     };
 

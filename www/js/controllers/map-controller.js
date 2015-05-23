@@ -102,7 +102,7 @@ angular.module('unearth.mapController', [])
     );
 
     var combineWaypoints = function(groupWaypoints) {
-      var currentWaypoints = window.localStorage.getItem('waypointsToBeSent');
+      var currentWaypoints = JSON.parse(window.localStorage.getItem('waypointsToBeSent'));
       return currentWaypoints.concat(groupWaypoints);
     }
 
@@ -112,13 +112,18 @@ angular.module('unearth.mapController', [])
       function() {
         // Updates current expedition to value in local storage.
         currentExpedition = window.localStorage.getItem('currentExpedition');
+        waypoints = JSON.parse(window.localStorage.getItem('waypoints'));
 
         if (currentExpedition === 'solo') {
           // Retreives waypoints for solo then renders.
           Waypoints.getWaypoints(function(data) {
+            if (waypoints.length === 0) {
+              waypoints = JSON.parse(window.localStorage.getItem('waypointsToBeSent')).waypoints;
+            }
             // This checks to make sure its not an empty array.
-            if (waypoints[0] !== undefined) {
+            if (waypoints.length !== 0) {
               RenderMap.renderLayer(waypoints);
+              RenderMap.centerView();
             }
           })
         } else {
@@ -126,6 +131,7 @@ angular.module('unearth.mapController', [])
           storeGroupWaypoints(function(groupWaypoints) {
             window.localStorage.setItem('waypoints', JSON.stringify(groupWaypoints));
             RenderMap.renderLayer(groupWaypoints);
+            RenderMap.centerView();
           })
         }
       }, 10000);
