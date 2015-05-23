@@ -27,8 +27,10 @@ angular.module('unearth.modalController', [])
     };
 
     Group.getInvites(function(pendingGroups) {
-      console.log(pendingGroups);
-      $scope.numInvites = pendingGroups.groups[0].outstandingInvites.length;
+      // If there are pending groups enter block.
+      if (pendingGroups.groups[0]) {
+        $scope.numInvites = pendingGroups.groups[0].outstandingInvites.length;
+      }
       $scope.pendingGroups = [];
       for (var i = 0; i < $scope.numInvites; i++) {
         $scope.pendingGroups.push(pendingGroups.groups[0].outstandingInvites[i][1][0]);

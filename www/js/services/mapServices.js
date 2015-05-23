@@ -1,7 +1,9 @@
 angular.module('unearth.mapServices', [])
   .factory('CoordinateFilter', function($rootScope, Waypoints) {
-    var waypointsToBeSent = {waypoints: []};
-    // Upon initialization the waypointsToBeSent obj and the allWaypoints obj needs to be retreived/initialized.
+
+    if (window.localStorage.getItem('waypointsToBeSent') === null) {
+      window.localStorage.setItem('waypointsToBeSent', JSON.stringify({waypoints: []}));
+    }
 
     var handleCoordinate = function(position) {
       var coordinateTuple = [];
@@ -13,6 +15,7 @@ angular.module('unearth.mapServices', [])
     };
 
     var storeCoordinate = function(coordinate) {
+      console.log(coordinate)
       // Sets the temp variable to either an empty array if local storage is clean or the current value in local storage.
       var temp = window.localStorage.getItem('waypoints');
       temp = (temp === null) ? [] : JSON.parse(temp);
@@ -21,7 +24,10 @@ angular.module('unearth.mapServices', [])
       // Updates local storage with new waypoints.
       window.localStorage.setItem('waypoints', JSON.stringify(temp));
 
+      waypointsToBeSent = JSON.parse(window.localStorage.getItem('waypointsToBeSent'));
       waypointsToBeSent.waypoints.push(coordinate);
+      window.localStorage.setItem('waypointsToBeSent', JSON.stringify(waypointsToBeSent));
+
 
       // Checks to see if the waypoints array is 3 or more.
       if (waypointsToBeSent.waypoints.length > 2) {
@@ -34,12 +40,13 @@ angular.module('unearth.mapServices', [])
             console.error('error on response to storeCoordiante http request');
           }
           // Resets the waypointsToBeSent array.
-          waypointsToBeSent.waypoints = [];
+          window.localStorage.setItem('waypointsToBeSent', '[]')
         });
       }
     };
 
     var shouldStoreCoordinate = function(coordinate) {
+      waypointsToBeSent = JSON.parse(window.localStorage.getItem('waypointsToBeSent'));
       // Checks to make sure the coordinates has something to compare to, .005mi = 26ft.
       for (var i = 0; i < waypointsToBeSent.waypoints.length; i++) {
         if (calcDistance(coordinate, waypointsToBeSent.waypoints[i]) < 0.005) {
