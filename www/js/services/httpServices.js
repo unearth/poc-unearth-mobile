@@ -18,7 +18,8 @@ angular.module('unearth.httpServices', [])
       },
 
       //If error return false.
-      function(){return false});
+      function(){ return false; }
+      );
     };
 
     var signUp = function(email, password, username) {
@@ -27,7 +28,7 @@ angular.module('unearth.httpServices', [])
         url: 'http://162.243.134.216:3000/signup',
         processData: false,
         data: {
-          username: username,
+          name: username,
           email: email,
           password: password
           },
@@ -39,7 +40,8 @@ angular.module('unearth.httpServices', [])
       },
 
       //If error return false.
-      function(){return false});
+      function(){ return false; }
+      );
     };
 
     return {
@@ -48,12 +50,12 @@ angular.module('unearth.httpServices', [])
     };
   })
 
-  .factory('Markers', function($http) {
+  .factory('MarkersHTTP', function($http) {
 
     var getMarkers = function() {
       return $http({
         method: 'GET',
-        url: 'http://162.243.134.216:3000/marker',
+        url: 'http://localhost:3000/marker',
         processData: false,
         header: {'Content-Type':'application/JSON'}
       })
@@ -61,25 +63,56 @@ angular.module('unearth.httpServices', [])
         window.localStorage.setItem('markers', response.data);
         return true;
       },
-
       //If error return false.
-      function(){return false});
-    }
+      function(){ return false; }
+      );
+    };
 
-    var postMarkers = function() {
+    var postMarkerImage = function(fd, callback) {
+      return $http({
+        method: 'POST',
+        url: 'http://162.243.134.216:3000/marker/image',
+        processData: false,
+        data: fd,
+        transformRequest:angular.identity,
+        headers:{'Content-Type':undefined}
+      })
+      .then(function(response){
+        callback(response);
+      });
+    };
+
+      // {
+      //   groupId: window.localStorage.currentExpedition,
+      //   location: markerCoords,
+      //   name: name,
+      //   description: description,
+      //   imageUrl: ''
+      // }
+
+    var postMarkers = function(marker) {
       return $http({
         method: 'POST',
         url: 'http://162.243.134.216:3000/marker',
+        data: {
+          "markers": [marker]
+        },
         processData: false,
         header: {'Content-Type':'application/JSON'}
       })
       .then(function(response) {
         return true;
       },
-
       //If error return false.
-      function(){return false});
-    }
+      function(){ return false; }
+      );
+    };
+
+    return {
+      getMarkers: getMarkers,
+      postMarkerImage: postMarkerImage,
+      postMarkers: postMarkers
+    };
   })
 
   .factory('Waypoints', function($http) {
@@ -118,14 +151,17 @@ angular.module('unearth.httpServices', [])
 
   .factory('Group', function($http) {
 
-    var getGroupWaypoints = function(groupID, callback) {
+    var getGroupWaypoints = function(groupId, callback) {
       return $http({
         method: 'GET',
         url: 'http://162.243.134.216:3000/group/waypoints',
         processData: false,
-        headers: {'Content-Type': 'application/JSON'}
+        headers: {
+          'Content-Type': 'application/JSON',
+          'groupid': groupId
+        }
       })
-      .then(function(respose) {
+      .then(function(response) {
         callback(response.data);
       });
     };
@@ -133,7 +169,7 @@ angular.module('unearth.httpServices', [])
     var getGroups = function(callback) {
       return $http({
         method: 'GET',
-        url: 'http://162.243.134.216:3000/group/groups',
+        url: 'http://162.243.134.216:3000/group',
         processData: false,
         headers: {'Content-Type':'application/JSON'}
       })
@@ -143,15 +179,48 @@ angular.module('unearth.httpServices', [])
       });
     };
 
-    var groupInvite = function(email, groupID, callback) {
+    var groupCreate = function(groupName, groupDescription, callback) {
+      return $http({
+        method: 'POST',
+        url: 'http://162.243.134.216:3000/group/create',
+        processData: false,
+        data: {
+          groupName: groupName,
+          groupDescription: groupDescription,
+          emails: ['trav@trav.com']
+        },
+        headers: {'Content-Type':'application/JSON'}
+      })
+      .then(function(response) {
+        callback(response.data);
+      });
+    };
+
+    var groupInvite = function(email, groupId, callback) {
       return $http({
         method: 'POST',
         url: 'http://162.243.134.216:3000/group/invite',
         processData: false,
         data: {
           email: email,
-          groupID: groupID
+          groupId: groupId
         },
+        headers: {'Content-Type':'application/JSON'}
+      })
+      .then(
+        //If succcess...
+        function(success) {callback(success);},
+
+        //If error...
+        function(error){callback(error);}
+      );
+    };
+
+    var getInvites = function(callback) {
+      return $http({
+        method: 'GET',
+        url: 'http://162.243.134.216:3000/group/invites',
+        processData: false,
         headers: {'Content-Type':'application/JSON'}
       })
       .then(function(response) {
@@ -159,13 +228,14 @@ angular.module('unearth.httpServices', [])
       });
     };
 
-    var groupJoin = function(choice, groupID, callback) {
+    var groupJoin = function(choice, groupId, callback) {
+      console.log(groupId);
       return $http({
         method: 'POST',
         url: 'http://162.243.134.216:3000/group/' + choice,
         processData: false,
         data: {
-          groupID: groupID
+          groupId: groupId
         },
         headers: {'Content-Type':'application/JSON'}
       })
@@ -174,27 +244,32 @@ angular.module('unearth.httpServices', [])
       });
     };
 
-    var groupCreate = function(groupID, callback) {
-      return $http({
-        method: 'POST',
-        url: 'http://162.243.134.216:3000/group/create',
-        processData: false,
-        data: {
-          groupID: groupID
-        },
-        headers: {'Content-Type':'application/JSON'}
-      })
-      .then(function(response) {
-        callback(response.data);
-      });
-    };
+    // TODO: INCOMPLETE
+    // var syncGroups = function(email, callback) {
+    //   getGroups(email, function(results) {
+    //     var groups = window.localStorage.groups;
+    //     var groupObj = {};
+    //     for(var i = 0; i < groups.length; i++) {
+    //       groupObj[groups[i].id] = groups[i].name;
+    //       if(!groups[i].id){
+    //         // Post group to database
+    //       }
+    //     }
+    //     for(var j = 0; i < results.length; j++) {
+    //       if(groupObj[results[j].id] === undefined){
+    //         // De-register from group
+    //       }
+    //     }
+    //   });
+    // };
 
     return {
       getGroupWaypoints: getGroupWaypoints,
       getGroups: getGroups,
       groupInvite: groupInvite,
       groupJoin: groupJoin,
-      groupCreate: groupCreate
+      groupCreate: groupCreate,
+      getInvites: getInvites
     };
   });
 

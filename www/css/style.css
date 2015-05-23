@@ -50,6 +50,11 @@
   margin: 0 auto;
 }
 
+.center {
+  display: block;
+  margin: 0 auto;
+}
+
 .center-form {
   margin: 145px auto 30px auto;
   width: 80%;
@@ -122,4 +127,44 @@ input::-webkit-input-placeholder {
   top:10px;
   right:10px;
   z-index:1000;
+}
+
+.title-modal {
+  height: 2em;
+  text-shadow: #aaa 2px 2px 2px;
+}
+
+.header-modal {
+  font-size: 20px;
+  text-shadow: #aaa 2px 2px 2px;
+}
+
+.text-box-modal {
+  height: 13em;
+}
+
+.shrink-left {
+  width: .5em;
+}
+
+.modal-break {
+  display: block;
+  height: 2em;
+}
+
+.modal-wrapper {
+
+}
+
+@media (max-width: 680px) {
+  .modal {
+    top: 20%;
+    left: 10%;
+    min-height: 60%;
+    width: 80%;
+  }
+}
+
+.text-shadow {
+  text-shadow: #aaa 2px 2px 2px;
 }

@@ -1,4 +1,4 @@
-angular.module('unearth', ['ionic', 'angular-jwt', 'unearth.mapController', 'unearth.signUpController', 'unearth.loginController', 'unearth.httpServices', 'unearth.settingsController', 'unearth.mapServices'])
+angular.module('unearth', ['ionic', 'angular-jwt', 'unearth.mapController', 'unearth.signUpController', 'unearth.loginController', 'unearth.groupsController', 'unearth.httpServices', 'unearth.settingsController', 'unearth.mapServices', 'unearth.modalController', 'unearth.createGroupController'])
 
   .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
@@ -61,6 +61,7 @@ angular.module('unearth', ['ionic', 'angular-jwt', 'unearth.mapController', 'une
     })
 
     .state('tab', {
+      cache: false,
       url: '/tab',
       abstract: true,
       templateUrl: 'templates/tabs.html',
@@ -70,6 +71,7 @@ angular.module('unearth', ['ionic', 'angular-jwt', 'unearth.mapController', 'une
     })
 
     .state('tab.map', {
+      cache: false,
       url: '/map',
       data: {
         requireLogin: true
@@ -81,6 +83,46 @@ angular.module('unearth', ['ionic', 'angular-jwt', 'unearth.mapController', 'une
         }
       }
     })
+
+    .state('tab.groups', {
+      cache: false,
+      url: '/groups',
+      data: {
+        requireLogin: true
+      },
+      views: {
+        'tab-groups': {
+          templateUrl: 'templates/tab-groups.html',
+          controller: 'GroupsController'
+        }
+      }
+    })
+
+    .state('tab.create', {
+      url: '/createGroup',
+      data: {
+        requireLogin: true
+      },
+      views: {
+        'tab-groups': {
+          templateUrl: 'templates/tab-createGroup.html',
+          controller: 'CreateGroupController'
+        }
+      }
+    })
+
+    // .state('tab.pending', {
+    //   url: '/pendingGroups',
+    //   data: {
+    //     requireLogin: true
+    //   },
+    //   views: {
+    //     'tab-groups': {
+    //       templateUrl: 'templates/tab-pendingGroups.html',
+    //       controller: 'GroupsController'
+    //     }
+    //   }
+    // })
 
     .state('tab.settings', {
       url: '/settings',
@@ -105,3 +147,4 @@ angular.module('unearth', ['ionic', 'angular-jwt', 'unearth.mapController', 'une
     //that would prevent CORS from working
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
   });
+

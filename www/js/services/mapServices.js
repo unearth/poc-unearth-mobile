@@ -1,7 +1,9 @@
 angular.module('unearth.mapServices', [])
   .factory('CoordinateFilter', function($rootScope, Waypoints) {
-    var waypointsToBeSent = {waypoints: []};
-    // Upon initialization the waypointsToBeSent obj and the allWaypoints obj needs to be retreived/initialized.
+
+    if (window.localStorage.getItem('waypointsToBeSent') === null) {
+      window.localStorage.setItem('waypointsToBeSent', JSON.stringify({waypoints: []}));
+    }
 
     var handleCoordinate = function(position) {
       var coordinateTuple = [];
@@ -13,6 +15,7 @@ angular.module('unearth.mapServices', [])
     };
 
     var storeCoordinate = function(coordinate) {
+      console.log(coordinate)
       // Sets the temp variable to either an empty array if local storage is clean or the current value in local storage.
       var temp = window.localStorage.getItem('waypoints');
       temp = (temp === null) ? [] : JSON.parse(temp);
@@ -21,9 +24,12 @@ angular.module('unearth.mapServices', [])
       // Updates local storage with new waypoints.
       window.localStorage.setItem('waypoints', JSON.stringify(temp));
 
+      waypointsToBeSent = JSON.parse(window.localStorage.getItem('waypointsToBeSent'));
       waypointsToBeSent.waypoints.push(coordinate);
+      window.localStorage.setItem('waypointsToBeSent', JSON.stringify(waypointsToBeSent));
 
-        // Checks to see if the waypoints array is 3 or more.
+
+      // Checks to see if the waypoints array is 3 or more.
       if (waypointsToBeSent.waypoints.length > 2) {
 
         // Sends waypoints to the database
@@ -34,12 +40,13 @@ angular.module('unearth.mapServices', [])
             console.error('error on response to storeCoordiante http request');
           }
           // Resets the waypointsToBeSent array.
-          waypointsToBeSent.waypoints = [];
+          window.localStorage.setItem('waypointsToBeSent', '[]')
         });
       }
     };
 
     var shouldStoreCoordinate = function(coordinate) {
+      waypointsToBeSent = JSON.parse(window.localStorage.getItem('waypointsToBeSent'));
       // Checks to make sure the coordinates has something to compare to, .005mi = 26ft.
       for (var i = 0; i < waypointsToBeSent.waypoints.length; i++) {
         if (calcDistance(coordinate, waypointsToBeSent.waypoints[i]) < 0.005) {
@@ -58,13 +65,13 @@ angular.module('unearth.mapServices', [])
     }
 
     // Calculate the distance between 2 waypoints, given their latitudes and longitudes, return distance in miles.
-    var calcDistance = function(pt1, pt2) {
+    var calcDistance = function(point1, point2) {
 
       var R = 6371; // Earth radius, in km.
-      var lat1 = pt1[0];
-      var lon1 = pt1[1];
-      var lat2 = pt2[0];
-      var lon2 = pt2[1];
+      var lat1 = point1[0];
+      var lon1 = point1[1];
+      var lat2 = point2[0];
+      var lon2 = point2[1];
 
       var dLat = (lat2 - lat1).toRad();
       var dLon = (lon2 - lon1).toRad();
@@ -74,7 +81,7 @@ angular.module('unearth.mapServices', [])
       var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
               Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
       var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      var distance = R * c * 0.621371; // convert distance from km to miles
+      var distance = R * c * 0.621371; // Converts distance from km to miles
       return distance;
     };
 
@@ -86,12 +93,14 @@ angular.module('unearth.mapServices', [])
 
   /////////////////////////////////////////////
   // Map Rendering functions
-  .factory('RenderMap', function($rootScope) {
+  .factory('RenderMap', function($rootScope, Markers, Modal) {
 
     var zoomLevel;
     var layer;
     var currentPosition;
     var map;
+    var markerModal;
+    var markerCoords;
     L.mapbox.accessToken = mapboxAccessToken;
 
     // Load map
@@ -112,18 +121,16 @@ angular.module('unearth.mapServices', [])
         zoomControl: false
       });
 
-      var dummyData = [{
-        title: 'MakerSquare',
-        description: 'This place is awesome heres some info about them: MakerSquare is a 3 month full-time career accelerator for software engineering. By teaching computer science fundamentals and modern web languages like JavaScript, we prepare students to join top flight engineering teams.',
-        coords: [37.750288, -122.414675]
-      }];
-
-      displayMarkers(dummyData);
+      Modal.createModal('../../templates/marker-modal.html')
+        .then(function(modal) {
+          markerModal = modal;
+        });
 
       // Disables zoom
       map.touchZoom.disable();
       map.doubleClickZoom.disable();
       map.scrollWheelZoom.disable();
+
     };
 
     // Sets zoom level to wide or zoom and centers view on current position
@@ -139,9 +146,13 @@ angular.module('unearth.mapServices', [])
     // Draws the fog overlay and centers the map on the most recent coordinate
     var renderLayer = function(waypoints) {
       map.removeLayer(layer);
-      layer.setData(waypoints);
+      if (waypoints) {
+        layer.setData(waypoints);
+        currentPosition = waypoints[waypoints.length - 1];
+      } else {
+        layer.setData([0,0]);
+      }
       map.addLayer(layer);
-      currentPosition = waypoints[waypoints.length - 1];
     };
 
 
@@ -154,11 +165,58 @@ angular.module('unearth.mapServices', [])
       for (var i = 0; i < markerArr.length; i++) {
         L.marker(markerArr[i].coords)
           .bindPopup (
-            '<h1>' + markerArr[i].title + '</h1>' +
-            '<div>' + markerArr[i].description + '</div>'
-            )
-          .addTo(map)
-      };
+            ['<h1>', markerArr[i].title, '</h1>',
+            '<div>', markerArr[i].description, '</div>',
+            '<img>', markerArr[i].imageUrl, '</img>'
+            ].join(''))
+          .addTo(map);
+      }
+    };
+
+    var addMarkerListener = function() {
+      map.on('click', function(event) {
+        console.log('click');
+        console.log(event.latlng);
+        markerCoords = [event.latlng.lat, event.latlng.lng];
+        markerModal.show();
+        // createMarker([event.latlng.lat, event.latlng.lng]);
+      });
+    };
+
+
+    var createMarker = function(name, description) {
+      console.log('in createMarker');
+      var newMarker = L.marker(markerCoords).bindPopup(
+        ['<h1>', name, '</h1>',
+        '<p>', description, '</p>'].join('')
+      );
+      map.off('click');
+      newMarker.addTo(map);
+      newMarker.openPopup();
+
+      markerModal.hide();
+
+      // Calls function to save new marker to local storage and make POST request
+      storeMarker({
+        groupId: window.localStorage.currentExpedition,
+        location: markerCoords,
+        name: name,
+        description: description,
+        imageUrl: ''
+      });
+    };
+
+
+    var storeMarker = function(markerObj) {
+      markerArray = window.localStorage.getItem('markers');
+      if(markerArray && markerArray !== 'undefined' && markerArray !== 'null'){
+        markerArray = JSON.parse(markerArray);
+      } else {
+        markerArray = [];
+      }
+        markerArray.push(markerObj);
+        window.localStorage.setItem('markers', JSON.stringify(markerArray));
+        Markers.postMarkers(markerObj);
     };
 
     return {
@@ -167,9 +225,102 @@ angular.module('unearth.mapServices', [])
       renderLayer: renderLayer,
       centerView: centerView,
       displayMarkers: displayMarkers,
+      createMarker: createMarker,
+      addMarkerListener: addMarkerListener
+    };
+
+  })
+
+  .factory('Markers', function($rootScope, MarkersHTTP) {
+    var placeMarker = function() {
+      $rootScope.$on('marker', function(latlng) {
+        // Create a marker with passed lat lng
+        console.log(latlng);
+      });
+    };
+
+    var postMarkers = function(markerObj) {
+      MarkersHTTP.postMarkers(markerObj);
+    };
+
+    return {
+      placeMarker: placeMarker,
+      postMarkers: postMarkers
+    };
+  })
+
+  .factory('Modal', function($ionicModal, Group) {
+    var inviteModal;
+    var pendingModal;
+    var groupsDataObj;
+
+    var inviteData = {
+      group: '',
+      email: ''
+    };
+
+    var createInviteModal = function(url) {
+      createModal(url)
+      .then(function(modal) {
+        inviteModal = modal;
+        inviteModal.show();
+      });
+    };
+
+    var groupsData = function() {
+      return groupsDataObj;
+    };
+
+    var createPendingModal = function() {
+      createModal('../../templates/pendingRequests-modal.html').then(function(newModal) {
+        pendingModal = newModal;
+        pendingModal.show();
+      });
+    };
+
+    var saveGroupsData = function(data) {
+      groupsDataObj = data;
+    };
+
+    var createModal = function(url) {
+      return $ionicModal.fromTemplateUrl(url, {
+        animation: 'slide-in-up'
+      });
+    };
+
+    var setInviteData = function(data) {
+
+      if (data.email) {
+        inviteData.email = data.email;
+      }
+
+      if (data.group) {
+        inviteData.group = data.group;
+      }
+    };
+
+    var closeInviteModal = function() {
+      Group.groupInvite(inviteData.email, inviteData.group, function(response) {
+        console.log(response);
+      });
+      inviteData.email = '';
+      inviteData.group = '';
+      inviteModal.hide();
+    };
+
+    var closePending = function() {
+      pendingModal.hide();
+    };
+
+    return {
+      createModal: createModal,
+      createInviteModal: createInviteModal,
+      closeInviteModal: closeInviteModal,
+      setInviteData: setInviteData,
+      saveGroupsData: saveGroupsData,
+      groupsData: groupsData,
+      createPendingModal: createPendingModal,
+      closePending: closePending
     };
 
   });
-
-
-

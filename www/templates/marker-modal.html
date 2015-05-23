@@ -1,0 +1,58 @@
+  <div class="modal" ng-controller="ModalController">
+    <ion-header-bar>
+      <h1 class="header-modal center">{{contact.title}}</h1>
+    </ion-header-bar ng-controller="ModalController">
+    <ion-content>
+    <form
+        name="markerForm"
+        ng-submit="submitMarker()"
+        novalidate
+        class="simple-form">
+
+      <div class="list"
+      ng-class= "{'has-error' : markerForm.$invalid, 'no-error' : markerForm.$valid || !markerForm.$submitted }">
+        <label class="item item-input">
+          <span class="input-label title-modal shrink-left">Title:</span>
+            <input type="text"
+            ng-model="contact.title"
+            required
+            ng-focus="clearError(markerForm)">
+        </label>
+      </div>
+
+      <div class="modal-break"></div>
+        <label class="item item-input">
+          <textarea placeholder="Enter Description Here..."
+          class="text-box-modal"
+          type="text"
+          ng-model="contact.description">
+          </textarea>
+        </label>
+
+      <div class="modal-break"></div>
+        <div>
+        <label class="item item-input">
+          <span class="input-label title-modal shrink-left">Uploaded Image: {{imageuploaded}}</span> <span ng-hide="imageuploaded"> No image uploaded.</span>
+          <input type="file"
+          name="image"
+          class="image ng-untouched ng-dirty ng-valid-parse ng-invalid-required"
+          ng-model="file"
+          valid-file required accept="image/*">
+          </input>
+        </label>
+        </div>
+      <div>
+        <button class="center button button-energized"
+        type="submit">Done</button>
+      </div>
+             <!-- Error Messages -->
+        <div>
+          <span ng-show="markerForm.$error.required && markerForm.$submitted" class="error-messages">Your marker requires at least a title. Spruce it up!</span>
+        </div>
+
+      </form>
+    </ion-content>
+  </div>
+
+
+

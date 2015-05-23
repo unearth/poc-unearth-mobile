@@ -1,0 +1,27 @@
+<ion-view>
+  <ion-nav-bar class="bar bar-header bar-light">
+    <ion-nav-back-button class="button-clear" ng-click="myGoBack()">
+      <i class="ion-arrow-left-c"></i> Back
+    </ion-nav-back-button>
+    <h1 class="title">Expeditions</h1>
+  </ion-nav-bar>
+  <ion-content class="has-header">
+    <ion-nav-title>Pending Requests</ion-nav-title>
+
+    <div class="list">
+      <label class="item item-input">
+        <span class="input-label">Group Name</span>
+        <input type="text" ng-model="newGroup.name">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Description</span>
+        <input type="text" ng-model="newGroup.description">
+      </label>
+    </div>
+
+    <button ng-click="createGroup(newGroup)" class="button button-bar button-positive">
+      Start an Expedition
+    </button>
+
+  </ion-content>
+</ion-view>
