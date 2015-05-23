@@ -138,12 +138,11 @@ angular.module('unearth.mapServices', [])
 
     // Draws the fog overlay and centers the map on the most recent coordinate
     var renderLayer = function(waypoints) {
-      map.removeLayer(layer);
-      layer.setData(waypoints);
-      map.addLayer(layer);
-      currentPosition = waypoints[waypoints.length - 1];
+        map.removeLayer(layer);
+        layer.setData(waypoints);
+        map.addLayer(layer);
+        currentPosition = waypoints[waypoints.length - 1];
     };
-
 
     // Centers map on current position
     var centerView = function() {
