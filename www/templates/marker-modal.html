@@ -5,51 +5,52 @@
     <ion-content>
     <form
         name="markerForm"
-        ng-submit="submit()"
+        ng-submit="submitMarker()"
         novalidate
         class="simple-form">
+
       <div class="list"
       ng-class= "{'has-error' : markerForm.$invalid, 'no-error' : markerForm.$valid || !markerForm.$submitted }">
         <label class="item item-input">
           <span class="input-label title-modal shrink-left">Title:</span>
-          <input type="text"
-          ng-model="contact.title"
-          required
-          ng-focus="clearError(markerForm)">
-      </div>
+            <input type="text"
+            ng-model="contact.title"
+            required
+            ng-focus="clearError(markerForm)">
         </label>
-        <div class="modal-break"></div>
+      </div>
+
+      <div class="modal-break"></div>
         <label class="item item-input">
-        <div
-        ng-class="{'has-error' : markerForm.$invalid, 'no-error' : markerForm.$valid || !markerForm.$submitted }">
           <textarea placeholder="Enter Description Here..."
           class="text-box-modal"
           type="text"
-          ng-model="contact.description"
-          required
-          ng-focus="clearError(markerForm)">
+          ng-model="contact.description">
           </textarea>
-          </div>
         </label>
-        <div class="modal-break"></div>
+
+      <div class="modal-break"></div>
+        <div>
         <label class="item item-input">
-        <div
-        ng-class="{'has-error' : markerForm.$invalid, 'no-error' : markerForm.$valid || !markerForm.$submitted }">
-          <span class="input-label title-modal shrink-left">Upload Image:</span>
+          <span class="input-label title-modal shrink-left">Uploaded Image: {{imageuploaded}}</span> <span ng-hide="imageuploaded"> No image uploaded.</span>
           <input type="file"
           name="image"
-          class="image"
+          class="image ng-untouched ng-dirty ng-valid-parse ng-invalid-required"
           ng-model="file"
-          valid-file required accept="image/*"
-          required
-          ng-focus="clearError(markerForm)"></input>
-          </div>
+          valid-file required accept="image/*">
+          </input>
         </label>
-      </div>
-      </form>
+        </div>
       <div>
-        <button class="center button button-energized" ng-click="submit()">Done</button>
+        <button class="center button button-energized"
+        type="submit">Done</button>
       </div>
+             <!-- Error Messages -->
+        <div>
+          <span ng-show="markerForm.$error.required && markerForm.$submitted" class="error-messages">Your marker requires at least a title. Spruce it up!</span>
+        </div>
+
+      </form>
     </ion-content>
   </div>
 

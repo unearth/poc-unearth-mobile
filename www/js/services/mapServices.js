@@ -277,6 +277,7 @@ angular.module('unearth.mapServices', [])
 
 
     return {
+      createModal: createModal,
       createInviteModal: createInviteModal,
       closeInviteModal: closeInviteModal,
       getInviteData: getInviteData,
