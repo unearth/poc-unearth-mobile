@@ -146,9 +146,13 @@ angular.module('unearth.mapServices', [])
     // Draws the fog overlay and centers the map on the most recent coordinate
     var renderLayer = function(waypoints) {
       map.removeLayer(layer);
-      layer.setData(waypoints);
+      if (waypoints) {
+        layer.setData(waypoints);
+        currentPosition = waypoints[waypoints.length - 1];
+      } else {
+        layer.setData([0,0]);
+      }
       map.addLayer(layer);
-      currentPosition = waypoints[waypoints.length - 1];
     };
 
 
