@@ -167,9 +167,7 @@ angular.module('unearth.mapServices', [])
 
     var displayMarkers = function (markerArr) {
       for (var i = 0; i < markerArr.length; i++) {
-        console.log(markerArr[i], JSON.parse(window.localStorage.getItem('currentExpedition')));
         if (markerArr[i].group_id === JSON.parse(window.localStorage.getItem('currentExpedition'))) {
-        console.log('groupId match!');
         L.marker(markerArr[i].location)
           .bindPopup (
             ['<h1>', markerArr[i].name, '</h1>',
