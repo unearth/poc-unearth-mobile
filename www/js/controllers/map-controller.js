@@ -22,7 +22,6 @@ angular.module('unearth.mapController', [])
     RenderMap.init();
     RenderMap.renderLayer(waypoints);
 
-
     var storeGroupWaypoints = function(callback) {
       currentExpedition = window.localStorage.getItem('currentExpedition');
 
@@ -73,7 +72,6 @@ angular.module('unearth.mapController', [])
               if (waypoints !== null) {
                 if (waypoints.length > 0) {
                   RenderMap.renderLayer(waypoints);
-                  RenderMap.centerView();
                   initRender = false;
                 }
               }
