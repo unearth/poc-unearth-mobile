@@ -4,21 +4,34 @@ angular.module('unearth.modalController', [])
       name: '',
       description: ''
     };
+
     $scope.groupsData = Modal.groupsData();
 
     $scope.closePending = function() {
       Modal.closePending();
     };
 
-    $scope.submit = function() {
-      // var fd = new FormData();
-      // fd.append('file', $('.image')[0].files[0], 'image');
-      // MarkersHTTP.postMarkerImage(fd, function(response) {
-      //   RenderMap.createMarker($scope.contact.name, $scope.contact.description, response.data.image_url);
-        RenderMap.createMarker($scope.contact.name, $scope.contact.description);
-        $scope.contact.name = '';
+    $scope.clearError = function(markerForm) {
+      markerForm.$submitted = false;
+    };
+
+    $scope.submitMarker = function() {
+      var fd = new FormData();
+      fd.append('file', $('.image')[0].files[0], 'image');
+
+      var createMarker = function(imageData){
+        RenderMap.createMarker($scope.contact.title, $scope.contact.description, imageData);
+        $scope.contact.title = '';
         $scope.contact.description = '';
-      // });
+      };
+
+      if ($('.image')[0].files[0]) {
+        MarkersHTTP.postMarkerImage(fd, function(response) {
+          createMarker(response.data.image_url);
+        });
+      } else {
+        createMarker('');
+      }
     };
 
     $scope.closeModal = function() {
