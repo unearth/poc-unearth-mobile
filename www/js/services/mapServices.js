@@ -150,10 +150,6 @@ angular.module('unearth.mapServices', [])
       map.setView(currentPosition, zoomLevel);
     };
 
-    var createMarker = function(coordinates) {
-      L.marker(coordinates).addTo(map);
-    };
-
     var displayMarkers = function (markerArr) {
       for (var i = 0; i < markerArr.length; i++) {
         L.marker(markerArr[i].coords)
@@ -177,12 +173,11 @@ angular.module('unearth.mapServices', [])
     };
 
 
-    var createMarker = function(name, description, imgUrl) {
+    var createMarker = function(name, description) {
       console.log('in createMarker');
       var newMarker = L.marker(markerCoords).bindPopup(
         ['<h1>', name, '</h1>',
-        '<p>', description, '</p>',
-        '<img src =', imgUrl, '>'].join('')
+        '<p>', description, '</p>'].join('')
       );
       map.off('click');
       newMarker.addTo(map);
@@ -196,17 +191,21 @@ angular.module('unearth.mapServices', [])
         location: markerCoords,
         name: name,
         description: description,
-        imageUrl: imgUrl
+        imageUrl: ''
       });
     };
 
 
-    var storeMarker = function(marker) {
-      markerArray = window.localStorage.get('markers');
-      markerArray = JSON.parse(markerArray);
-      markerArray.push(marker);
-      window.localStorage.setItem('markers', JSON.stringify(markerArray));
-      Markers.postMarkers(marker);
+    var storeMarker = function(markerObj) {
+      markerArray = window.localStorage.getItem('markers');
+      if(markerArray && markerArray !== 'undefined' && markerArray !== 'null'){
+        markerArray = JSON.parse(markerArray);
+      } else {
+        markerArray = [];
+      }
+        markerArray.push(markerObj);
+        window.localStorage.setItem('markers', JSON.stringify(markerArray));
+        Markers.postMarkers(markerObj);
     };
 
     return {
@@ -221,7 +220,7 @@ angular.module('unearth.mapServices', [])
 
   })
 
-  .factory('Markers', function($rootScope) {
+  .factory('Markers', function($rootScope, MarkersHTTP) {
     var placeMarker = function() {
       $rootScope.$on('marker', function(latlng) {
         // Create a marker with passed lat lng
@@ -229,8 +228,13 @@ angular.module('unearth.mapServices', [])
       });
     };
 
+    var postMarkers = function(markerObj) {
+      MarkersHTTP.postMarkers(markerObj);
+    };
+
     return {
-      placeMarker: placeMarker
+      placeMarker: placeMarker,
+      postMarkers: postMarkers
     };
   })
 
@@ -295,7 +299,7 @@ angular.module('unearth.mapServices', [])
 
     var closePending = function() {
       pendingModal.hide();
-    }
+    };
 
     return {
       createModal: createModal,
@@ -304,7 +308,7 @@ angular.module('unearth.mapServices', [])
       setInviteData: setInviteData,
       saveGroupsData: saveGroupsData,
       groupsData: groupsData,
-      createPendingModal,
+      createPendingModal: createPendingModal,
       closePending: closePending
     };
 

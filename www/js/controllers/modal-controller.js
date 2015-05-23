@@ -11,13 +11,14 @@ angular.module('unearth.modalController', [])
     };
 
     $scope.submit = function() {
-      var fd = new FormData();
-      fd.append('file', $('.image')[0].files[0], 'image');
-      MarkersHTTP.postMarkerImage(fd, function(response) {
-        RenderMap.createMarker($scope.contact.name, $scope.contact.description, response.data.image_url);
+      // var fd = new FormData();
+      // fd.append('file', $('.image')[0].files[0], 'image');
+      // MarkersHTTP.postMarkerImage(fd, function(response) {
+      //   RenderMap.createMarker($scope.contact.name, $scope.contact.description, response.data.image_url);
+        RenderMap.createMarker($scope.contact.name, $scope.contact.description);
         $scope.contact.name = '';
         $scope.contact.description = '';
-      });
+      // });
     };
 
     $scope.closeModal = function() {

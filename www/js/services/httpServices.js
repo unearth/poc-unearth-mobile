@@ -82,11 +82,21 @@ angular.module('unearth.httpServices', [])
       });
     };
 
+      // {
+      //   groupId: window.localStorage.currentExpedition,
+      //   location: markerCoords,
+      //   name: name,
+      //   description: description,
+      //   imageUrl: ''
+      // }
+
     var postMarkers = function(marker) {
       return $http({
         method: 'POST',
         url: 'http://162.243.134.216:3000/marker',
-        data: marker,
+        data: {
+          "markers": [marker]
+        },
         processData: false,
         header: {'Content-Type':'application/JSON'}
       })
@@ -199,10 +209,10 @@ angular.module('unearth.httpServices', [])
       })
       .then(
         //If succcess...
-        function(success) {callback(success)},
+        function(success) {callback(success);},
 
         //If error...
-        function(error){callback(error)}
+        function(error){callback(error);}
       );
     };
 
