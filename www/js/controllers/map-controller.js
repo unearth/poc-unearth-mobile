@@ -27,7 +27,7 @@ angular.module('unearth.mapController', [])
     $interval(function() {
       waypoints = JSON.parse(window.localStorage.getItem('waypoints'));
       RenderMap.renderLayer(waypoints);
-    }, 30000);
+    }, 10000);
 
 
     // Waypoints are retrieved from server and entered into local storage.
@@ -37,11 +37,21 @@ angular.module('unearth.mapController', [])
       waypoints = JSON.parse(window.localStorage.waypoints);
 
       // TODO: Group waypoints are only loaded on initial load, need to continuously get group data
-      if (window.localStorage.getItem('currentExpedition') !== "undefined" && window.localStorage.getItem('currentExpedition') !== 'solo') {
-        Group.getGroupWaypoints(window.localStorage.getItem('groupId'), function(group) {
-
-          window.localStorage.setItem('groupWaypoints', group.waypoints);
-          waypoints.concat(window.localStorage.getItem('groupWaypoints'));
+      if (window.localStorage.getItem('currentExpedition') && window.localStorage.getItem('currentExpedition') !== "undefined" && window.localStorage.getItem('currentExpedition') !== 'solo') {
+        //$interval(function() {
+          Group.getGroupWaypoints(window.localStorage.getItem('currentExpedition'), function(group) {
+            console.log("group waypoints response: ", group);
+            var groupWaypoints = [];
+            for (var i = 0; i < group.waypoints.length; i++) {
+              for (var j = 0; j < group.waypoints[i].waypoints.length; j++) {
+                groupWaypoints.push(group.waypoints[i].waypoints[j]);
+              }
+            }
+            console.log(groupWaypoints);
+          window.localStorage.setItem('groupWaypoints', JSON.stringify(groupWaypoints));
+          waypoints = groupWaypoints;
+          window.localStorage.setItem('waypoints', JSON.stringify(groupWaypoints));
+          console.log(waypoints);
         });
       }
       // Sets watch position that calls the map service when a new position is received.
@@ -51,7 +61,7 @@ angular.module('unearth.mapController', [])
           CoordinateFilter.handleCoordinate(position);
           waypoints = JSON.parse(window.localStorage.getItem('waypoints'));
           RenderMap.renderLayer(waypoints);
-          RenderMap.centerView()
+          RenderMap.centerView();
           initRender = false;
         } else {
           CoordinateFilter.handleCoordinate(position);

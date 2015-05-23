@@ -82,11 +82,21 @@ angular.module('unearth.httpServices', [])
       });
     };
 
+      // {
+      //   groupId: window.localStorage.currentExpedition,
+      //   location: markerCoords,
+      //   name: name,
+      //   description: description,
+      //   imageUrl: ''
+      // }
+
     var postMarkers = function(marker) {
       return $http({
         method: 'POST',
         url: 'http://162.243.134.216:3000/marker',
-        data: marker,
+        data: {
+          "markers": [marker]
+        },
         processData: false,
         header: {'Content-Type':'application/JSON'}
       })
@@ -141,12 +151,15 @@ angular.module('unearth.httpServices', [])
 
   .factory('Group', function($http) {
 
-    var getGroupWaypoints = function(groupID, callback) {
+    var getGroupWaypoints = function(groupId, callback) {
       return $http({
         method: 'GET',
         url: 'http://162.243.134.216:3000/group/waypoints',
         processData: false,
-        headers: {'Content-Type': 'application/JSON', 'groupId': '65'}
+        headers: {
+          'Content-Type': 'application/JSON',
+          'groupid': groupId
+        }
       })
       .then(function(response) {
         callback(response.data);
@@ -174,7 +187,7 @@ angular.module('unearth.httpServices', [])
         data: {
           groupName: groupName,
           groupDescription: groupDescription,
-          emails: ['trav2@trav2.com']
+          emails: ['trav@trav.com']
         },
         headers: {'Content-Type':'application/JSON'}
       })
@@ -196,20 +209,33 @@ angular.module('unearth.httpServices', [])
       })
       .then(
         //If succcess...
-        function(success) {callback(success)},
+        function(success) {callback(success);},
 
         //If error...
-        function(error){callback(error)}
+        function(error){callback(error);}
       );
     };
 
+    var getInvites = function(callback) {
+      return $http({
+        method: 'GET',
+        url: 'http://162.243.134.216:3000/group/invites',
+        processData: false,
+        headers: {'Content-Type':'application/JSON'}
+      })
+      .then(function(response) {
+        callback(response.data);
+      });
+    };
+
     var groupJoin = function(choice, groupId, callback) {
+      console.log(groupId);
       return $http({
         method: 'POST',
         url: 'http://162.243.134.216:3000/group/' + choice,
         processData: false,
         data: {
-          groupID: groupId
+          groupId: groupId
         },
         headers: {'Content-Type':'application/JSON'}
       })
@@ -242,7 +268,8 @@ angular.module('unearth.httpServices', [])
       getGroups: getGroups,
       groupInvite: groupInvite,
       groupJoin: groupJoin,
-      groupCreate: groupCreate
+      groupCreate: groupCreate,
+      getInvites: getInvites
     };
   });
 

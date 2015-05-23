@@ -118,10 +118,12 @@ angular.module('unearth.mapServices', [])
         .then(function(modal) {
           markerModal = modal;
         });
+
       // Disables zoom
       map.touchZoom.disable();
       map.doubleClickZoom.disable();
       map.scrollWheelZoom.disable();
+
     };
 
     // Sets zoom level to wide or zoom and centers view on current position
@@ -171,12 +173,11 @@ angular.module('unearth.mapServices', [])
     };
 
 
-    var createMarker = function(name, description, imgUrl) {
+    var createMarker = function(name, description) {
       console.log('in createMarker');
       var newMarker = L.marker(markerCoords).bindPopup(
         ['<h1>', name, '</h1>',
-        '<p>', description, '</p>',
-        '<img src =', imgUrl, '>'].join('')
+        '<p>', description, '</p>'].join('')
       );
       map.off('click');
       newMarker.addTo(map);
@@ -190,17 +191,21 @@ angular.module('unearth.mapServices', [])
         location: markerCoords,
         name: name,
         description: description,
-        imageUrl: imgUrl
+        imageUrl: ''
       });
     };
 
 
-    var storeMarker = function(marker) {
-      markerArray = window.localStorage.get('markers');
-      markerArray = JSON.parse(markerArray);
-      markerArray.push(marker);
-      window.localStorage.setItem('markers', JSON.stringify(markerArray));
-      Markers.postMarkers(marker);
+    var storeMarker = function(markerObj) {
+      markerArray = window.localStorage.getItem('markers');
+      if(markerArray && markerArray !== 'undefined' && markerArray !== 'null'){
+        markerArray = JSON.parse(markerArray);
+      } else {
+        markerArray = [];
+      }
+        markerArray.push(markerObj);
+        window.localStorage.setItem('markers', JSON.stringify(markerArray));
+        Markers.postMarkers(markerObj);
     };
 
     return {
@@ -215,7 +220,7 @@ angular.module('unearth.mapServices', [])
 
   })
 
-  .factory('Markers', function($rootScope) {
+  .factory('Markers', function($rootScope, MarkersHTTP) {
     var placeMarker = function() {
       $rootScope.$on('marker', function(latlng) {
         // Create a marker with passed lat lng
@@ -223,13 +228,20 @@ angular.module('unearth.mapServices', [])
       });
     };
 
+    var postMarkers = function(markerObj) {
+      MarkersHTTP.postMarkers(markerObj);
+    };
+
     return {
-      placeMarker: placeMarker
+      placeMarker: placeMarker,
+      postMarkers: postMarkers
     };
   })
 
   .factory('Modal', function($ionicModal, Group) {
     var inviteModal;
+    var pendingModal;
+    var groupsDataObj;
 
     var inviteData = {
       group: '',
@@ -244,15 +256,25 @@ angular.module('unearth.mapServices', [])
       });
     };
 
+    var groupsData = function() {
+      return groupsDataObj;
+    };
+
+    var createPendingModal = function() {
+      createModal('../../templates/pendingRequests-modal.html').then(function(newModal) {
+        pendingModal = newModal;
+        pendingModal.show();
+      });
+    };
+
+    var saveGroupsData = function(data) {
+      groupsDataObj = data;
+    };
+
     var createModal = function(url) {
       return $ionicModal.fromTemplateUrl(url, {
         animation: 'slide-in-up'
       });
-    };
-
-    var getInviteData = function() {
-      // Might not need this?
-      return inviteData;
     };
 
     var setInviteData = function(data) {
@@ -275,12 +297,19 @@ angular.module('unearth.mapServices', [])
       inviteModal.hide();
     };
 
+    var closePending = function() {
+      pendingModal.hide();
+    };
 
     return {
       createModal: createModal,
       createInviteModal: createInviteModal,
       closeInviteModal: closeInviteModal,
-      getInviteData: getInviteData,
-      setInviteData: setInviteData
+      setInviteData: setInviteData,
+      saveGroupsData: saveGroupsData,
+      groupsData: groupsData,
+      createPendingModal: createPendingModal,
+      closePending: closePending
     };
+
   });

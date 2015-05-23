@@ -27,9 +27,12 @@ angular.module('unearth.groupsController', [])
       // ]
 
     Group.getGroups(function(groupsData) {
+      console.log("groupsData: ", groupsData);
+      // Sets the groupsData variable to the returned groups data to update the pending requests badge
       $scope.groupsData = groupsData.groups;
-      //DEBUG: throws error if there are no groups.
-      $scope.pendingMembers= $scope.groupsData[0].pendingMembers;
+
+      // Saves the group data from the server to the Modal factory to be accessed by the modal
+      Modal.saveGroupsData(groupsData);
     });
 
     $scope.credentials = {
@@ -122,4 +125,14 @@ angular.module('unearth.groupsController', [])
         });
       }
     };
+
+    $scope.showPendingRequests = function() {
+      Modal.createPendingModal();
+    };
   });
+
+
+
+
+
+
