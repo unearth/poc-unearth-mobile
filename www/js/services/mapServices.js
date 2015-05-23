@@ -121,7 +121,7 @@ angular.module('unearth.mapServices', [])
         zoomControl: false
       });
 
-      Modal.createModal('../../templates/marker-modal.html')
+      Modal.createModal('templates/marker-modal.html')
         .then(function(modal) {
           markerModal = modal;
         });
@@ -281,7 +281,7 @@ angular.module('unearth.mapServices', [])
     };
 
     var createPendingModal = function() {
-      createModal('../../templates/pendingRequests-modal.html').then(function(newModal) {
+      createModal('templates/pendingRequests-modal.html').then(function(newModal) {
         pendingModal = newModal;
         pendingModal.show();
       });
