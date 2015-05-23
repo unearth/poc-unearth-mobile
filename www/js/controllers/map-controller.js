@@ -91,7 +91,7 @@ angular.module('unearth.mapController', [])
     );
 
     var combineWaypoints = function(groupWaypoints) {
-      var currentWaypoints = JSON.parse(window.localStorage.getItem('waypointsToBeSent'));
+      var currentWaypoints = JSON.parse(window.localStorage.getItem('waypointsToBeSent')).waypoints;
       return currentWaypoints.concat(groupWaypoints);
     };
 
@@ -112,7 +112,6 @@ angular.module('unearth.mapController', [])
             // This checks to make sure its not an empty array.
             if (waypoints.length !== 0) {
               RenderMap.renderLayer(waypoints);
-              RenderMap.centerView();
             }
           });
         } else {
@@ -120,7 +119,6 @@ angular.module('unearth.mapController', [])
           storeGroupWaypoints(function(groupWaypoints) {
             window.localStorage.setItem('groupWaypoints', JSON.stringify(groupWaypoints));
             RenderMap.renderLayer(groupWaypoints);
-            RenderMap.centerView();
           });
         }
       }, 10000);
