@@ -15,7 +15,7 @@ angular.module('unearth.mapServices', [])
     };
 
     var storeCoordinate = function(coordinate) {
-      console.log(coordinate)
+      console.log(coordinate);
       // Sets the temp variable to either an empty array if local storage is clean or the current value in local storage.
       var temp = window.localStorage.getItem('waypoints');
       temp = (temp === null) ? [] : JSON.parse(temp);
@@ -164,6 +164,7 @@ angular.module('unearth.mapServices', [])
     };
 
     var displayMarkers = function (markerArr) {
+
       if(window.localStorage.getItem('currentExpedition') !== 'solo') {
         for (var i = 0; i < markerArr.length; i++) {
           if (markerArr[i].group_id === JSON.parse(window.localStorage.getItem('currentExpedition'))) {
