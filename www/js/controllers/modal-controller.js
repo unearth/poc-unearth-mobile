@@ -46,7 +46,6 @@ angular.module('unearth.modalController', [])
     };
 
     Group.getInvites(function(pendingGroups) {
-      console.log(pendingGroups);
       if(pendingGroups.groups.length > 0){
         $scope.numInvites = pendingGroups.groups[0].outstandingInvites.length;
         $scope.pendingGroups = [];
