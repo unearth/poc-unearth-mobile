@@ -86,7 +86,7 @@ angular.module('unearth.mapServices', [])
 
   /////////////////////////////////////////////
   // Map Rendering functions
-  .factory('RenderMap', function($rootScope, Markers, Modal) {
+  .factory('RenderMap', function($rootScope, Markers, Modal, MarkersHTTP) {
 
     var zoomLevel;
     var layer;
@@ -142,6 +142,9 @@ angular.module('unearth.mapServices', [])
       layer.setData(waypoints);
       map.addLayer(layer);
       currentPosition = waypoints[waypoints.length - 1];
+      MarkersHTTP.getMarkers().then(function(){
+        displayMarkers(JSON.parse(window.localStorage.markers));
+      })
     };
 
 
@@ -152,13 +155,17 @@ angular.module('unearth.mapServices', [])
 
     var displayMarkers = function (markerArr) {
       for (var i = 0; i < markerArr.length; i++) {
-        L.marker(markerArr[i].coords)
+        console.log(markerArr[i], JSON.parse(window.localStorage.getItem('currentExpedition')));
+        if (markerArr[i].group_id === JSON.parse(window.localStorage.getItem('currentExpedition'))) {
+        console.log('groupId match!');
+        L.marker(markerArr[i].location)
           .bindPopup (
-            ['<h1>', markerArr[i].title, '</h1>',
+            ['<h1>', markerArr[i].name, '</h1>',
             '<div>', markerArr[i].description, '</div>',
-            '<img>', markerArr[i].imageUrl, '</img>'
+            '<img src=', markerArr[i].image_url, '>'
             ].join(''))
           .addTo(map);
+        }
       }
     };
 
@@ -173,11 +180,12 @@ angular.module('unearth.mapServices', [])
     };
 
 
-    var createMarker = function(name, description) {
+    var createMarker = function(name, description, imageData) {
       console.log('in createMarker');
       var newMarker = L.marker(markerCoords).bindPopup(
         ['<h1>', name, '</h1>',
-        '<p>', description, '</p>'].join('')
+        '<p>', description, '</p>',
+        '<img src=', imageData, '>'].join('')
       );
       map.off('click');
       newMarker.addTo(map);
@@ -191,7 +199,7 @@ angular.module('unearth.mapServices', [])
         location: markerCoords,
         name: name,
         description: description,
-        imageUrl: ''
+        imageUrl: imageData
       });
     };
 
@@ -231,6 +239,7 @@ angular.module('unearth.mapServices', [])
     var postMarkers = function(markerObj) {
       MarkersHTTP.postMarkers(markerObj);
     };
+
 
     return {
       placeMarker: placeMarker,
