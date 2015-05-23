@@ -83,7 +83,6 @@ angular.module('unearth.mapController', [])
           },
 
           function(error) { console.log(error); },
-
           // This last parameter adds the position option specifications from above.
           positionOptions
         );
