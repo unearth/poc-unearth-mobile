@@ -153,12 +153,10 @@ angular.module('unearth.mapServices', [])
         layer.setData([0,0]);
       }
       map.addLayer(layer);
-      currentPosition = waypoints[waypoints.length - 1];
       MarkersHTTP.getMarkers().then(function(){
         displayMarkers(JSON.parse(window.localStorage.markers));
       });
     };
-
 
     // Centers map on current position
     var centerView = function() {
@@ -166,17 +164,17 @@ angular.module('unearth.mapServices', [])
     };
 
     var displayMarkers = function (markerArr) {
-      for (var i = 0; i < markerArr.length; i++) {
-        console.log(markerArr[i], JSON.parse(window.localStorage.getItem('currentExpedition')));
-        if (markerArr[i].group_id === JSON.parse(window.localStorage.getItem('currentExpedition'))) {
-        console.log('groupId match!');
-        L.marker(markerArr[i].location)
-          .bindPopup (
-            ['<h1>', markerArr[i].name, '</h1>',
-            '<div>', markerArr[i].description, '</div>',
-            '<img src=', markerArr[i].image_url, '>'
-            ].join(''))
-          .addTo(map);
+      if(window.localStorage.getItem('currentExpedition') !== 'solo') {
+        for (var i = 0; i < markerArr.length; i++) {
+          if (markerArr[i].group_id === JSON.parse(window.localStorage.getItem('currentExpedition'))) {
+          L.marker(markerArr[i].location)
+            .bindPopup (
+              ['<h1>', markerArr[i].name, '</h1>',
+              '<div>', markerArr[i].description, '</div>',
+              '<img src=', markerArr[i].image_url, '>'
+              ].join(''))
+            .addTo(map);
+          }
         }
       }
     };
