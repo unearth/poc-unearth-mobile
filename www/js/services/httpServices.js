@@ -55,12 +55,12 @@ angular.module('unearth.httpServices', [])
     var getMarkers = function() {
       return $http({
         method: 'GET',
-        url: 'http://localhost:3000/marker',
+        url: 'http://162.243.134.216:3000/marker',
         processData: false,
         header: {'Content-Type':'application/JSON'}
       })
       .then(function(response) {
-        window.localStorage.setItem('markers', response.data);
+        window.localStorage.setItem('markers', JSON.stringify(response.data.markers));
         return true;
       },
       //If error return false.
