@@ -34,11 +34,11 @@ angular.module('unearth.modalController', [])
       }
     };
 
-    $scope.closeModal = function() {
-      RenderMap.createMarker($scope.contact.name, $scope.contact.description);
-      $scope.contact.name = '';
-      $scope.contact.description = '';
-    };
+    // $scope.closeModal = function() {
+    //   RenderMap.createMarker($scope.contact.name, $scope.contact.description);
+    //   $scope.contact.name = '';
+    //   $scope.contact.description = '';
+    // };
 
     $scope.sendInvite = function(email) {
       Modal.setInviteData({email: email});

@@ -3,9 +3,8 @@ angular.module('unearth.mapController', [])
 
     var initRender = true;
     var currentExpedition = window.localStorage.getItem('currentExpedition');
-    var currentPosition;
     // Sets geolocation.watchPosition options
-    var positionOptions = {timeout: 10000, maximumAge: 60000, enableHighAccuracy: false};
+    var positionOptions = {timeout: 10000, maximumAge: 60000, enableHighAccuracy: true};
     // Sets
     var waypoints = window.localStorage.getItem('waypoints');
 
@@ -19,20 +18,11 @@ angular.module('unearth.mapController', [])
       window.localStorage.setItem('currentExpedition', 'solo');
     }
 
-
     // Initializes the map.
     RenderMap.init();
+    RenderMap.renderLayer(waypoints);
 
 
-    // Initial render of the fog layer and waypoints.
-    if (waypoints !== null) {
-      if (waypoints !== "[]") {
-        currentPosition = waypoints[waypoints.length - 1];
-        RenderMap.renderLayer(waypoints);
-      }
-    }
-
-    //
     var storeGroupWaypoints = function(callback) {
       currentExpedition = window.localStorage.getItem('currentExpedition');
 
@@ -101,7 +91,7 @@ angular.module('unearth.mapController', [])
     );
 
     var combineWaypoints = function(groupWaypoints) {
-      var currentWaypoints = window.localStorage.getItem('waypointsToBeSent');
+      var currentWaypoints = JSON.parse(window.localStorage.getItem('waypointsToBeSent'));
       return currentWaypoints.concat(groupWaypoints);
     };
 
@@ -111,20 +101,26 @@ angular.module('unearth.mapController', [])
       function() {
         // Updates current expedition to value in local storage.
         currentExpedition = window.localStorage.getItem('currentExpedition');
+        waypoints = JSON.parse(window.localStorage.getItem('waypoints'));
 
         if (currentExpedition === 'solo') {
           // Retreives waypoints for solo then renders.
           Waypoints.getWaypoints(function(data) {
+            if (waypoints.length === 0) {
+              waypoints = JSON.parse(window.localStorage.getItem('waypointsToBeSent')).waypoints;
+            }
             // This checks to make sure its not an empty array.
-            if (waypoints[0] !== undefined) {
+            if (waypoints.length !== 0) {
               RenderMap.renderLayer(waypoints);
+              RenderMap.centerView();
             }
           });
         } else {
           // Retreives waypoints for group then renders.
           storeGroupWaypoints(function(groupWaypoints) {
-            window.localStorage.setItem('waypoints', JSON.stringify(groupWaypoints));
+            window.localStorage.setItem('groupWaypoints', JSON.stringify(groupWaypoints));
             RenderMap.renderLayer(groupWaypoints);
+            RenderMap.centerView();
           });
         }
       }, 10000);
