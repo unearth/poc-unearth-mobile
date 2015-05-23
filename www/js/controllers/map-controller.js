@@ -3,9 +3,8 @@ angular.module('unearth.mapController', [])
 
     var initRender = true;
     var currentExpedition = window.localStorage.getItem('currentExpedition');
-    var currentPosition;
     // Sets geolocation.watchPosition options
-    var positionOptions = {timeout: 10000, maximumAge: 60000, enableHighAccuracy: false};
+    var positionOptions = {timeout: 10000, maximumAge: 60000, enableHighAccuracy: true};
     // Sets
     var waypoints = window.localStorage.getItem('waypoints');
 
@@ -19,20 +18,11 @@ angular.module('unearth.mapController', [])
       window.localStorage.setItem('currentExpedition', 'solo');
     }
 
-
     // Initializes the map.
     RenderMap.init();
+    RenderMap.renderLayer(waypoints);
 
 
-    // Initial render of the fog layer and waypoints.
-    if (waypoints !== null) {
-      if (waypoints !== "[]") {
-        currentPosition = waypoints[waypoints.length - 1];
-        RenderMap.renderLayer(waypoints);
-      }
-    }
-
-    //
     var storeGroupWaypoints = function(callback) {
       currentExpedition = window.localStorage.getItem('currentExpedition');
 
