@@ -71,7 +71,7 @@ angular.module('unearth.httpServices', [])
     var postMarkerImage = function(fd, callback) {
       return $http({
         method: 'POST',
-        url: 'http://162.243.134.216:3000/markers/image',
+        url: 'http://162.243.134.216:3000/marker/image',
         processData: false,
         data: fd,
         transformRequest:angular.identity,
