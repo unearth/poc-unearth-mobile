@@ -28,29 +28,26 @@
           </textarea>
         </label>
 
-      <div class="modal-break"></div>
         <div>
-        <label class="item item-input">
-          <span class="input-label title-modal shrink-left">Uploaded Image: {{imageuploaded.name}}</span> <span ng-hide="imageuploaded"> No image uploaded.</span>
-          <div class="photo-submit">
-          <input type="file"
-          name="image"
-          class="image ng-untouched ng-dirty ng-valid-parse ng-invalid-required"
-          ng-model="file"
-          valid-file accept="image/*">
-          </input>
-          </div>
-        </label>
+          <label class="item">
+            <div class="photo-submit">
+              <input type="file"
+              name="image"
+              class="image"
+              ng-model="file"
+              valid-file accept="image/*">
+              </input>
+            </div>
+            <span class="input-label">   ''''''''    </span><span ng-hide="imageuploaded"> No image uploaded.</span>
+            <span class="input-label" ng-show="imageuploaded">Uploaded Image: {{imageuploaded.name}}</span>
+          </label>
         </div>
-      <div>
       <div>
         <span ng-show="markerForm.$error.required && markerForm.$submitted" class="error-messages">Your marker requires at least a title.. Spruce it up!</span>
       </div>
         <button class="center button button-energized"
         type="submit">Done</button>
       </div>
-             <!-- Error Messages -->
-
       </form>
     </ion-content>
   </div>

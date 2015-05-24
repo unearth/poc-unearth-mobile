@@ -137,7 +137,7 @@ input::-webkit-input-placeholder {
 
 .photo-submit {
   position: absolute;
-  display:inline-block
+  display: inline-block;
 }
 
 .title-modal {
@@ -151,7 +151,7 @@ input::-webkit-input-placeholder {
 }
 
 .text-box-modal {
-  height: 13em;
+  height: 7em;
 }
 
 .shrink-left {
