@@ -106,7 +106,7 @@ angular.module('unearth.groupsController', [])
     $scope.inviteModal = function(group) {
       Modal.setInviteData({group: group.group_id});
       //Modal service needs group to be saved to Modaldata
-      Modal.createInviteModal('../../templates/invite-modal.html');
+      Modal.createInviteModal('templates/invite-modal.html');
     };
 
     // DEBUG: currently this just sends to server. Modal needs to populate data then call this once submitted.
