@@ -1,9 +1,6 @@
 angular.module('unearth.mapServices', [])
   .factory('CoordinateFilter', function($rootScope, Waypoints) {
-
-    if (window.localStorage.getItem('waypointsToBeSent') === null) {
-      window.localStorage.setItem('waypointsToBeSent', JSON.stringify({waypoints: []}));
-    }
+    var waypointsToBeSent = {waypoints: []};
 
     var handleCoordinate = function(position) {
       var coordinateTuple = [];
@@ -15,7 +12,6 @@ angular.module('unearth.mapServices', [])
     };
 
     var storeCoordinate = function(coordinate) {
-      console.log(coordinate);
       // Sets the temp variable to either an empty array if local storage is clean or the current value in local storage.
       var temp = window.localStorage.getItem('waypoints');
       temp = (temp === null) ? [] : JSON.parse(temp);
@@ -24,14 +20,10 @@ angular.module('unearth.mapServices', [])
       // Updates local storage with new waypoints.
       window.localStorage.setItem('waypoints', JSON.stringify(temp));
 
-      waypointsToBeSent = JSON.parse(window.localStorage.getItem('waypointsToBeSent'));
       waypointsToBeSent.waypoints.push(coordinate);
-      window.localStorage.setItem('waypointsToBeSent', JSON.stringify(waypointsToBeSent));
-
 
       // Checks to see if the waypoints array is 3 or more.
       if (waypointsToBeSent.waypoints.length > 2) {
-
         // Sends waypoints to the database
         Waypoints.sendWaypoints(waypointsToBeSent, function(response) {
           if (response) {
@@ -40,13 +32,12 @@ angular.module('unearth.mapServices', [])
             console.error('error on response to storeCoordiante http request');
           }
           // Resets the waypointsToBeSent array.
-          window.localStorage.setItem('waypointsToBeSent', '[]');
+          waypointsToBeSent.waypoints = [];
         });
       }
     };
 
     var shouldStoreCoordinate = function(coordinate) {
-      waypointsToBeSent = JSON.parse(window.localStorage.getItem('waypointsToBeSent'));
       // Checks to make sure the coordinates has something to compare to, .005mi = 26ft.
       for (var i = 0; i < waypointsToBeSent.waypoints.length; i++) {
         if (calcDistance(coordinate, waypointsToBeSent.waypoints[i]) < 0.005) {
@@ -121,7 +112,7 @@ angular.module('unearth.mapServices', [])
         zoomControl: false
       });
 
-      Modal.createModal('../../templates/marker-modal.html')
+      Modal.createModal('templates/marker-modal.html')
         .then(function(modal) {
           markerModal = modal;
         });
@@ -281,7 +272,7 @@ angular.module('unearth.mapServices', [])
     };
 
     var createPendingModal = function() {
-      createModal('../../templates/pendingRequests-modal.html').then(function(newModal) {
+      createModal('templates/pendingRequests-modal.html').then(function(newModal) {
         pendingModal = newModal;
         pendingModal.show();
       });

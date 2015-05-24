@@ -16,6 +16,7 @@ angular.module('unearth.mapController', [])
 
     if (currentExpedition === null || currentExpedition === "undefined") {
       window.localStorage.setItem('currentExpedition', 'solo');
+      currentExpedition = 'solo';
     }
 
     // Initializes the map.
@@ -72,6 +73,7 @@ angular.module('unearth.mapController', [])
               if (waypoints !== null) {
                 if (waypoints.length > 0) {
                   RenderMap.renderLayer(waypoints);
+                  RenderMap.centerView();
                   initRender = false;
                 }
               }
@@ -81,7 +83,6 @@ angular.module('unearth.mapController', [])
           },
 
           function(error) { console.log(error); },
-
           // This last parameter adds the position option specifications from above.
           positionOptions
         );
@@ -94,7 +95,7 @@ angular.module('unearth.mapController', [])
     };
 
     // Renders the fog overlay every 30 seconds
-    $interval(
+    var inter = $interval(
 
       function() {
         // Updates current expedition to value in local storage.
@@ -136,6 +137,10 @@ angular.module('unearth.mapController', [])
         once = true;
       }
     });
+
+    $scope.$on('destroy', function() {
+      $interval.cancel(inter);
+    })
 
   });
 
