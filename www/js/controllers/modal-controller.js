@@ -34,12 +34,6 @@ angular.module('unearth.modalController', [])
       }
     };
 
-    // $scope.closeModal = function() {
-    //   RenderMap.createMarker($scope.contact.name, $scope.contact.description);
-    //   $scope.contact.name = '';
-    //   $scope.contact.description = '';
-    // };
-
     $scope.sendInvite = function(email) {
       Modal.setInviteData({email: email});
       Modal.closeInviteModal();
@@ -84,12 +78,13 @@ angular.module('unearth.modalController', [])
   .directive('validFile', function () {
     return {
       require: 'ngModel',
-      link: function (scope, el, attrs, ngModel) {
+      link: function ($scope, $el, attrs, ngModel) {
         ngModel.$render = function () {
-          ngModel.$setViewValue(el.val());
+          ngModel.$setViewValue($el.val());
         };
-      el.bind('change', function () {
-        scope.$apply(function () {
+      $el.bind('change', function () {
+        $scope.$apply(function () {
+          $scope.imageuploaded = $('.image')[0].files[0];
           ngModel.$render();
           });
         });

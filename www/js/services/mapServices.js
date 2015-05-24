@@ -155,7 +155,6 @@ angular.module('unearth.mapServices', [])
     };
 
     var displayMarkers = function (markerArr) {
-
       if(window.localStorage.getItem('currentExpedition') !== 'solo') {
         for (var i = 0; i < markerArr.length; i++) {
           if (markerArr[i].group_id === JSON.parse(window.localStorage.getItem('currentExpedition'))) {

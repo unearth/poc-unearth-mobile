@@ -33,6 +33,11 @@ body {
   border-radius: 10px;
 }
 
+.transparent {
+  background-color: #FFE6CC;
+  opacity: 0.7;
+}
+
 .login-background {
   background: url('../img/explore.jpg') center no-repeat;
   filter: blur(5px);
@@ -62,6 +67,11 @@ body {
   z-index:1000;
 }
 
+.photo-submit {
+  position: absolute;
+  display: inline-block;
+}
+
 .title-modal {
   height: 2em;
   text-shadow: #aaa 2px 2px 2px;
@@ -73,7 +83,7 @@ body {
 }
 
 .text-box-modal {
-  height: 13em;
+  height: 7em;
 }
 
 .shrink-left {
@@ -84,12 +94,6 @@ body {
   display: block;
   height: 2em;
 }
-
-.modal-wrapper {
-
-}
-
-
 
 @media (max-width: 680px) {
   .modal {
