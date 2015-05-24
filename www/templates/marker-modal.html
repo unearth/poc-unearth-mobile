@@ -1,8 +1,8 @@
-  <div class="modal" ng-controller="ModalController">
-    <ion-header-bar>
+  <div class="modal transparent rounded" ng-controller="ModalController">
+    <ion-header-bar class="transparent">
       <h1 class="header-modal center modal-wrapper">{{contact.title}}</h1>
     </ion-header-bar ng-controller="ModalController">
-    <ion-content>
+    <ion-content class="transparent">
     <form
         name="markerForm"
         ng-submit="markerForm.$valid && submitMarker()"
@@ -32,12 +32,14 @@
         <div>
         <label class="item item-input">
           <span class="input-label title-modal shrink-left">Uploaded Image: {{imageuploaded.name}}</span> <span ng-hide="imageuploaded"> No image uploaded.</span>
+          <div class="photo-submit">
           <input type="file"
           name="image"
           class="image ng-untouched ng-dirty ng-valid-parse ng-invalid-required"
           ng-model="file"
           valid-file accept="image/*">
           </input>
+          </div>
         </label>
         </div>
       <div>

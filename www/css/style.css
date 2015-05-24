@@ -29,8 +29,9 @@
   border-radius: 10px;
 }
 
+
 .transparent {
-  background-color: #fff;
+  background-color: #FFE6CC;
   opacity: 0.7;
 }
 
@@ -134,6 +135,11 @@ input::-webkit-input-placeholder {
   z-index:1000;
 }
 
+.photo-submit {
+  position: absolute;
+  display:inline-block
+}
+
 .title-modal {
   height: 2em;
   text-shadow: #aaa 2px 2px 2px;
@@ -155,10 +161,6 @@ input::-webkit-input-placeholder {
 .modal-break {
   display: block;
   height: 2em;
-}
-
-.modal-wrapper {
-
 }
 
 
