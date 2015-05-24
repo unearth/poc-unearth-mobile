@@ -15,7 +15,8 @@ angular.module('unearth.createGroupController', [])
             // window.localStorage.setItem('expeditions', JSON.stringify(expeditions));
             // DEBUG: Need to receive group id from response.
             console.log(response);
-            window.localStorage.setItem('currentExpedition', JSON.stringify(response['groupId']["?column?"]));
+
+            window.localStorage.setItem('currentExpedition', JSON.stringify(response.groupId));
          }
        }
 
