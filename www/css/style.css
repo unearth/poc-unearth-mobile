@@ -1,3 +1,7 @@
+body {
+  font-family: 'Quattrocento Sans', serif;
+}
+
 .content {
   -webkit-filter: brightness(.8);
 }
@@ -29,97 +33,26 @@
   border-radius: 10px;
 }
 
+.login-background {
+  background: url('../img/explore.jpg') center no-repeat;
+  filter: blur(5px);
+  -webkit-filter: blur(2px);
+}
+
+.signup-background {
+  background: url('../img/wood.jpg') center no-repeat;
+}
+
 .background {
-  background: url('http://data.hdwallpapers.im/sunrise_landscapes_nature_hd.jpg') center no-repeat;
   -webkit-xbackground-size: cover;
   background-size: cover;
   position: absolute;
   top: 0; right: 0; bottom: 0; left: 0;
 }
 
-.form {
-  background: rgba(0, 0, 0, 0);
-  height: 150%;
-}
-
-.form-input {
-  border-top: none;
-  border-right: none;
-  border-left:none;
-  display: block;
-  margin: 0 auto;
-}
-
 .center {
   display: block;
   margin: 0 auto;
-}
-
-.center-form {
-  margin: 145px auto 30px auto;
-  width: 80%;
-}
-
-.submit-button:active {
-  background: rgba(255, 255, 255, .6);
-}
-
-.sign-up-link {
-margin: 40px auto auto auto;
-color: white;
-font-size: 18px;
-font-weight: 900;
-font-style: italic;
-}
-
-.sign-up-link:active {
-  color: grey;
-}
-
-.submit-button {
-  position: relative;
-  top: 85px;
-  font-size: 20px;
-  font-family: 'IM Fell English', serif;
-  text-align: center;
-  color: white;
-  border:  1px solid rgba(255, 255, 255, 0.4);
-  background: rgba(255, 255, 255, .3);
-  margin: 0 auto;
-  padding: 10px 60px 10px 60px;
-  border-radius: 3px;
-}
-
-input[type="email"],
-input[type="password"],
-input {
-  color: white;
-  font-weight: 900;
-  font-size: 18px;
-}
-
-input::-webkit-input-placeholder {
-  color: white;
-  font-size: 15px;
-}
-
-.expand {
-  margin-bottom: 65px;
-}
-
-.has-error {
-  border-bottom: 1px solid red;
-}
-
-.no-error {
-  border-bottom: 1px solid white;
-}
-
-.error-messages {
-  top: 20px;
-  background-color: red;
-  color: white;
-  font-size: 15px;
 }
 
 .ui-control {
@@ -155,6 +88,8 @@ input::-webkit-input-placeholder {
 .modal-wrapper {
 
 }
+
+
 
 @media (max-width: 680px) {
   .modal {

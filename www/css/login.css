@@ -1,0 +1,131 @@
+.logo {
+  width: 100%;
+  max-width: 300px;
+  padding: auto;
+  margin-bottom: 10%;
+}
+
+/* FORM */
+input {
+  font-weight: 900;
+  font-size: 16px;
+  text-align: center;
+}
+
+input[type="text"] {
+  color: white;
+}
+
+input[type="email"] {
+  color: white;
+}
+
+input[type="password"] {
+  color: white;
+}
+
+.dark-input > input[type="text"]{
+  color: black;
+}
+.dark-input > input[type="email"]{
+  color: black;
+}
+.dark-input > input[type="password"]{
+  color: black;
+}
+
+.center-form {
+  width: 90%;
+  padding: 0 8% 0 8%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translateY(-50%) translateX(-50%);
+  -ms-transform: translateY(-50%) translateX(-50%);
+  transform: translateY(-50%) translateX(-50%);
+}
+
+.form {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.dark-form {
+  background-color: rgba(255, 255, 255, 0);
+}
+
+.form-input {
+  border: none;
+  display: block;
+}
+
+.has-error {
+  border-bottom: 1px solid rgba(210, 0, 0, 0.7);
+}
+
+.no-error {
+  border-bottom: 1px solid white;
+}
+
+.no-error.dark-input {
+  color: black;
+  border-bottom: 1px solid black;
+}
+
+input::-webkit-input-placeholder {
+  color: white;
+  font-size: 15px;
+  text-align: center;
+}
+
+.dark-input input::-webkit-input-placeholder {
+  color: black;
+}
+
+.submit-button {
+  position: relative;
+  top: 30px;
+  margin: 0 auto 40px auto;
+  padding: 10px 60px 10px 60px;
+  font-family: 'Quattrocento Sans', serif;
+  font-size: 20px;
+  color: white;
+  text-align: center;
+  border:  1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, .3);
+  border-radius: 2px;
+}
+
+.dark-button {
+  color: black;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, .3);
+}
+
+.submit-button:active {
+  background-color: rgba(255, 255, 255, .6);
+}
+
+.error-messages {
+  background-color: rgba(210, 0, 0, 0.7);
+  color: white;
+  text-align: center;
+  font-size: 15px;
+  border-radius: 2px;
+}
+
+.sign-up-link {
+  color: white;
+  font-size: 16px;
+  font-weight: 300;
+  font-style: italic;
+  text-align: center;
+  padding-top: 10px;
+}
+
+.dark-link {
+  color: black;
+}
+
+.sign-up-link:active {
+  color: grey;
+}
