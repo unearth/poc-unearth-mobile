@@ -184,9 +184,11 @@ angular.module('unearth.mapServices', [])
     var createMarker = function(name, description, imageData) {
       console.log('in createMarker');
       var newMarker = L.marker(markerCoords).bindPopup(
-        ['<h1>', name, '</h1>',
+        ['<div class="map-popup">',
+        '<h1 class="col-center popup-title">', name, '</h1>',
         '<p>', description, '</p>',
-        '<img src=', imageData, '>'].join('')
+        '<img src=', imageData, '>',
+        '</div>'].join('')
       );
       map.off('click');
       newMarker.addTo(map);
