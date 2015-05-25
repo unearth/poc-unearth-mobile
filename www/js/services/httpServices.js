@@ -187,7 +187,7 @@ angular.module('unearth.httpServices', [])
         data: {
           groupName: groupName,
           groupDescription: groupDescription,
-          emails: ['trav@trav.com']
+          emails: ['']
         },
         headers: {'Content-Type':'application/JSON'}
       })

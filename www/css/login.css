@@ -12,15 +12,15 @@ input {
   text-align: center;
 }
 
-input[type="text"] {
+.light-input > input[type="text"] {
   color: white;
 }
 
-input[type="email"] {
+.light-input > input[type="email"] {
   color: white;
 }
 
-input[type="password"] {
+.light-input > input[type="password"] {
   color: white;
 }
 
@@ -45,7 +45,7 @@ input[type="password"] {
   transform: translateY(-50%) translateX(-50%);
 }
 
-.form {
+.light-form {
   background-color: rgba(0, 0, 0, 0);
 }
 
