@@ -2,17 +2,17 @@
   <div class="background login-background"></div>
   <ion-content scroll="false">
     <div class="center-form">
-      <img class="logo center" src="../img/Unearth_logo.png"/>
+      <img class="logo center" src="./img/Unearth_Logo.png"/>
 
       <form class="simple-form" name="loginForm" ng-submit="login(loginForm.$valid, credentials)" novalidate>
 
         <!-- Email Input -->
-        <div class="item-input form form-input" ng-class= "{'has-error' : loginForm.$invalid, 'no-error' : loginForm.$valid || !loginForm.$submitted }">
+        <div class="item-input light-form light-input form-input" ng-class= "{'has-error' : loginForm.$invalid, 'no-error' : loginForm.$valid || !loginForm.$submitted }">
           <input name="emailAdress" type="email" placeholder="Email" ng-model="credentials.email" required ng-focus="clearError(loginForm)"></input>
         </div>
 
         <!-- Password Input -->
-        <div class="item-input form form-input" ng-class= "{'has-error' : loginForm.$invalid, 'no-error' : loginForm.$valid || !loginForm.$submitted }">
+        <div class="item-input light-form light-input form-input" ng-class= "{'has-error' : loginForm.$invalid, 'no-error' : loginForm.$valid || !loginForm.$submitted }">
           <input type="password" placeholder="Password" ng-model="credentials.password" required ng-focus="clearError(loginForm)"></input>
         </div>
 

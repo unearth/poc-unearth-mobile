@@ -2,26 +2,26 @@
   <div class="background signup-background"></div>
   <ion-content  scroll="false">
     <div class="center-form ">
-      <img class="logo center" src="../img/Unearth_logo.png"/>
+      <img class="logo center" src="./img/Unearth_Logo.png"/>
       <form novalidate name="signUpForm" class="simple-form" ng-submit="signUp(signUpForm.$valid, credentials)" >
 
         <!-- Username Input -->
-        <div class="item item-input form-input form" ng-class= "{'has-error' : signUpForm.$invalid, 'no-error' : signUpForm.$valid || !signUpForm.$submitted }">
+        <div class="item item-input light-form light-input form-input" ng-class= "{'has-error' : signUpForm.$invalid, 'no-error' : signUpForm.$valid || !signUpForm.$submitted }">
           <input required name="username" type="text" placeholder="Username" ng-model="credentials.username" ng-focus="clearError(signUpForm)"></input>
         </div>
 
         <!-- Email Input -->
-        <div class="item item-input form-input form" ng-class= "{'has-error' : signUpForm.$invalid, 'no-error' : signUpForm.$valid || !signUpForm.$submitted }">
+        <div class="item item-input light-form light-input form-input" ng-class= "{'has-error' : signUpForm.$invalid, 'no-error' : signUpForm.$valid || !signUpForm.$submitted }">
           <input required name="emailAdress" type="email" placeholder="Email" ng-model="credentials.email" ng-focus="clearError(signUpForm)"> </input>
         </div>
 
         <!-- Password Input -->
-        <div class="item item-input form-input form" ng-class= "{'has-error' : signUpForm.$invalid, 'no-error' : signUpForm.$valid || !signUpForm.$submitted }">
+        <div class="item item-input light-form light-input form-input" ng-class= "{'has-error' : signUpForm.$invalid, 'no-error' : signUpForm.$valid || !signUpForm.$submitted }">
           <input required type="password" placeholder="Password" ng-model="credentials.password" ng-focus="clearError(signUpForm)"></input>
         </div>
 
         <!-- Password2 Input -->
-        <div class="item item-input form-input form" ng-class="{'has-error' : signUpForm.$invalid, 'no-error' : signUpForm.$valid || !signUpForm.$submitted }">
+        <div class="item item-input light-form light-input form-input" ng-class="{'has-error' : signUpForm.$invalid, 'no-error' : signUpForm.$valid || !signUpForm.$submitted }">
           <input required type="password" placeholder="Confirm Password" ng-model="credentials.password2" ng-focus="clearError(signUpForm)"> </input>
         </div>
 
