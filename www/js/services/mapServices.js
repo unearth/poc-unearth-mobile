@@ -99,7 +99,7 @@ angular.module('unearth.mapServices', [])
       zoomLevel = 12;
 
       layer = L.TileLayer.maskCanvas({
-        radius: 25,               // Radius in pixels or in meters of transparent circles (see useAbsoluteRadius)
+        radius: 100,               // Radius in pixels or in meters of transparent circles (see useAbsoluteRadius)
         useAbsoluteRadius: true,  // True: r in meters, false: r in pixels
         color: '#00000',          // The color of the fog layer
         opacity: 0.8,             // Opacity of the fog area
@@ -125,12 +125,27 @@ angular.module('unearth.mapServices', [])
     };
 
     // Sets zoom level to wide or zoom and centers view on current position
-    var handleZoom = function() {
-      if(zoomLevel === 16) {
-        zoomLevel = 14;
-      } else {
-        zoomLevel = 16;
-      }
+    var handleZoom = function(type) {
+      var zoomLevels = [3, 5, 8, 12, 16];
+
+      switch (type) {
+        case 'plus':
+          nextZoomIndex = zoomLevels.indexOf(zoomLevel) + 1;
+          if (nextZoomIndex < zoomLevels.length - 1) {
+            zoomLevel = zoomLevels[nextZoomIndex];
+          } else {
+            zoomLevel = 16;
+          }
+          break;
+        case 'minus':
+          nextZoomIndex = zoomLevels.indexOf(zoomLevel) - 1;
+          if (nextZoomIndex >= 0) {
+            zoomLevel = zoomLevels[nextZoomIndex];
+          } else {
+            zoomLevel = 3;
+          }
+          break;
+        }
       centerView();
     };
 
