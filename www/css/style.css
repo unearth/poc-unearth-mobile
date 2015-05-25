@@ -15,25 +15,33 @@ body {
 }
 
 #zoomControl {
-  float: left;
-  margin-left: 20px;
-  margin-top: 20px;
   z-index: 2;
   position: relative;
 }
 
-#zoomButton {
-  height: 60px;
-  width: 60px;
-  padding: 0 0 0 0;
+#firstZoomButton {
+  margin-top: 20px;
+}
+
+.zoomButton {
+  margin-left: 25px;
+  margin-top: 15px;
+  height: 50px;
+  width: 50px;
   font-size: 24pt;
-  border-radius: 15px;
-  border-top: 2px solid #ccc;
-  border-left: 2px solid #ccc;
-  border-right: 2px solid #aaa;
-  border-bottom: 2px solid #aaa;
-  background-color: white;
+  border-radius: 30px;
   text-align: center;
+  padding: 0 0 0 0;
+  border-top:  2px solid #ccc;
+  border-bottom:  2px solid #777;
+  border-left:  2px solid #ccc;
+  border-right:  2px solid #777;
+  background: #aaa;
+  display: block;
+}
+
+.zoomButton:active {
+  background: rgb(124, 200, 255);
 }
 
 .rounded {
@@ -138,7 +146,6 @@ input[type=file]{
   border-right:15px solid transparent;
   border-top:15px solid #2c3e50;
 }
-
 
 @media (max-width: 680px) {
   .modal {

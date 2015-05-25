@@ -1,6 +1,7 @@
 <ion-view view-title="Map">
   <div data-tap-disabled="true" id="map"></div>
   <div id="zoomControl">
-    <button id="zoomButton" ng-click="setZoom()">±</button>
+    <button id="firstZoomButton"class="zoomButton ion-plus-round" ng-click="setZoom('plus')"></button>
+    <button class="zoomButton ion-minus-round" ng-click="setZoom('minus')"></button>
   </div>
 </ion-view>

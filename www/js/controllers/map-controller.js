@@ -123,8 +123,8 @@ angular.module('unearth.mapController', [])
       }, 10000);
 
     // Sets zoom level when zoom button is pressed
-    $scope.setZoom = function() {
-      RenderMap.handleZoom();
+    $scope.setZoom = function(type) {
+      RenderMap.handleZoom(type);
     };
 
     // This catches an error on intial load by preventing first addMarker call.
