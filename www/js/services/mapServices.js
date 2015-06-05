@@ -146,7 +146,7 @@ angular.module('unearth.mapServices', [])
           }
           break;
         }
-      centerView();
+      map.setZoom(zoomLevel);
     };
 
     // Draws the fog overlay and centers the map on the most recent coordinate
