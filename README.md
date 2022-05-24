@@ -1,8 +1,5 @@
-# unearth-mobile
-The Ionic Mobile Client
+# Proof of Concept - Unearth Mobile
 
+The mobile client for the original Unearth proof of concept, built using Ionic.
 
-
-Learn more about Unearth through the slideshow here:
-
-http://slides.com/benpevsner/deck#/
+This repository is not under active development, and is purely for archival purposes.
